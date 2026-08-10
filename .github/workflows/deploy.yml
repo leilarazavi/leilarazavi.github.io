@@ -1,18 +1,15 @@
-name: Deploy Astro site to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+
+  workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: false
 
 jobs:
   build:
@@ -20,18 +17,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Build with Astro
-        uses: withastro/action@v5
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        wit:h
-          path: ./dist
+      - name: Build and upload Astro site
+        uses: withastro/action@v6
 
   deploy:
     needs: build
@@ -44,4 +33,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
