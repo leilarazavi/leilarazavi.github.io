@@ -181,28 +181,32 @@ export const publications: Publication[] = [
 
     authors: [],
 
-    type: "other",
+    type: "conference-paper",
 
     language: "fa",
 
-    status: "probable",
+    status: "confirmed",
 
-    identityConfidence: "low",
+    identityConfidence: "high",
 
-    verificationSources: [
-      {
-        label: "Pendar profile",
-        url:
-          "https://pendar-gp.ir/chart/%D8%AF%DA%A9%D8%AA%D8%B1-%D9%84%DB%8C%D9%84%D8%A7-%D8%B1%D8%B6%D9%88%DB%8C/",
+  verificationSources: [
+    {
+      label: "Civilica",
+      url: "https://civilica.com/doc/922205/",
+      type: "database",
+    },
 
-        type: "official",
-      },
-    ],
+    {
+      label: "Pendar profile",
+      url:
+        "https://pendar-gp.ir/chart/%D8%AF%DA%A9%D8%AA%D8%B1-%D9%84%DB%8C%D9%84%D8%A7-%D8%B1%D8%B6%D9%88%DB%8C/",
+      type: "official",
+    },
+  ],
 
-    notes:
-      "Pendar lists this work, but the Civilica result previously examined for a very similar title identifies a different author. Do not publish until exact authorship is verified.",
-  },
-
+  notes:
+    "Verified through Civilica and the official Pendar profile. Exact bibliographic metadata should be copied from the Civilica record.",
+},
 
   {
     id: "cbt-generalized-anxiety-disorder",
