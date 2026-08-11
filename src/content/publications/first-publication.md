@@ -17,10 +17,6 @@ issue: ""
 
 pages: ""
 
-doi: ""
-
-url: ""
-
 publisher: ""
 
 abstract: ""

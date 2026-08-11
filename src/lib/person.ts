@@ -1,9 +1,4 @@
-/**
- * Dr. Leila Razavi - central person/entity data.
- *
- * Only use information that has been verified
- * from reliable sources.
- */
+import { site } from "./site";
 
 export const person = {
   name: "Leila Razavi",
@@ -13,6 +8,9 @@ export const person = {
 
   fullName: "Dr. Leila Razavi",
   fullNameFa: "دکتر لیلا رضوی",
+
+  givenName: "Leila",
+  familyName: "Razavi",
 
   jobTitle: {
     fa: "روان‌شناس و پژوهشگر",
@@ -24,9 +22,10 @@ export const person = {
     en: "Dr. Leila Razavi is a psychologist and researcher.",
   },
 
+  url: `${site.url}/about/`,
+
   /**
-   * Keep this list conservative.
-   * Add fields only after verification.
+   * Only verified areas should eventually be added here.
    */
   knowsAbout: [
     "Psychology",
@@ -67,4 +66,9 @@ export const person = {
    * We will add the actual image later.
    */
   image: "",
+
+  contact: {
+    email: "",
+    telephone: "",
+  },
 } as const;

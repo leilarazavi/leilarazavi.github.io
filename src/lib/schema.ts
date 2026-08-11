@@ -1,17 +1,23 @@
 import { person } from "./person";
 import { site } from "./site";
 
-/**
- * Remove empty values from an object.
- */
-function removeEmpty<T extends Record<string, unknown>>(obj: T): T {
+function removeEmpty<T extends Record<string, unknown>>(
+  obj: T,
+): T {
   return Object.fromEntries(
     Object.entries(obj).filter(([, value]) => {
-      if (value === undefined || value === null || value === "") {
+      if (
+        value === undefined ||
+        value === null ||
+        value === ""
+      ) {
         return false;
       }
 
-      if (Array.isArray(value) && value.length === 0) {
+      if (
+        Array.isArray(value) &&
+        value.length === 0
+      ) {
         return false;
       }
 
@@ -20,25 +26,28 @@ function removeEmpty<T extends Record<string, unknown>>(obj: T): T {
   ) as T;
 }
 
-/**
- * Returns the canonical Person entity.
- *
- * This is the main entity we want search engines
- * to associate with the website.
- */
+
 export function getPersonSchema() {
-  const sameAs = Object.values(person.profiles).filter(Boolean);
+  const sameAs = Object.values(
+    person.profiles,
+  ).filter(Boolean);
 
   return removeEmpty({
     "@context": "https://schema.org",
+
     "@type": "Person",
 
     "@id": `${site.url}/#person`,
 
     name: person.fullName,
+
+    givenName: person.givenName,
+
+    familyName: person.familyName,
+
     alternateName: person.fullNameFa,
 
-    url: `${site.url}/about/`,
+    url: person.url,
 
     jobTitle: person.jobTitle.en,
 
@@ -46,24 +55,35 @@ export function getPersonSchema() {
 
     knowsAbout: person.knowsAbout,
 
-    affiliation: person.affiliations.map((affiliation) => ({
-      "@type": "Organization",
-      name: affiliation.name,
-      url: affiliation.url,
-    })),
+    affiliation:
+      person.affiliations.map(
+        (affiliation) => ({
+          "@type": "Organization",
+
+          name: affiliation.name,
+
+          url: affiliation.url,
+        }),
+      ),
 
     sameAs,
 
-    image: person.image || undefined,
+    image:
+      person.image || undefined,
+
+    email:
+      person.contact.email || undefined,
+
+    telephone:
+      person.contact.telephone || undefined,
   });
 }
 
-/**
- * Website entity.
- */
+
 export function getWebsiteSchema() {
   return {
     "@context": "https://schema.org",
+
     "@type": "WebSite",
 
     "@id": `${site.url}/#website`,
@@ -78,44 +98,42 @@ export function getWebsiteSchema() {
       "@id": `${site.url}/#person`,
     },
 
-    inLanguage: ["fa-IR", "en"],
+    inLanguage: [
+      "fa-IR",
+      "en",
+    ],
   };
 }
 
-/**
- * Profile page schema.
- *
- * Used on the About page.
- */
+
 export function getProfilePageSchema() {
   return {
     "@context": "https://schema.org",
 
     "@type": "ProfilePage",
 
-    "@id": `${site.url}/about/#profile`,
+    "@id":
+      `${site.url}/about/#profile`,
 
-    url: `${site.url}/about/`,
+    url:
+      `${site.url}/about/`,
 
-    name: site.title.en,
+    name:
+      site.title.fa,
 
     mainEntity: {
-      "@id": `${site.url}/#person`,
+      "@id":
+        `${site.url}/#person`,
     },
 
     isPartOf: {
-      "@id": `${site.url}/#website`,
+      "@id":
+        `${site.url}/#website`,
     },
   };
 }
 
-/**
- * Breadcrumb schema.
- *
- * Example:
- *
- * Home → Publications → Article
- */
+
 export function getBreadcrumbSchema(
   items: Array<{
     name: string;
@@ -127,17 +145,19 @@ export function getBreadcrumbSchema(
 
     "@type": "BreadcrumbList",
 
-    itemListElement: items.map((item, index) => ({
-      "@type": "ListItem",
+    itemListElement:
+      items.map((item, index) => ({
+        "@type": "ListItem",
 
-      position: index + 1,
+        position: index + 1,
 
-      name: item.name,
+        name: item.name,
 
-      item: item.url,
-    })),
+        item: item.url,
+      })),
   };
 }
+
 
 export function getScholarlyArticleSchema({
   title,
@@ -160,67 +180,88 @@ export function getScholarlyArticleSchema({
   publisher?: string;
   language?: string;
 }) {
-  const authorSchemas = authors.map((author) => {
-    const normalizedAuthor = author
-      .toLowerCase()
-      .replace(/\s+/g, " ");
+  const authorSchemas =
+    authors.map((author) => {
+      const normalized =
+        author
+          .toLowerCase()
+          .replace(/\s+/g, " ");
 
-    const isLeilaRazavi =
-      normalizedAuthor.includes("leila razavi") ||
-      normalizedAuthor.includes("لیلا رضوی");
+      const isLeilaRazavi =
+        normalized.includes(
+          "leila razavi",
+        ) ||
+        normalized.includes(
+          "لیلا رضوی",
+        );
 
-    if (isLeilaRazavi) {
+      if (isLeilaRazavi) {
+        return {
+          "@type": "Person",
+
+          "@id":
+            `${site.url}/#person`,
+
+          name:
+            person.fullName,
+
+          url:
+            person.url,
+        };
+      }
+
       return {
         "@type": "Person",
 
-        "@id": `${site.url}/#person`,
-
-        name: person.name,
-
-        url: `${site.url}/about/`,
+        name: author,
       };
-    }
+    });
 
-    return {
-      "@type": "Person",
+  return removeEmpty({
+    "@context":
+      "https://schema.org",
 
-      name: author,
-    };
-  });
+    "@type":
+      "ScholarlyArticle",
 
-  return {
-    "@context": "https://schema.org",
-
-    "@type": "ScholarlyArticle",
-
-    "@id": `${url}#article`,
+    "@id":
+      `${url}#article`,
 
     headline: title,
 
     url,
 
-    datePublished: `${year}-01-01`,
+    datePublished:
+      `${year}-01-01`,
 
-    author: authorSchemas,
+    author:
+      authorSchemas,
 
     isPartOf: journal
       ? {
-          "@type": "Periodical",
+          "@type":
+            "Periodical",
+
           name: journal,
         }
       : undefined,
 
     publisher: publisher
       ? {
-          "@type": "Organization",
+          "@type":
+            "Organization",
+
           name: publisher,
         }
       : undefined,
 
     identifier: doi
       ? {
-          "@type": "PropertyValue",
+          "@type":
+            "PropertyValue",
+
           propertyID: "DOI",
+
           value: doi,
         }
       : undefined,
@@ -228,5 +269,5 @@ export function getScholarlyArticleSchema({
     inLanguage: language,
 
     description,
-  };
+  });
 }

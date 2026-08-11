@@ -3,6 +3,7 @@ import BaseLayout from "./BaseLayout.astro";
 
 import {
   getScholarlyArticleSchema,
+  getBreadcrumbSchema,
 } from "../lib/schema";
 
 import { site } from "../lib/site";
@@ -58,6 +59,35 @@ const schema =
     publisher,
     language,
   });
+
+const breadcrumbSchema =
+  getBreadcrumbSchema([
+    {
+      name:
+        language === "fa"
+          ? "خانه"
+          : "Home",
+
+      url:
+        `${site.url}/`,
+    },
+
+    {
+      name:
+        language === "fa"
+          ? "آثار علمی"
+          : "Publications",
+
+      url:
+        `${site.url}/publications/`,
+    },
+
+    {
+      name: title,
+
+      url: canonical,
+    },
+  ]);
 ---
 
 <BaseLayout
