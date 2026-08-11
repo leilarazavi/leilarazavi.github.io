@@ -1,11 +1,13 @@
 ---
 import Seo from "../components/Seo.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
 import { site } from "../lib/site";
 
 interface Props {
   title?: string;
   description?: string;
-
   canonical?: string;
 
   lang?: "fa" | "en";
@@ -33,7 +35,9 @@ const {
   schemas = [],
 } = Astro.props;
 
-const dir = lang === "fa" ? "rtl" : "ltr";
+const dir = lang === "fa"
+  ? "rtl"
+  : "ltr";
 ---
 
 <!doctype html>
@@ -74,27 +78,20 @@ const dir = lang === "fa" ? "rtl" : "ltr";
       class="skip-link"
       href="#main-content"
     >
-      {lang === "fa"
-        ? "رفتن به محتوای اصلی"
-        : "Skip to main content"}
+      {
+        lang === "fa"
+          ? "رفتن به محتوای اصلی"
+          : "Skip to main content"
+      }
     </a>
 
-    <header>
-      <!-- Header will be added next -->
-    </header>
+    <Header lang={lang} />
 
     <main id="main-content">
       <slot />
     </main>
 
-    <footer>
-      <div class="container">
-        <p>
-          © {new Date().getFullYear()}
-          {site.copyright}
-        </p>
-      </div>
-    </footer>
+    <Footer lang={lang} />
 
   </body>
 </html>
@@ -109,9 +106,9 @@ const dir = lang === "fa" ? "rtl" : "ltr";
   }
 
   :global(body) {
-    margin: 0;
-
     min-width: 320px;
+
+    margin: 0;
 
     background: #faf9f7;
 
@@ -140,18 +137,6 @@ const dir = lang === "fa" ? "rtl" : "ltr";
     margin-inline: auto;
   }
 
-  footer {
-    margin-top: 80px;
-
-    padding-block: 32px;
-
-    border-top: 1px solid #e5e1dc;
-
-    color: #666;
-
-    font-size: 0.9rem;
-  }
-
   .skip-link {
     position: fixed;
 
@@ -163,11 +148,13 @@ const dir = lang === "fa" ? "rtl" : "ltr";
     padding: 8px 14px;
 
     background: #222;
+
     color: white;
 
     transform: translateY(-150%);
 
-    transition: transform 0.2s ease;
+    transition:
+      transform 0.2s ease;
   }
 
   .skip-link:focus {
