@@ -3,24 +3,21 @@ import {
   type Publication,
 } from "../data/publications";
 
-
-export function getConfirmedPublications() {
+export function getConfirmedPublications(): Publication[] {
   return publications.filter(
     (publication) =>
       publication.status === "confirmed",
   );
 }
 
-
-export function getProbablePublications() {
+export function getProbablePublications(): Publication[] {
   return publications.filter(
     (publication) =>
       publication.status === "probable",
   );
 }
 
-
-export function getRejectedPublications() {
+export function getRejectedPublications(): Publication[] {
   return publications.filter(
     (publication) =>
       publication.status === "rejected",
@@ -37,12 +34,10 @@ export function getPublicationById(
   );
 }
 
-
-export function getPublicationsByYear() {
-  return [...getConfirmedPublications()]
-    .sort(
-      (a, b) =>
-        (b.year ?? 0) -
-        (a.year ?? 0),
-    );
+export function getPublicationsByYear(): Publication[] {
+  return [...getConfirmedPublications()].sort(
+    (a, b) =>
+      (b.year ?? 0) -
+      (a.year ?? 0),
+  );
 }
