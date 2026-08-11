@@ -138,3 +138,95 @@ export function getBreadcrumbSchema(
     })),
   };
 }
+
+export function getScholarlyArticleSchema({
+  title,
+  description,
+  url,
+  year,
+  authors,
+  journal,
+  doi,
+  publisher,
+  language,
+}: {
+  title: string;
+  description?: string;
+  url: string;
+  year: number;
+  authors: string[];
+  journal?: string;
+  doi?: string;
+  publisher?: string;
+  language?: string;
+}) {
+  const authorSchemas = authors.map((author) => {
+    const normalizedAuthor = author
+      .toLowerCase()
+      .replace(/\s+/g, " ");
+
+    const isLeilaRazavi =
+      normalizedAuthor.includes("leila razavi") ||
+      normalizedAuthor.includes("لیلا رضوی");
+
+    if (isLeilaRazavi) {
+      return {
+        "@type": "Person",
+
+        "@id": `${site.url}/#person`,
+
+        name: person.name,
+
+        url: `${site.url}/about/`,
+      };
+    }
+
+    return {
+      "@type": "Person",
+
+      name: author,
+    };
+  });
+
+  return {
+    "@context": "https://schema.org",
+
+    "@type": "ScholarlyArticle",
+
+    "@id": `${url}#article`,
+
+    headline: title,
+
+    url,
+
+    datePublished: `${year}-01-01`,
+
+    author: authorSchemas,
+
+    isPartOf: journal
+      ? {
+          "@type": "Periodical",
+          name: journal,
+        }
+      : undefined,
+
+    publisher: publisher
+      ? {
+          "@type": "Organization",
+          name: publisher,
+        }
+      : undefined,
+
+    identifier: doi
+      ? {
+          "@type": "PropertyValue",
+          propertyID: "DOI",
+          value: doi,
+        }
+      : undefined,
+
+    inLanguage: language,
+
+    description,
+  };
+}
