@@ -1,0 +1,193 @@
+---
+import { site } from "../lib/site";
+import { getPersonSchema, getWebsiteSchema } from "../lib/schema";
+
+interface Props {
+  title?: string;
+  description?: string;
+
+  /**
+   * Current page URL.
+   * Should be an absolute URL.
+   */
+  canonical?: string;
+
+  /**
+   * Language of the current page.
+   */
+  lang?: "fa" | "en";
+
+  /**
+   * Optional Open Graph image.
+   */
+  image?: string;
+
+  /**
+   * Whether this page should be indexed.
+   *
+   * Default: true
+   */
+  noindex?: boolean;
+
+  /**
+   * Additional Schema objects.
+   */
+  schemas?: Record<string, unknown>[];
+}
+
+const {
+  title = site.title.fa,
+  description = site.description.fa,
+
+  canonical = site.url,
+
+  lang = "fa",
+
+  image,
+
+  noindex = false,
+
+  schemas = [],
+} = Astro.props;
+
+const locale = lang === "fa" ? "fa_IR" : "en_US";
+
+const defaultImage = image
+  ? new URL(image, site.url).href
+  : undefined;
+
+const personSchema = getPersonSchema();
+const websiteSchema = getWebsiteSchema();
+
+const allSchemas = [
+  personSchema,
+  websiteSchema,
+  ...schemas,
+];
+
+const languageUrl =
+  lang === "fa"
+    ? `${site.url}/`
+    : `${site.url}/en/`;
+
+const alternateLanguageUrl =
+  lang === "fa"
+    ? `${site.url}/en/`
+    : `${site.url}/`;
+
+const alternateLanguage = lang === "fa" ? "en" : "fa";
+---
+
+<title>{title}</title>
+
+<meta
+  name="description"
+  content={description}
+/>
+
+<meta
+  name="robots"
+  content={
+    noindex
+      ? "noindex, nofollow"
+      : "index, follow"
+  }
+/>
+
+<link
+  rel="canonical"
+  href={canonical}
+/>
+
+<!-- Language -->
+<link
+  rel="alternate"
+  hreflang={lang}
+  href={languageUrl}
+/>
+
+<link
+  rel="alternate"
+  hreflang={alternateLanguage}
+  href={alternateLanguageUrl}
+/>
+
+<link
+  rel="alternate"
+  hreflang="x-default"
+  href={`${site.url}/`}
+/>
+
+<!-- Open Graph -->
+
+<meta
+  property="og:type"
+  content="website"
+/>
+
+<meta
+  property="og:title"
+  content={title}
+/>
+
+<meta
+  property="og:description"
+  content={description}
+/>
+
+<meta
+  property="og:url"
+  content={canonical}
+/>
+
+<meta
+  property="og:site_name"
+  content={site.name}
+/>
+
+<meta
+  property="og:locale"
+  content={locale}
+/>
+
+{defaultImage && (
+  <meta
+    property="og:image"
+    content={defaultImage}
+  />
+)}
+
+<!-- Twitter / social sharing -->
+
+<meta
+  name="twitter:card"
+  content={defaultImage ? "summary_large_image" : "summary"}
+/>
+
+<meta
+  name="twitter:title"
+  content={title}
+/>
+
+<meta
+  name="twitter:description"
+  content={description}
+/>
+
+{defaultImage && (
+  <meta
+    name="twitter:image"
+    content={defaultImage}
+  />
+)}
+
+<!-- Structured Data -->
+
+{
+  allSchemas.map((schema) => (
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(schema)}
+    />
+  ))
+}
