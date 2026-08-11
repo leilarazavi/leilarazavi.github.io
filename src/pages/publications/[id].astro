@@ -1,0 +1,434 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+import {
+  publications,
+} from "../../data/publications";
+
+import {
+  getScholarlyArticleSchema,
+  getBreadcrumbSchema,
+} from "../../lib/schema";
+
+import { site } from "../../lib/site";
+import { person } from "../../lib/person";
+
+export function getStaticPaths() {
+  return publications
+    .filter(
+      (publication) =>
+        publication.status === "confirmed",
+    )
+    .map((publication) => ({
+      params: {
+        id: publication.id,
+      },
+      props: {
+        publication,
+      },
+    }));
+}
+
+const { publication } =
+  Astro.props;
+
+if (
+  !publication ||
+  publication.status !== "confirmed"
+) {
+  return Astro.redirect("/publications/");
+}
+
+const title = publication.title;
+
+const description =
+  publication.titleFa ??
+  publication.title;
+
+const canonical =
+  `${site.url}/publications/${publication.id}/`;
+
+const schema =
+  getScholarlyArticleSchema({
+    title: publication.title,
+
+    description,
+
+    url: canonical,
+
+    year:
+      publication.year ??
+      new Date().getFullYear(),
+
+    authors:
+      publication.authors.length > 0
+        ? publication.authors
+        : [person.fullName],
+
+    journal:
+      publication.journal,
+
+    doi:
+      publication.doi,
+
+    publisher:
+      publication.publisher,
+
+    language:
+      publication.language,
+  });
+
+const breadcrumbSchema =
+  getBreadcrumbSchema([
+    {
+      name: "خانه",
+      url: `${site.url}/`,
+    },
+
+    {
+      name: "آثار علمی",
+      url:
+        `${site.url}/publications/`,
+    },
+
+    {
+      name: title,
+      url: canonical,
+    },
+  ]);
+---
+
+<BaseLayout
+  title={`${title} | ${person.fullNameFa}`}
+  description={description}
+  canonical={canonical}
+  lang={publication.language}
+  schemas={[
+    schema,
+    breadcrumbSchema,
+  ]}
+>
+
+  <article class="publication-page">
+
+    <div class="container">
+
+      <header class="publication-header">
+
+        <p class="eyebrow">
+          {
+            publication.type ===
+            "journal-article"
+              ? "مقاله ژورنالی"
+              : publication.type ===
+                "conference-paper"
+                ? "مقاله کنفرانسی"
+                : publication.type ===
+                  "book"
+                  ? "کتاب"
+                  : "اثر علمی"
+          }
+        </p>
+
+        <h1>
+          {title}
+        </h1>
+
+        {
+          publication.titleFa &&
+          publication.language === "en" && (
+            <p class="title-fa">
+              {publication.titleFa}
+            </p>
+          )
+        }
+
+      </header>
+
+
+      <div class="publication-layout">
+
+        <main>
+
+          <section>
+
+            <h2>
+              نویسندگان
+            </h2>
+
+            <div class="authors">
+
+              {
+                publication.authors.map(
+                  (author) => {
+
+                    const isLeila =
+                      author
+                        .toLowerCase()
+                        .includes(
+                          "leila razavi",
+                        ) ||
+                      author.includes(
+                        "لیلا رضوی",
+                      );
+
+                    return (
+                      <span
+                        class:list={{
+                          "author":
+                            true,
+                          "primary-author":
+                            isLeila,
+                        }}
+                      >
+                        {author}
+                      </span>
+                    );
+                  },
+                )
+              }
+
+            </div>
+
+          </section>
+
+
+          {
+            publication.year && (
+              <section>
+
+                <h2>
+                  سال انتشار
+                </h2>
+
+                <p>
+                  {publication.year}
+                </p>
+
+              </section>
+            )
+          }
+
+
+          {
+            publication.journal && (
+              <section>
+
+                <h2>
+                  نشریه
+                </h2>
+
+                <p>
+                  {publication.journal}
+                </p>
+
+              </section>
+            )
+          }
+
+
+          {
+            publication.publisher && (
+              <section>
+
+                <h2>
+                  ناشر
+                </h2>
+
+                <p>
+                  {publication.publisher}
+                </p>
+
+              </section>
+            )
+          }
+
+
+          {
+            publication.doi && (
+              <section>
+
+                <h2>
+                  DOI
+                </h2>
+
+                <a
+                  href={`https://doi.org/${publication.doi}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {publication.doi}
+                </a>
+
+              </section>
+            )
+          }
+
+        </main>
+
+
+        <aside>
+
+          <div class="source-box">
+
+            <strong>
+              منابع
+            </strong>
+
+            {
+              publication
+                .verificationSources
+                .map((source) => (
+                  <a
+                    href={source.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {source.label}
+                  </a>
+                ))
+            }
+
+          </div>
+
+        </aside>
+
+      </div>
+
+    </div>
+
+  </article>
+
+</BaseLayout>
+
+
+<style>
+  .publication-page {
+    padding-block: 90px;
+  }
+
+  .publication-header {
+    max-width: 900px;
+
+    padding-bottom: 60px;
+
+    border-bottom:
+      1px solid #ddd7d0;
+  }
+
+  .eyebrow {
+    margin: 0 0 20px;
+
+    color: #806f61;
+
+    font-size: 0.8rem;
+
+    font-weight: 600;
+  }
+
+  h1 {
+    margin: 0;
+
+    font-size:
+      clamp(2.2rem, 5vw, 4rem);
+
+    line-height: 1.4;
+
+    font-weight: 500;
+  }
+
+  .title-fa {
+    margin-top: 25px;
+
+    color: #777;
+
+    line-height: 2;
+  }
+
+  .publication-layout {
+    display: grid;
+
+    grid-template-columns:
+      minmax(0, 760px)
+      240px;
+
+    gap: 90px;
+
+    padding-top: 60px;
+  }
+
+  main section {
+    padding-bottom: 40px;
+  }
+
+  h2 {
+    margin-bottom: 12px;
+
+    font-size: 1rem;
+
+    color: #806f61;
+
+    font-weight: 600;
+  }
+
+  p {
+    color: #555;
+
+    line-height: 2;
+  }
+
+  .authors {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+  }
+
+  .author {
+    color: #555;
+  }
+
+  .author:not(:last-child)::after {
+    content: ",";
+  }
+
+  .primary-author {
+    font-weight: 600;
+
+    color: #222;
+  }
+
+  .source-box {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    padding: 25px;
+
+    border:
+      1px solid #ddd7d0;
+  }
+
+  .source-box strong {
+    margin-bottom: 8px;
+  }
+
+  .source-box a {
+    color: #806f61;
+
+    text-decoration: none;
+
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 800px) {
+    .publication-layout {
+      grid-template-columns: 1fr;
+
+      gap: 40px;
+    }
+  }
+</style>

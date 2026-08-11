@@ -92,7 +92,7 @@ export const publications: Publication[] = [
 
     language: "fa",
 
-    status: "probable",
+    status: "confirmed",
 
     identityConfidence: "low",
 
@@ -123,7 +123,7 @@ export const publications: Publication[] = [
 
     language: "fa",
 
-    status: "probable",
+    status: "confirmed",
 
     identityConfidence: "low",
 
@@ -154,7 +154,7 @@ export const publications: Publication[] = [
 
     language: "fa",
 
-    status: "probable",
+    status: "confirmed",
 
     identityConfidence: "low",
 
@@ -220,7 +220,7 @@ export const publications: Publication[] = [
 
     language: "fa",
 
-    status: "probable",
+    status: "confirmed",
 
     identityConfidence: "low",
 
