@@ -1,30 +1,17 @@
 ---
-import {
-  getCollection,
-} from "astro:content";
-
 import BaseLayout from "../../layouts/BaseLayout.astro";
-
 import PublicationCard from "../../components/PublicationCard.astro";
 
+import { getPublicationsByYear } from "../../lib/publications";
 import { site } from "../../lib/site";
 
 const publications =
-  await getCollection(
-    "publications",
-    ({ data }) => data.verified === true,
-  );
-
-const sortedPublications =
-  publications.sort(
-    (a, b) =>
-      b.data.year - a.data.year,
-  );
+  getPublicationsByYear();
 ---
 
 <BaseLayout
   title={`آثار علمی | ${site.nameFa}`}
-  description="فهرست مقالات و آثار علمی تأییدشده دکتر لیلا رضوی."
+  description="فهرست مقالات، پژوهش‌ها و آثار علمی تأییدشده دکتر لیلا رضوی."
   canonical={`${site.url}/publications/`}
   lang="fa"
 >
@@ -44,8 +31,8 @@ const sortedPublications =
         </h1>
 
         <p>
-          فهرست آثار علمی و پژوهشی تأییدشده
-          دکتر لیلا رضوی.
+          فهرست آثار علمی و پژوهشی
+          تأییدشده دکتر لیلا رضوی.
         </p>
 
       </header>
@@ -54,35 +41,49 @@ const sortedPublications =
       <div class="publication-list">
 
         {
-          sortedPublications.length > 0 ? (
-            sortedPublications.map(
+          publications.length > 0 ? (
+
+            publications.map(
               (publication) => (
+
                 <PublicationCard
-                  title={publication.data.title}
+                  title={
+                    publication.title
+                  }
+
                   titleFa={
-                    publication.data.titleFa
+                    publication.titleFa
                   }
+
                   authors={
-                    publication.data.authors
+                    publication.authors
                   }
+
                   year={
-                    publication.data.year
+                    publication.year ?? 0
                   }
+
                   journal={
-                    publication.data.journal
+                    publication.journal
                   }
-                  url={`/publications/${publication.id}/`}
-                  featured={
-                    publication.data.featured
+
+                  url={
+                    publication.originalUrl ??
+                    "#"
                   }
                 />
+
               ),
             )
+
           ) : (
+
             <div class="empty-state">
-              آثار علمی تأییدشده
-              به‌زودی در این بخش قرار می‌گیرند.
+              آثار علمی تأییدشده‌ای
+              هنوز برای نمایش عمومی
+              ثبت نشده است.
             </div>
+
           )
         }
 
@@ -93,59 +94,3 @@ const sortedPublications =
   </section>
 
 </BaseLayout>
-
-
-<style>
-  .publications-page {
-    padding-block: 90px;
-  }
-
-  .page-header {
-    max-width: 800px;
-
-    margin-bottom: 70px;
-  }
-
-  .section-label {
-    margin: 0 0 14px;
-
-    color: #806f61;
-
-    font-size: 0.78rem;
-
-    font-weight: 600;
-
-    letter-spacing: 0.08em;
-  }
-
-  h1 {
-    margin: 0 0 20px;
-
-    font-size:
-      clamp(2.5rem, 6vw, 4.5rem);
-
-    line-height: 1.2;
-
-    letter-spacing: -0.05em;
-
-    font-weight: 500;
-  }
-
-  .page-header > p:last-child {
-    color: #666;
-
-    font-size: 1.05rem;
-  }
-
-  .publication-list {
-    max-width: 950px;
-  }
-
-  .empty-state {
-    padding: 40px;
-
-    border: 1px solid #ddd7d0;
-
-    color: #777;
-  }
-</style>
