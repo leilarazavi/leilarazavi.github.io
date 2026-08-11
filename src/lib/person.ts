@@ -2,69 +2,73 @@ import { site } from "./site";
 
 export const person = {
   name: "Leila Razavi",
+
   nameFa: "لیلا رضوی",
 
-  honorific: "Dr.",
-
   fullName: "Dr. Leila Razavi",
+
   fullNameFa: "دکتر لیلا رضوی",
 
   givenName: "Leila",
+
   familyName: "Razavi",
 
   jobTitle: {
-    fa: "روان‌شناس و پژوهشگر",
-    en: "Psychologist and Researcher",
+    fa: "روان‌شناس و مدرس دانشگاه",
+    en: "Psychologist and University Lecturer",
   },
 
   description: {
-    fa: "دکتر لیلا رضوی، روان‌شناس و پژوهشگر.",
-    en: "Dr. Leila Razavi is a psychologist and researcher.",
+    fa:
+      "دکتر لیلا رضوی، روان‌شناس، مدرس دانشگاه و فعال حوزه پژوهش‌های روان‌شناختی است.",
+
+    en:
+      "Dr. Leila Razavi is a psychologist, university lecturer, and psychological researcher.",
   },
 
   url: `${site.url}/about/`,
 
-  /**
-   * Only verified areas should eventually be added here.
-   */
   knowsAbout: [
     "Psychology",
+    "Clinical Psychology",
+    "Health Psychology",
     "Psychological Research",
-    "Acceptance and Commitment Therapy",
-    "Mindfulness",
-    "Schema Therapy",
-    "ACT",
-    "Child Psychology",
+    "Couples Therapy",
+    "Family Therapy",
+    "Adolescent Counseling",
   ],
 
-  /**
-   * Professional affiliation(s).
-   * Add exact official titles after verification.
-   */
   affiliations: [
     {
-      name: "Pendar",
-      url: "https://pendar-gp.ir/chart/%d8%af%da%a9%d8%aa%d8%b1-%d9%84%db%8c%d9%84%d8%a7-%d8%b1%d8%b6%d9%88%db%8c/",
+      name:
+        "Pendar Nimrokh Psychological Center",
+
+      url:
+        "https://pendar-gp.ir/",
     },
   ],
 
-  /**
-   * External profiles.
-   *
-   * Empty values are intentionally omitted from Schema.
-   */
+  professionalMemberships: [
+    {
+      organization:
+        "Iranian Psychology and Counseling Organization",
+
+      membershipNumber: "30742",
+
+      licenseNumber: "8240",
+    },
+  ],
+
   profiles: {
     linkedin: "",
-    googleScholar: "",
+    googleScholar:
+      "https://scholar.google.com/citations?user=M8clObQAAAAJ",
     researchGate: "",
     instagram: "",
-    pendar: "https://pendar-gp.ir/chart/%d8%af%da%a9%d8%aa%d8%b1-%d9%84%db%8c%d9%84%d8%a7-%d8%b1%d8%b6%d9%88%db%8c/",
+    pendar:
+      "https://pendar-gp.ir/chart/%D8%AF%DA%A9%D8%AA%D8%B1-%D9%84%DB%8C%D9%84%D8%A7-%D8%B1%D8%B6%D9%88%DB%8C/",
   },
 
-  /**
-   * Profile image.
-   * We will add the actual image later.
-   */
   image: "",
 
   contact: {
