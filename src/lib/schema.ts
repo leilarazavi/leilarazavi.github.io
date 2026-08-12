@@ -30,7 +30,11 @@ function removeEmpty<T extends Record<string, unknown>>(
 export function getPersonSchema() {
   const sameAs = Object.values(
     person.profiles,
-  ).filter(Boolean);
+  ).filter(
+    (url: unknown): url is string =>
+      typeof url === "string" &&
+      url.startsWith("http"),
+  );
 
   return removeEmpty({
     "@context": "https://schema.org",
@@ -69,12 +73,12 @@ export function getPersonSchema() {
     sameAs,
 
     image:
-    person.image.src
-    ? new URL(
-        person.image.src,
-        site.url,
-      ).toString()
-    : undefined,
+      person.image.src
+        ? new URL(
+            person.image.src,
+            site.url,
+          ).toString()
+        : undefined,
 
     email:
       person.contact.email || undefined,
