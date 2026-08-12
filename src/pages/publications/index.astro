@@ -67,10 +67,7 @@ const publications =
                     publication.journal
                   }
 
-                  url={
-                    publication.originalUrl ??
-                    "#"
-                  }
+                  url={`/publications/${publication.id}/`}
                 />
 
               ),

@@ -165,7 +165,7 @@ export const person = {
       "TODO_GET_VERIFIED_URL",
 
     instagram:
-      "TODO_GET_VERIFIED_URL",
+      "https://www.instagram.com/dr.leila.razavi_psy/",
 
     pendar:
       "https://pendar-gp.ir/chart/%D8%AF%DA%A9%D8%AA%D8%B1-%D9%84%DB%8C%D9%84%D8%A7-%D8%B1%D8%B6%D9%88%DB%8C/",
@@ -180,7 +180,7 @@ export const person = {
    */
   image: {
     src:
-      "TODO_GET_FROM_DR",
+      "public/images/leila-razavi.jpg",
 
     altFa:
       "دکتر لیلا رضوی",

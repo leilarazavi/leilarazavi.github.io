@@ -69,7 +69,7 @@ export function getPersonSchema() {
     sameAs,
 
     image:
-      person.image || undefined,
+      person.image.src || undefined,
 
     email:
       person.contact.email || undefined,
@@ -232,7 +232,7 @@ export function getScholarlyArticleSchema({
     url,
 
     datePublished:
-      `${year}-01-01`,
+      year ? `${year}` : undefined,
 
     author:
       authorSchemas,
