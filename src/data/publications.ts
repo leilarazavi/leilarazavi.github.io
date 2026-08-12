@@ -480,7 +480,7 @@ export const publications: Publication[] = [
       "fa",
 
     status:
-      "confirmed",
+      "probable",
 
     identityConfidence:
       "low",

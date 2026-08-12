@@ -152,17 +152,17 @@ export const person = {
    * as belonging to Dr. Razavi.
    */
   profiles: {
-    linkedin:
-      "TODO_GET_VERIFIED_URL",
+    // linkedin:
+    //   "TODO_GET_VERIFIED_URL",
 
     googleScholar:
       "https://scholar.google.com/citations?user=M8clObQAAAAJ",
 
-    researchGate:
-      "TODO_GET_VERIFIED_URL",
+    // researchGate:
+    //   "TODO_GET_VERIFIED_URL",
 
-    orcid:
-      "TODO_GET_VERIFIED_URL",
+    // orcid:
+    //   "TODO_GET_VERIFIED_URL",
 
     instagram:
       "https://www.instagram.com/dr.leila.razavi_psy/",
@@ -180,7 +180,7 @@ export const person = {
    */
   image: {
     src:
-      "public/images/leila-razavi.jpg",
+      "/images/leila-razavi.jpg",
 
     altFa:
       "دکتر لیلا رضوی",

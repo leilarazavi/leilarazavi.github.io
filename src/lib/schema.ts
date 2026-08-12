@@ -69,7 +69,12 @@ export function getPersonSchema() {
     sameAs,
 
     image:
-      person.image.src || undefined,
+    person.image.src
+    ? new URL(
+        person.image.src,
+        site.url,
+      ).toString()
+    : undefined,
 
     email:
       person.contact.email || undefined,
