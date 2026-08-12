@@ -7,6 +7,7 @@ import {
 
 import {
   getScholarlyArticleSchema,
+  getBookSchema,
   getBreadcrumbSchema,
 } from "../../lib/schema";
 
@@ -29,8 +30,7 @@ export function getStaticPaths() {
     }));
 }
 
-const { publication } =
-  Astro.props;
+const { publication } = Astro.props;
 
 if (
   !publication ||
@@ -49,34 +49,39 @@ const canonical =
   `${site.url}/publications/${publication.id}/`;
 
 const schema =
-  getScholarlyArticleSchema({
-    title: publication.title,
-
-    description,
-
-    url: canonical,
-
-    year:
-      publication.year ??
-      new Date().getFullYear(),
-
-    authors:
-      publication.authors.length > 0
-        ? publication.authors
-        : [person.fullName],
-
-    journal:
-      publication.journal,
-
-    doi:
-      publication.doi,
-
-    publisher:
-      publication.publisher,
-
-    language:
-      publication.language,
-  });
+  publication.type === "book"
+    ? getBookSchema({
+        title: publication.title,
+        description,
+        url: canonical,
+        year: publication.year,
+        authors:
+          publication.authors.length > 0
+            ? publication.authors
+            : [person.fullName],
+        publisher:
+          publication.publisher,
+        isbn: publication.isbn,
+        language:
+          publication.language,
+      })
+    : getScholarlyArticleSchema({
+        title: publication.title,
+        description,
+        url: canonical,
+        year: publication.year,
+        authors:
+          publication.authors.length > 0
+            ? publication.authors
+            : [person.fullName],
+        journal:
+          publication.journal,
+        doi: publication.doi,
+        publisher:
+          publication.publisher,
+        language:
+          publication.language,
+      });
 
 const breadcrumbSchema =
   getBreadcrumbSchema([
@@ -84,13 +89,11 @@ const breadcrumbSchema =
       name: "خانه",
       url: `${site.url}/`,
     },
-
     {
       name: "آثار علمی",
       url:
         `${site.url}/publications/`,
     },
-
     {
       name: title,
       url: canonical,
@@ -110,11 +113,8 @@ const breadcrumbSchema =
 >
 
   <article class="publication-page">
-
     <div class="container">
-
       <header class="publication-header">
-
         <p class="eyebrow">
           {
             publication.type ===
@@ -130,9 +130,7 @@ const breadcrumbSchema =
           }
         </p>
 
-        <h1>
-          {title}
-        </h1>
+        <h1>{title}</h1>
 
         {
           publication.titleFa &&
@@ -142,26 +140,17 @@ const breadcrumbSchema =
             </p>
           )
         }
-
       </header>
 
-
       <div class="publication-layout">
-
         <main>
-
           <section>
-
-            <h2>
-              نویسندگان
-            </h2>
+            <h2>نویسندگان</h2>
 
             <div class="authors">
-
               {
                 publication.authors.map(
                   (author) => {
-
                     const isLeila =
                       author
                         .toLowerCase()
@@ -175,8 +164,7 @@ const breadcrumbSchema =
                     return (
                       <span
                         class:list={{
-                          "author":
-                            true,
+                          "author": true,
                           "primary-author":
                             isLeila,
                         }}
@@ -187,71 +175,40 @@ const breadcrumbSchema =
                   },
                 )
               }
-
             </div>
-
           </section>
-
 
           {
             publication.year && (
               <section>
-
-                <h2>
-                  سال انتشار
-                </h2>
-
-                <p>
-                  {publication.year}
-                </p>
-
+                <h2>سال انتشار</h2>
+                <p>{publication.year}</p>
               </section>
             )
           }
-
 
           {
             publication.journal && (
               <section>
-
-                <h2>
-                  نشریه
-                </h2>
-
-                <p>
-                  {publication.journal}
-                </p>
-
+                <h2>نشریه</h2>
+                <p>{publication.journal}</p>
               </section>
             )
           }
-
 
           {
             publication.publisher && (
               <section>
-
-                <h2>
-                  ناشر
-                </h2>
-
-                <p>
-                  {publication.publisher}
-                </p>
-
+                <h2>ناشر</h2>
+                <p>{publication.publisher}</p>
               </section>
             )
           }
 
-
           {
             publication.doi && (
               <section>
-
-                <h2>
-                  DOI
-                </h2>
-
+                <h2>DOI</h2>
                 <a
                   href={`https://doi.org/${publication.doi}`}
                   target="_blank"
@@ -259,26 +216,18 @@ const breadcrumbSchema =
                 >
                   {publication.doi}
                 </a>
-
               </section>
             )
           }
-
         </main>
 
-
         <aside>
-
           <div class="source-box">
-
-            <strong>
-              منابع
-            </strong>
+            <strong>منابع</strong>
 
             {
-              publication
-                .verificationSources
-                .map((source) => (
+              publication.verificationSources.map(
+                (source) => (
                   <a
                     href={source.url}
                     target="_blank"
@@ -286,21 +235,16 @@ const breadcrumbSchema =
                   >
                     {source.label}
                   </a>
-                ))
+                ),
+              )
             }
-
           </div>
-
         </aside>
-
       </div>
-
     </div>
-
   </article>
 
 </BaseLayout>
-
 
 <style>
   .publication-page {
@@ -309,51 +253,34 @@ const breadcrumbSchema =
 
   .publication-header {
     max-width: 900px;
-
     padding-bottom: 60px;
-
-    border-bottom:
-      1px solid #ddd7d0;
+    border-bottom: 1px solid #ddd7d0;
   }
 
   .eyebrow {
     margin: 0 0 20px;
-
     color: #806f61;
-
     font-size: 0.8rem;
-
     font-weight: 600;
   }
 
   h1 {
     margin: 0;
-
-    font-size:
-      clamp(2.2rem, 5vw, 4rem);
-
+    font-size: clamp(2.2rem, 5vw, 4rem);
     line-height: 1.4;
-
     font-weight: 500;
   }
 
   .title-fa {
     margin-top: 25px;
-
     color: #777;
-
     line-height: 2;
   }
 
   .publication-layout {
     display: grid;
-
-    grid-template-columns:
-      minmax(0, 760px)
-      240px;
-
+    grid-template-columns: minmax(0, 760px) 240px;
     gap: 90px;
-
     padding-top: 60px;
   }
 
@@ -363,25 +290,19 @@ const breadcrumbSchema =
 
   h2 {
     margin-bottom: 12px;
-
     font-size: 1rem;
-
     color: #806f61;
-
     font-weight: 600;
   }
 
   p {
     color: #555;
-
     line-height: 2;
   }
 
   .authors {
     display: flex;
-
     flex-wrap: wrap;
-
     gap: 8px;
   }
 
@@ -395,21 +316,15 @@ const breadcrumbSchema =
 
   .primary-author {
     font-weight: 600;
-
     color: #222;
   }
 
   .source-box {
     display: flex;
-
     flex-direction: column;
-
     gap: 12px;
-
     padding: 25px;
-
-    border:
-      1px solid #ddd7d0;
+    border: 1px solid #ddd7d0;
   }
 
   .source-box strong {
@@ -418,16 +333,13 @@ const breadcrumbSchema =
 
   .source-box a {
     color: #806f61;
-
     text-decoration: none;
-
     font-size: 0.9rem;
   }
 
   @media (max-width: 800px) {
     .publication-layout {
       grid-template-columns: 1fr;
-
       gap: 40px;
     }
   }
