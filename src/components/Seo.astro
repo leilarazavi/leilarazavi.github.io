@@ -1,60 +1,33 @@
----
 import { site } from "../lib/site";
 import { getPersonSchema, getWebsiteSchema } from "../lib/schema";
 
 interface Props {
   title?: string;
   description?: string;
-
-  /**
-   * Current page URL.
-   * Should be an absolute URL.
-   */
   canonical?: string;
-
-  /**
-   * Language of the current page.
-   */
   lang?: "fa" | "en";
-
-  /**
-   * Optional Open Graph image.
-   */
   image?: string;
-
-  /**
-   * Whether this page should be indexed.
-   *
-   * Default: true
-   */
   noindex?: boolean;
-
-  /**
-   * Additional Schema objects.
-   */
+  type?: "website" | "article";
   schemas?: Record<string, unknown>[];
 }
 
 const {
   title = site.title.fa,
   description = site.description.fa,
-
   canonical = site.url,
-
   lang = "fa",
-
   image,
-
   noindex = false,
-
+  type = "website",
   schemas = [],
 } = Astro.props;
 
 const locale = lang === "fa" ? "fa_IR" : "en_US";
-
-const defaultImage = image
-  ? new URL(image, site.url).href
-  : undefined;
+const defaultImage = new URL(
+  image ?? "/images/leila-razavi.jpg",
+  site.url,
+).href;
 
 const personSchema = getPersonSchema();
 const websiteSchema = getWebsiteSchema();
@@ -99,7 +72,6 @@ const alternateLanguage = lang === "fa" ? "en" : "fa";
   href={canonical}
 />
 
-<!-- Language -->
 <link
   rel="alternate"
   hreflang={lang}
@@ -118,11 +90,9 @@ const alternateLanguage = lang === "fa" ? "en" : "fa";
   href={`${site.url}/`}
 />
 
-<!-- Open Graph -->
-
 <meta
   property="og:type"
-  content="website"
+  content={type}
 />
 
 <meta
@@ -150,18 +120,19 @@ const alternateLanguage = lang === "fa" ? "en" : "fa";
   content={locale}
 />
 
-{defaultImage && (
-  <meta
-    property="og:image"
-    content={defaultImage}
-  />
-)}
+<meta
+  property="og:image"
+  content={defaultImage}
+/>
 
-<!-- Twitter / social sharing -->
+<meta
+  property="og:image:alt"
+  content={title}
+/>
 
 <meta
   name="twitter:card"
-  content={defaultImage ? "summary_large_image" : "summary"}
+  content="summary_large_image"
 />
 
 <meta
@@ -174,14 +145,15 @@ const alternateLanguage = lang === "fa" ? "en" : "fa";
   content={description}
 />
 
-{defaultImage && (
-  <meta
-    name="twitter:image"
-    content={defaultImage}
-  />
-)}
+<meta
+  name="twitter:image"
+  content={defaultImage}
+/>
 
-<!-- Structured Data -->
+<meta
+  name="twitter:image:alt"
+  content={title}
+/>
 
 {
   allSchemas.map((schema) => (
