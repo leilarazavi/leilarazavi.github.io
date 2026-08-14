@@ -1,3 +1,4 @@
+---
 import { site } from "../lib/site";
 import { getPersonSchema, getWebsiteSchema } from "../lib/schema";
 
@@ -53,107 +54,31 @@ const alternateLanguage = lang === "fa" ? "en" : "fa";
 
 <title>{title}</title>
 
-<meta
-  name="description"
-  content={description}
-/>
-
+<meta name="description" content={description} />
 <meta
   name="robots"
-  content={
-    noindex
-      ? "noindex, nofollow"
-      : "index, follow"
-  }
+  content={noindex ? "noindex, nofollow" : "index, follow"}
 />
 
-<link
-  rel="canonical"
-  href={canonical}
-/>
+<link rel="canonical" href={canonical} />
+<link rel="alternate" hreflang={lang} href={languageUrl} />
+<link rel="alternate" hreflang={alternateLanguage} href={alternateLanguageUrl} />
+<link rel="alternate" hreflang="x-default" href={`${site.url}/`} />
 
-<link
-  rel="alternate"
-  hreflang={lang}
-  href={languageUrl}
-/>
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:locale" content={locale} />
+<meta property="og:image" content={defaultImage} />
+<meta property="og:image:alt" content={title} />
 
-<link
-  rel="alternate"
-  hreflang={alternateLanguage}
-  href={alternateLanguageUrl}
-/>
-
-<link
-  rel="alternate"
-  hreflang="x-default"
-  href={`${site.url}/`}
-/>
-
-<meta
-  property="og:type"
-  content={type}
-/>
-
-<meta
-  property="og:title"
-  content={title}
-/>
-
-<meta
-  property="og:description"
-  content={description}
-/>
-
-<meta
-  property="og:url"
-  content={canonical}
-/>
-
-<meta
-  property="og:site_name"
-  content={site.name}
-/>
-
-<meta
-  property="og:locale"
-  content={locale}
-/>
-
-<meta
-  property="og:image"
-  content={defaultImage}
-/>
-
-<meta
-  property="og:image:alt"
-  content={title}
-/>
-
-<meta
-  name="twitter:card"
-  content="summary_large_image"
-/>
-
-<meta
-  name="twitter:title"
-  content={title}
-/>
-
-<meta
-  name="twitter:description"
-  content={description}
-/>
-
-<meta
-  name="twitter:image"
-  content={defaultImage}
-/>
-
-<meta
-  name="twitter:image:alt"
-  content={title}
-/>
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={defaultImage} />
+<meta name="twitter:image:alt" content={title} />
 
 {
   allSchemas.map((schema) => (
