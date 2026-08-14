@@ -9,57 +9,42 @@ interface Props {
   title?: string;
   description?: string;
   canonical?: string;
-
   lang?: "fa" | "en";
-
   image?: string;
-
   noindex?: boolean;
-
+  type?: "website" | "article";
   schemas?: Record<string, unknown>[];
 }
 
 const {
   title = site.title.fa,
-
   description = site.description.fa,
-
   canonical = site.url,
-
   lang = "fa",
-
   image,
-
   noindex = false,
-
+  type = "website",
   schemas = [],
 } = Astro.props;
 
-const dir = lang === "fa"
-  ? "rtl"
-  : "ltr";
+const dir = lang === "fa" ? "rtl" : "ltr";
 ---
 
 <!doctype html>
-
 <html
   lang={lang === "fa" ? "fa-IR" : "en"}
   dir={dir}
 >
   <head>
-
     <meta charset="UTF-8" />
-
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1"
     />
-
     <meta
       name="theme-color"
       content="#faf9f7"
     />
-
     <Seo
       title={title}
       description={description}
@@ -67,13 +52,12 @@ const dir = lang === "fa"
       lang={lang}
       image={image}
       noindex={noindex}
+      type={type}
       schemas={schemas}
     />
-
   </head>
 
   <body>
-
     <a
       class="skip-link"
       href="#main-content"
@@ -92,7 +76,6 @@ const dir = lang === "fa"
     </main>
 
     <Footer lang={lang} />
-
   </body>
 </html>
 
@@ -107,20 +90,15 @@ const dir = lang === "fa"
 
   :global(body) {
     min-width: 320px;
-
     margin: 0;
-
     background: #faf9f7;
-
     color: #222;
-
     font-family:
       system-ui,
       -apple-system,
       BlinkMacSystemFont,
       "Segoe UI",
       sans-serif;
-
     line-height: 1.8;
   }
 
@@ -133,28 +111,19 @@ const dir = lang === "fa"
       calc(100% - 40px),
       1180px
     );
-
     margin-inline: auto;
   }
 
   .skip-link {
     position: fixed;
-
     top: 12px;
     left: 12px;
-
     z-index: 9999;
-
     padding: 8px 14px;
-
     background: #222;
-
     color: white;
-
     transform: translateY(-150%);
-
-    transition:
-      transform 0.2s ease;
+    transition: transform 0.2s ease;
   }
 
   .skip-link:focus {
