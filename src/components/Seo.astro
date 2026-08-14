@@ -8,8 +8,8 @@ interface Props {
   lang?: "fa" | "en";
   image?: string;
   noindex?: boolean;
-  schemas?: Record<string, unknown>[];
   type?: "website" | "article";
+  schemas?: Record<string, unknown>[];
 }
 
 const {
@@ -19,13 +19,13 @@ const {
   lang = "fa",
   image,
   noindex = false,
-  schemas = [],
   type = "website",
+  schemas = [],
 } = Astro.props;
 
 const locale = lang === "fa" ? "fa_IR" : "en_US";
 const defaultImage = new URL(
-  image ?? "/og-image.svg",
+  image ?? "/images/leila-razavi.jpg",
   site.url,
 ).href;
 
