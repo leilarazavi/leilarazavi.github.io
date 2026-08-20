@@ -6,18 +6,11 @@ function removeEmpty<T extends Record<string, unknown>>(
 ): T {
   return Object.fromEntries(
     Object.entries(obj).filter(([, value]) => {
-      if (
-        value === undefined ||
-        value === null ||
-        value === ""
-      ) {
+      if (value === undefined || value === null || value === "") {
         return false;
       }
 
-      if (
-        Array.isArray(value) &&
-        value.length === 0
-      ) {
+      if (Array.isArray(value) && value.length === 0) {
         return false;
       }
 
@@ -27,12 +20,9 @@ function removeEmpty<T extends Record<string, unknown>>(
 }
 
 export function getPersonSchema() {
-  const sameAs = Object.values(
-    person.profiles,
-  ).filter(
+  const sameAs = Object.values(person.profiles).filter(
     (url: unknown): url is string =>
-      typeof url === "string" &&
-      url.startsWith("http"),
+      typeof url === "string" && url.startsWith("http"),
   );
 
   return removeEmpty({
@@ -47,24 +37,17 @@ export function getPersonSchema() {
     jobTitle: person.jobTitle.en,
     description: person.description.en,
     knowsAbout: person.knowsAbout,
-    affiliation: person.affiliations.map(
-      (affiliation) => ({
-        "@type": "Organization",
-        name: affiliation.name,
-        url: affiliation.url,
-      }),
-    ),
+    affiliation: person.affiliations.map((affiliation) => ({
+      "@type": "Organization",
+      name: affiliation.name,
+      url: affiliation.url,
+    })),
     sameAs,
     image: person.image.src
-      ? new URL(
-          person.image.src,
-          site.url,
-        ).toString()
+      ? new URL(person.image.src, site.url).toString()
       : undefined,
-    email:
-      person.contact.email || undefined,
-    telephone:
-      person.contact.telephone || undefined,
+    email: person.contact.email || undefined,
+    telephone: person.contact.telephone || undefined,
   });
 }
 
@@ -108,22 +91,18 @@ export function getBreadcrumbSchema(
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    itemListElement: items.map(
-      (item, index) => ({
-        "@type": "ListItem",
-        position: index + 1,
-        name: item.name,
-        item: item.url,
-      }),
-    ),
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
   };
 }
 
 function getAuthorSchemas(authors: string[]) {
   return authors.map((author) => {
-    const normalized = author
-      .toLowerCase()
-      .replace(/\s+/g, " ");
+    const normalized = author.toLowerCase().replace(/\s+/g, " ");
 
     const isLeilaRazavi =
       normalized.includes("leila razavi") ||
@@ -172,10 +151,12 @@ export function getScholarlyArticleSchema({
     "@id": `${url}#article`,
     headline: title,
     url,
-    datePublished:
-      year !== undefined
-        ? `${year}`
-        : undefined,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
+      url,
+    },
+    datePublished: year !== undefined ? `${year}` : undefined,
     author: getAuthorSchemas(authors),
     isPartOf: journal
       ? {
@@ -226,10 +207,12 @@ export function getBookSchema({
     "@id": `${url}#book`,
     name: title,
     url,
-    datePublished:
-      year !== undefined
-        ? `${year}`
-        : undefined,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
+      url,
+    },
+    datePublished: year !== undefined ? `${year}` : undefined,
     author: getAuthorSchemas(authors),
     publisher: publisher
       ? {
