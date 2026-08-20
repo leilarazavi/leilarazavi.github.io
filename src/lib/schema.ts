@@ -32,7 +32,8 @@ export function getPersonSchema() {
     name: person.fullName,
     givenName: person.givenName,
     familyName: person.familyName,
-    alternateName: person.fullNameFa,
+    alternateName: [person.name, person.nameFa, person.fullNameFa],
+    honorificPrefix: "Dr.",
     url: person.url,
     jobTitle: person.jobTitle.en,
     description: person.description.en,
@@ -71,11 +72,19 @@ export function getProfilePageSchema() {
     "@id": `${site.url}/about/#profile`,
     url: `${site.url}/about/`,
     name: site.title.fa,
+    inLanguage: "fa-IR",
+    isPartOf: {
+      "@id": `${site.url}/#website`,
+    },
+    about: {
+      "@id": `${site.url}/#person`,
+    },
     mainEntity: {
       "@id": `${site.url}/#person`,
     },
-    isPartOf: {
-      "@id": `${site.url}/#website`,
+    primaryImageOfPage: {
+      "@type": "ImageObject",
+      url: new URL(person.image.src, site.url).toString(),
     },
   };
 }
