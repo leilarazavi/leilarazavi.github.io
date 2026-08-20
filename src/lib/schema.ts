@@ -46,8 +46,6 @@ export function getPersonSchema() {
     image: person.image.src
       ? new URL(person.image.src, site.url).toString()
       : undefined,
-    email: person.contact.email || undefined,
-    telephone: person.contact.telephone || undefined,
   });
 }
 
