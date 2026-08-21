@@ -25,6 +25,9 @@ keywords:
 language: "en"
 type: "journal-article"
 verified: true
+status: "verified"
+identityConfidence: "high"
+verificationDate: "2026-08-21"
 featured: true
 verificationSources:
   - label: "DOI"
