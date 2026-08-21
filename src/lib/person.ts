@@ -33,6 +33,12 @@ export const person = {
     "Clinical Psychology",
     "Health Psychology",
     "Psychological Research",
+    "Acceptance and Commitment Therapy",
+    "Mindfulness-Based Stress Reduction",
+    "Migraine and psychological interventions",
+    "Multiple sclerosis, fatigue, and depression",
+    "Alexithymia",
+    "Quality of life",
     "Couples Therapy",
     "Family Therapy",
     "Adolescent Counseling",
@@ -92,12 +98,6 @@ export const person = {
     ],
   },
 
-  /*
-   * Academic and professional positions.
-   *
-   * SOURCE REQUIRED:
-   * CV or official documents from Dr. Razavi.
-   */
   positions: [
     {
       titleFa:
@@ -123,16 +123,14 @@ export const person = {
     },
   ],
 
-  /*
-   * Scientific / research profile.
-   */
   research: {
     researchInterests: [
-      /*
-       * TODO:
-       * Get the official research interests
-       * from CV / Google Scholar / Dr. Razavi.
-       */
+      "Acceptance and Commitment Therapy",
+      "Mindfulness-Based Stress Reduction",
+      "Migraine and psychological interventions",
+      "Multiple sclerosis, fatigue, and depression",
+      "Alexithymia",
+      "Quality of life",
     ],
 
     academicCV:
@@ -145,24 +143,9 @@ export const person = {
       "TODO_GET_FROM_DR",
   },
 
-  /*
-   * External profiles.
-   *
-   * Only add URLs that have been verified
-   * as belonging to Dr. Razavi.
-   */
   profiles: {
-    // linkedin:
-    //   "TODO_GET_VERIFIED_URL",
-
     googleScholar:
       "https://scholar.google.com/citations?user=M8clObQAAAAJ",
-
-    // researchGate:
-    //   "TODO_GET_VERIFIED_URL",
-
-    // orcid:
-    //   "TODO_GET_VERIFIED_URL",
 
     instagram:
       "https://www.instagram.com/dr.leila.razavi_psy/",
@@ -171,13 +154,6 @@ export const person = {
       "https://pendar-gp.ir/chart/%D8%AF%DA%A9%D8%AA%D8%B1-%D9%84%DB%8C%D9%84%D8%A7-%D8%B1%D8%B6%D9%88%DB%8C/",
   },
 
-  /*
-   * Official photograph.
-   *
-   * TODO:
-   * Get a high-resolution professional portrait
-   * from Dr. Razavi.
-   */
   image: {
     src:
       "/images/leila-razavi.jpg",
@@ -189,13 +165,6 @@ export const person = {
       "Dr. Leila Razavi",
   },
 
-  /*
-   * Contact information.
-   *
-   * TODO:
-   * Get only the contact information that
-   * Dr. Razavi wants to publish publicly.
-   */
   contact: {
     email:
       "TODO_GET_FROM_DR",
