@@ -1,5 +1,3 @@
-import { site } from "./site";
-
 export const person = {
   name: "Leila Razavi",
   nameFa: "لیلا رضوی",
@@ -18,7 +16,7 @@ export const person = {
     en: "Dr. Leila Razavi is a psychologist, university lecturer, and researcher in psychology.",
   },
 
-  url: `${site.url}/about/`,
+  url: "https://leilarazavi.github.io/about/",
 
   knowsAbout: [
     "Psychology",
@@ -75,10 +73,49 @@ export const person = {
     ],
   },
 
+  identitySources: [
+    {
+      name: "Google Scholar",
+      url: "https://scholar.google.com/citations?user=M8clObQAAAAJ",
+      verified: true,
+      verificationMethod: "User-supplied profile URL; profile identity is treated as owner-confirmed for this site.",
+      lastChecked: "2026-08-21",
+    },
+    {
+      name: "Instagram",
+      url: "https://www.instagram.com/dr.leila.razavi_psy/",
+      verified: true,
+      verificationMethod: "User-supplied professional profile URL; owner-confirmed for this site.",
+      lastChecked: "2026-08-21",
+    },
+    {
+      name: "Pendar professional profile",
+      url: "https://pendar-gp.ir/chart/%D8%AF%DA%A9%D8%AA%D8%B1-%D9%84%DB%8C%D9%84%D8%A7-%D8%B1%D8%B6%D9%88%DB%8C/",
+      verified: true,
+      verificationMethod: "Public professional profile supplied by the site owner.",
+      lastChecked: "2026-08-21",
+    },
+    {
+      name: "Pendar official Instagram",
+      url: "https://www.instagram.com/pendarqom/",
+      verified: true,
+      verificationMethod: "User-supplied official Pendar account; management relationship stated by site owner.",
+      lastChecked: "2026-08-21",
+    },
+    {
+      name: "Official website",
+      url: "https://leilarazavi.github.io/",
+      verified: true,
+      verificationMethod: "Canonical first-party website.",
+      lastChecked: "2026-08-21",
+    },
+  ],
+
   profiles: {
     googleScholar: "https://scholar.google.com/citations?user=M8clObQAAAAJ",
     instagram: "https://www.instagram.com/dr.leila.razavi_psy/",
     pendar: "https://pendar-gp.ir/chart/%D8%AF%DA%A9%D8%AA%D8%B1-%D9%84%DB%8C%D9%84%D8%A7-%D8%B1%D8%B6%D9%88%DB%8C/",
+    pendarInstagram: "https://www.instagram.com/pendarqom/",
   },
 
   image: {
@@ -88,6 +125,7 @@ export const person = {
   },
 
   contact: {
+    pendarPhone: "09915291300",
     publicChannelsOnly: true,
   },
 } as const;
