@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { person } from "../../../lib/person";
+import { site } from "../../../lib/site";
+
+const media = [
+  {
+    category: "Podcast and interviews",
+    title: "Dr. Leila Razavi on Spotify",
+    description: "The official Spotify show page. Visit the show for episode details and published audio content.",
+    url: "https://open.spotify.com/show/033SHyU9h8ewYbibDIUBfL",
+  },
+  {
+    category: "Professional public activity",
+    title: "Professional psychology meeting in Qom",
+    description: "A public announcement of a professional meeting involving psychology institutions and specialists in Qom Province.",
+    url: "https://www.instagram.com/p/DbQ_uuvMC9i/",
+  },
+  {
+    category: "Professional public activity",
+    title: "Central Council of the School of Psychology in Qom",
+    description: "A public announcement introducing members of the Central Council of the School of Psychology in Qom Province.",
+    url: "https://www.instagram.com/p/Da8wE5kE1Es/",
+  },
+  {
+    category: "Professional public activity",
+    title: "Additional public source",
+    description: "An additional public source related to Dr. Leila Razavi's professional activity and public presence.",
+    url: "https://www.instagram.com/p/DcKDxZlvQz6/",
+  },
+];
+---
+
+<BaseLayout title={`Media and Public Presence | ${site.name}`} description="Interviews, podcasts, and public sources related to Dr. Leila Razavi's professional activity." canonical={`${site.url}/en/media/`} lang="en">
+  <section class="page"><div class="container">
+    <header><p class="label">Media and public presence</p><h1>Interviews and public sources</h1><p class="lead">Public and media sources related to {person.fullName}, kept separate from scholarly publications and professional experience.</p></header>
+    <div class="media-list">
+      {media.map((item) => (
+        <article class="media-item">
+          <p class="category">{item.category}</p>
+          <h2>{item.title}</h2>
+          <p>{item.description}</p>
+          <a href={item.url} target="_blank" rel="noopener noreferrer">View source</a>
+        </article>
+      ))}
+    </div>
+  </div></section>
+</BaseLayout>
+
+<style>
+.page{padding-block:90px}header{max-width:820px;padding-bottom:60px}.label,.category{color:#806f61;font-size:.8rem;font-weight:600}h1{margin:0 0 24px;font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.25;font-weight:500}.lead,p{color:#555;line-height:2}.media-list{max-width:820px}.media-item{padding:34px 0;border-top:1px solid #ddd7d0}.media-item h2{font-size:1.45rem;font-weight:500}.media-item .category{margin-bottom:8px}.media-item a{color:#806f61}
+</style>
