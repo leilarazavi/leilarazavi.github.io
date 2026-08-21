@@ -9,14 +9,11 @@ const publicationSource = z.object({
 });
 
 const publications = defineCollection({
-  loader: glob({
-    pattern: "**/*.md",
-    base: "./src/content/publications",
-  }),
+  loader: glob({ pattern: "**/*.md", base: "./src/content/publications" }),
   schema: z.object({
     title: z.string(),
     titleFa: z.string().optional(),
-    authors: z.array(z.string()),
+    authors: z.array(z.string()).min(1),
     year: z.number().int().min(1900).max(2100).optional(),
     publicationDate: z.string().optional(),
     journal: z.string().optional(),
@@ -31,15 +28,11 @@ const publications = defineCollection({
     abstract: z.string().optional(),
     keywords: z.array(z.string()).default([]),
     language: z.enum(["fa", "en"]).default("en"),
-    type: z.enum([
-      "journal-article",
-      "conference-paper",
-      "book",
-      "book-chapter",
-      "thesis",
-      "other",
-    ]).default("journal-article"),
+    type: z.enum(["journal-article", "conference-paper", "book", "book-chapter", "thesis", "other"]).default("journal-article"),
     verified: z.boolean().default(false),
+    status: z.enum(["unverified", "candidate", "verified", "rejected"]).optional(),
+    identityConfidence: z.enum(["low", "medium", "high"]).optional(),
+    verificationDate: z.string().optional(),
     featured: z.boolean().default(false),
     verificationSources: z.array(publicationSource).default([]),
   }),
