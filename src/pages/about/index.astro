@@ -17,7 +17,7 @@ const breadcrumbSchema = getBreadcrumbSchema([
 
 <BaseLayout
   title="دکتر لیلا رضوی | روان‌شناس، مدرس دانشگاه و پژوهشگر"
-  description="دکتر لیلا رضوی، روان‌شناس، مدرس دانشگاه و پژوهشگر حوزه روان‌شناسی. معرفی حوزه‌های تخصصی، وابستگی حرفه‌ای و آثار علمی ایشان."
+  description="دکتر لیلا رضوی، روان‌شناس، مدرس دانشگاه و پژوهشگر حوزه روان‌شناسی. معرفی حوزه‌های تخصصی، وابستگی حرفه‌ای، فعالیت‌های حرفه‌ای و آثار علمی ایشان."
   canonical={`${site.url}/about/`}
   lang="fa"
   schemas={[profileSchema, breadcrumbSchema]}
@@ -72,6 +72,13 @@ const breadcrumbSchema = getBreadcrumbSchema([
           </section>
 
           <section>
+            <p class="section-label">فعالیت حرفه‌ای</p>
+            <h2>شورای مرکزی مدرسه روان‌شناسی</h2>
+            <p>بر اساس معرفی منتشرشده از سوی کانون روانشناسان و مشاوران استان قم، دکتر لیلا رضوی در فهرست اعضای شورای مرکزی مدرسه تخصصی روان‌شناسی و مشاوره قرار دارد. این شورا در معرفی منتشرشده به‌عنوان مجموعه‌ای از اساتید و درمانگران با هدف ارتقای دانش بالینی و توسعه حرفه‌ای روان‌شناسان معرفی شده است.</p>
+            <p class="source-note">منبع: معرفی شورای مرکزی مدرسه روان‌شناسی توسط کانون روانشناسان و مشاوران استان قم.</p>
+          </section>
+
+          <section>
             <p class="section-label">وابستگی حرفه‌ای</p>
             <h2>همکاری و وابستگی سازمانی</h2>
             {person.affiliations.map((affiliation) => (
@@ -117,6 +124,7 @@ const breadcrumbSchema = getBreadcrumbSchema([
   .research-item { padding-bottom: 30px; border-bottom: 1px solid #eee9e4; }
   .research-item h3 { margin: 0 0 15px; font-size: 1.15rem; line-height: 1.8; font-weight: 500; }
   .research-item p { margin: 0 0 14px; }
+  .source-note { font-size: 0.82rem; color: #777; }
   .side-block { display: flex; flex-direction: column; gap: 12px; padding-bottom: 35px; }
   .side-block strong { margin-bottom: 5px; color: #806f61; font-size: 0.78rem; }
   .side-block a { width: fit-content; color: #555; text-decoration: none; font-size: 0.85rem; }
