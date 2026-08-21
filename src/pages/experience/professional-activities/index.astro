@@ -1,0 +1,18 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { professionalActivities } from '../../../data/professionalActivities';
+---
+
+<Layout title="Professional Activities | Leila Razavi">
+  <main>
+    <h1>Professional Activities</h1>
+
+    {professionalActivities.map((activity) => (
+      <article>
+        <h2>{activity.title}</h2>
+        <p>{activity.role}</p>
+        <p>{activity.description}</p>
+      </article>
+    ))}
+  </main>
+</Layout>
