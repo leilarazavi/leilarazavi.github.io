@@ -1,5 +1,4 @@
 import { person } from "./person";
-import { publications } from "../data/publications";
 import { site } from "./site";
 
 function removeEmpty<T extends Record<string, unknown>>(obj: T): T {
@@ -17,20 +16,6 @@ export function getPersonSchema() {
     (url: unknown): url is string =>
       typeof url === "string" && url.startsWith("http"),
   );
-
-  const subjectOf = publications
-    .filter(
-      (publication) =>
-        publication.status === "confirmed" &&
-        publication.identityConfidence === "high" &&
-        typeof publication.originalUrl === "string" &&
-        publication.originalUrl.startsWith("http"),
-    )
-    .map((publication) => ({
-      "@type": publication.type === "book" ? "Book" : "ScholarlyArticle",
-      name: publication.title,
-      url: publication.originalUrl,
-    }));
 
   return removeEmpty({
     "@context": "https://schema.org",
@@ -50,13 +35,11 @@ export function getPersonSchema() {
       name: affiliation.name,
       url: affiliation.url,
     })),
-    memberOf: {
+    memberOf: person.positions.map((position) => ({
       "@type": "Organization",
-      "@id": `${site.url}/#psychology-council-qom`,
-      name: "شورای مرکزی مدرسه روان‌شناسی در استان قم",
-    },
+      name: position.organizationEn,
+    })),
     sameAs,
-    subjectOf,
     image: person.image.src
       ? new URL(person.image.src, site.url).toString()
       : undefined,
