@@ -1,0 +1,138 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { getProfilePageSchema, getBreadcrumbSchema } from "../../../lib/schema";
+import { site } from "../../../lib/site";
+import { person } from "../../../lib/person";
+
+const profileSchema = {
+  ...getProfilePageSchema(),
+  image: new URL(person.image.src, site.url).toString(),
+};
+
+const breadcrumbSchema = getBreadcrumbSchema([
+  { name: "Home", url: `${site.url}/en/` },
+  { name: "About Dr. Leila Razavi", url: `${site.url}/en/about/` },
+]);
+---
+
+<BaseLayout
+  title="Dr. Leila Razavi | Psychologist, University Lecturer and Researcher"
+  description="Dr. Leila Razavi is a psychologist, university lecturer and researcher. This official profile presents her professional background, research activities, publications and verified professional affiliations."
+  canonical={`${site.url}/en/about/`}
+  lang="en"
+  schemas={[profileSchema, breadcrumbSchema]}
+>
+  <article class="profile-page">
+    <div class="container">
+      <header class="profile-header">
+        <div class="profile-image">
+          <img src={person.image.src} alt={person.image.altEn} width="600" height="750" loading="eager" decoding="async" />
+        </div>
+        <div class="profile-intro">
+          <p class="eyebrow">Psychologist, University Lecturer and Researcher</p>
+          <h1>Dr. Leila Razavi</h1>
+          <p class="lead">{person.description.en}</p>
+        </div>
+      </header>
+
+      <div class="profile-layout">
+        <main>
+          <section>
+            <p class="section-label">Profile</p>
+            <h2>About Dr. Leila Razavi</h2>
+            <p>{person.description.en}</p>
+            <p>Alongside her professional work in psychology, Dr. Leila Razavi has contributed as an author to research on psychological interventions and mental health.</p>
+          </section>
+
+          <section>
+            <p class="section-label">Areas of work</p>
+            <h2>Professional and research areas</h2>
+            <ul class="knowledge-list">
+              {person.knowsAbout.map((area) => <li>{area}</li>)}
+            </ul>
+          </section>
+
+          <section>
+            <p class="section-label">Research</p>
+            <h2>Scientific publications</h2>
+            <div class="research-list">
+              <article class="research-item">
+                <h3>Comparison of the Effectiveness of Mindfulness-Based Stress Reduction Group Therapy With Acceptance and Commitment Therapy on Severity of Pain and Health-Related Quality of Life in Patients With Migraine</h3>
+                <p>Published in the <em>International Clinical Neuroscience Journal</em> in 2019, with Leila Razavi among the authors. The study compares two psychological intervention approaches in relation to pain severity and health-related quality of life in patients with migraine.</p>
+                <a class="text-link" href="https://doi.org/10.15171/icnj.2019.21" target="_blank" rel="noopener noreferrer">View article and DOI <span>↗</span></a>
+              </article>
+
+              <article class="research-item">
+                <h3>Effectiveness of Group Therapy Based on Acceptance and Commitment on the Severity of Fatigue and Depression With the Moderating Role of Alexithymia in Patients With Multiple Sclerosis</h3>
+                <p>Published in the <em>International Clinical Neuroscience Journal</em> in 2021. The paper identifies Leila Razavi with the School of Psychology and Educational Sciences, Islamic Azad University of Qom, and lists her as a corresponding author.</p>
+                <a class="text-link" href="https://doi.org/10.34172/icnj.2021.08" target="_blank" rel="noopener noreferrer">View article and DOI <span>↗</span></a>
+              </article>
+            </div>
+            <a class="text-link" href="/publications/">View publications <span>→</span></a>
+          </section>
+
+          <section>
+            <p class="section-label">Professional activity</p>
+            <h2>Central Council of the School of Psychology</h2>
+            <p>According to a public announcement by the Association of Psychologists and Counselors of Qom Province, Dr. Leila Razavi is listed among the members of the Central Council of the specialized School of Psychology and Counseling.</p>
+            <p class="source-note">Source: public announcement introducing the Central Council by the Association of Psychologists and Counselors of Qom Province.</p>
+          </section>
+
+          <section>
+            <p class="section-label">Professional affiliation</p>
+            <h2>Academic and organizational affiliation</h2>
+            {person.affiliations.map((affiliation) => (
+              <p><a href={affiliation.url} target="_blank" rel="noopener noreferrer">{affiliation.name}</a></p>
+            ))}
+          </section>
+        </main>
+
+        <aside>
+          <div class="side-block">
+            <strong>Academic and professional profiles</strong>
+            {person.profiles.googleScholar && <a href={person.profiles.googleScholar} target="_blank" rel="noopener noreferrer">Google Scholar</a>}
+            {person.profiles.instagram && <a href={person.profiles.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>}
+            {person.profiles.researchGate && <a href={person.profiles.researchGate} target="_blank" rel="noopener noreferrer">ResearchGate</a>}
+            {person.profiles.linkedin && <a href={person.profiles.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>}
+          </div>
+          <div class="side-block">
+            <strong>Professional profile</strong>
+            <a href={person.profiles.pendar} target="_blank" rel="noopener noreferrer">Pendar</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .profile-page { padding-block: 90px; }
+  .profile-header { display: grid; grid-template-columns: 300px 1fr; gap: 70px; align-items: center; padding-bottom: 80px; border-bottom: 1px solid #ddd7d0; }
+  .profile-image { width: 100%; }
+  .profile-image img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
+  .eyebrow, .section-label { margin: 0 0 14px; color: #806f61; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; }
+  h1 { margin: 0 0 24px; font-size: clamp(3rem, 7vw, 5rem); line-height: 1.15; letter-spacing: -0.05em; font-weight: 500; }
+  .lead { max-width: 650px; margin: 0; color: #666; font-size: 1.15rem; line-height: 2; }
+  .profile-layout { display: grid; grid-template-columns: minmax(0, 760px) 240px; gap: 90px; padding-top: 80px; }
+  main section { padding-bottom: 70px; }
+  main section + section { padding-top: 10px; }
+  h2 { margin: 0 0 22px; font-size: 2rem; line-height: 1.4; font-weight: 500; }
+  main p { color: #555; line-height: 2; }
+  .knowledge-list { display: flex; flex-wrap: wrap; gap: 10px; padding: 0; list-style: none; }
+  .knowledge-list li { padding: 8px 14px; border: 1px solid #ddd7d0; color: #666; font-size: 0.85rem; }
+  .research-list { display: grid; gap: 35px; margin-bottom: 30px; }
+  .research-item { padding-bottom: 30px; border-bottom: 1px solid #eee9e4; }
+  .research-item h3 { margin: 0 0 15px; font-size: 1.15rem; line-height: 1.8; font-weight: 500; }
+  .research-item p { margin: 0 0 14px; }
+  .source-note { font-size: 0.82rem; color: #777; }
+  .side-block { display: flex; flex-direction: column; gap: 12px; padding-bottom: 35px; }
+  .side-block strong { margin-bottom: 5px; color: #806f61; font-size: 0.78rem; }
+  .side-block a { width: fit-content; color: #555; text-decoration: none; font-size: 0.85rem; }
+  .side-block a:hover { color: #806f61; }
+  .text-link { display: inline-flex; gap: 10px; color: #806f61; text-decoration: none; font-weight: 600; }
+  @media (max-width: 800px) {
+    .profile-header { grid-template-columns: 1fr; gap: 40px; }
+    .profile-image { max-width: 280px; }
+    .profile-layout { grid-template-columns: 1fr; gap: 30px; }
+  }
+</style>
