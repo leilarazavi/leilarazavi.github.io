@@ -125,12 +125,11 @@ export const person = {
 
   research: {
     researchInterests: [
-      "Acceptance and Commitment Therapy",
-      "Mindfulness-Based Stress Reduction",
-      "Migraine and psychological interventions",
-      "Multiple sclerosis, fatigue, and depression",
-      "Alexithymia",
-      "Quality of life",
+      /*
+       * TODO:
+       * Get the official research interests
+       * from CV / Google Scholar / Dr. Razavi.
+       */
     ],
 
     academicCV:
