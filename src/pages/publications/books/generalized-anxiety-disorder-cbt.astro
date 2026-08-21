@@ -1,0 +1,51 @@
+---
+import { books } from '../../../data/books';
+
+const book = books.find((item) => item.id === 'generalized-anxiety-disorder-cbt');
+
+if (!book) {
+  throw new Error('Book entity not found');
+}
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Book',
+  name: book.titleEn,
+  alternateName: book.titleFa,
+  isbn: book.isbn,
+  numberOfPages: book.pages,
+  datePublished: String(book.year),
+  publisher: {
+    '@type': 'Organization',
+    name: book.publisher,
+  },
+  author: book.authors.map((name) => ({
+    '@type': 'Person',
+    name,
+  })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+<main>
+  <h1>{book.titleFa}</h1>
+  <p>{book.titleEn}</p>
+
+  <dl>
+    <dt>نویسندگان</dt>
+    <dd>{book.authors.join('، ')}</dd>
+
+    <dt>ناشر</dt>
+    <dd>{book.publisher}</dd>
+
+    <dt>شابک</dt>
+    <dd>{book.isbn}</dd>
+
+    <dt>سال چاپ</dt>
+    <dd>{book.year}</dd>
+
+    <dt>تعداد صفحات</dt>
+    <dd>{book.pages}</dd>
+  </dl>
+</main>
