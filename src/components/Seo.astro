@@ -25,45 +25,41 @@ const {
 } = Astro.props;
 
 const locale = lang === "fa" ? "fa_IR" : "en_US";
-const defaultImage = new URL(
-  image ?? "/images/leila-razavi.jpg",
-  site.url,
-).href;
+const defaultImage = new URL(image ?? "/images/leila-razavi.jpg", site.url).href;
 
 const personSchema = getPersonSchema();
 const websiteSchema = getWebsiteSchema();
+const allSchemas = [personSchema, websiteSchema, ...schemas];
 
-const allSchemas = [
-  personSchema,
-  websiteSchema,
-  ...schemas,
-];
+const canonicalUrl = new URL(canonical, site.url);
+const canonicalPath = canonicalUrl.pathname.endsWith("/")
+  ? canonicalUrl.pathname
+  : `${canonicalUrl.pathname}/`;
 
-const languageUrl =
-  lang === "fa"
-    ? `${site.url}/`
-    : `${site.url}/en/`;
+const isEnglishPath = canonicalPath === "/en/" || canonicalPath.startsWith("/en/");
+const faPath = isEnglishPath
+  ? canonicalPath === "/en/" ? "/" : canonicalPath.replace(/^\/en/, "")
+  : canonicalPath;
+const enPath = isEnglishPath
+  ? canonicalPath
+  : canonicalPath === "/" ? "/en/" : `/en${canonicalPath}`;
 
-const alternateLanguageUrl =
-  lang === "fa"
-    ? `${site.url}/en/`
-    : `${site.url}/`;
-
+const languageUrl = lang === "fa"
+  ? `${site.url}${faPath}`
+  : `${site.url}${enPath}`;
+const alternateLanguageUrl = lang === "fa"
+  ? `${site.url}${enPath}`
+  : `${site.url}${faPath}`;
 const alternateLanguage = lang === "fa" ? "en" : "fa";
 ---
 
 <title>{title}</title>
-
 <meta name="description" content={description} />
-<meta
-  name="robots"
-  content={noindex ? "noindex, nofollow" : "index, follow"}
-/>
-
+<meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
 <link rel="canonical" href={canonical} />
 <link rel="alternate" hreflang={lang} href={languageUrl} />
 <link rel="alternate" hreflang={alternateLanguage} href={alternateLanguageUrl} />
-<link rel="alternate" hreflang="x-default" href={`${site.url}/`} />
+<link rel="alternate" hreflang="x-default" href={`${site.url}${faPath}`} />
 
 <meta property="og:type" content={type} />
 <meta property="og:title" content={title} />
@@ -80,11 +76,6 @@ const alternateLanguage = lang === "fa" ? "en" : "fa";
 <meta name="twitter:image" content={defaultImage} />
 <meta name="twitter:image:alt" content={title} />
 
-{
-  allSchemas.map((schema) => (
-    <script
-      type="application/ld+json"
-      set:html={JSON.stringify(schema)}
-    />
-  ))
-}
+{allSchemas.map((schema) => (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+))}

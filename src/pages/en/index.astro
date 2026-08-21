@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { person } from "../../lib/person";
+import { site } from "../../lib/site";
+import { getPublicationsByYear } from "../../lib/publications";
+
+const publications = getPublicationsByYear();
+---
+<BaseLayout title={site.title.en} description="Official website of Dr. Leila Razavi, psychologist, university lecturer and researcher." canonical={`${site.url}/en/`} lang="en">
+  <section class="hero"><div class="container">
+    <img src={person.image.src} alt={person.image.altEn} width="600" height="750" loading="eager" decoding="async" />
+    <div><p class="label">Psychologist, University Lecturer and Researcher</p><h1>Dr. Leila Razavi</h1><p class="lead">Official profile presenting her professional background, research activities and verified publications.</p><div class="actions"><a href="/en/about/">About</a><a href="/en/publications/">Publications</a></div></div>
+  </div></section>
+  <section class="section"><div class="container"><h2>Research areas</h2><div class="topics">{person.knowsAbout.map((area) => <span>{area}</span>)}</div></div></section>
+  <section class="section"><div class="container"><h2>Verified publications</h2>{publications.slice(0,3).map((publication) => <article><p>{publication.year ?? ""}{publication.year && publication.journal ? ` · ${publication.journal}` : ""}</p><h3><a href={`/publications/${publication.id}/`}>{publication.title}</a></h3><span>{publication.authors.join(", ")}</span></article>)}</div></section>
+</BaseLayout>
+<style>
+.hero{padding:90px 0;border-bottom:1px solid #ddd7d0}.hero .container{display:grid;grid-template-columns:280px 1fr;gap:70px;align-items:center}.hero img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover}.label{color:#806f61;font-weight:600;font-size:.8rem}.hero h1{font-size:clamp(3rem,7vw,5rem);font-weight:500}.lead{max-width:700px;color:#555;line-height:2}.actions{display:flex;gap:12px;margin-top:30px}.actions a{padding:12px 20px;border:1px solid #806f61;color:#806f61;text-decoration:none}.section{padding:80px 0;border-bottom:1px solid #ddd7d0}h2{font-size:2rem;font-weight:500}.topics{display:flex;flex-wrap:wrap;gap:10px}.topics span{padding:9px 14px;border:1px solid #ddd7d0;color:#555}article{padding:28px 0;border-top:1px solid #ddd7d0}article p{color:#806f61;font-size:.8rem}article h3{max-width:900px;font-size:1.2rem;line-height:1.6}article a{color:#222;text-decoration:none}article span{color:#666;font-size:.9rem}@media(max-width:800px){.hero .container{grid-template-columns:1fr;gap:35px}.hero img{max-width:280px}}
+</style>
