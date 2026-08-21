@@ -1,256 +1,54 @@
 ---
-import { site } from "../lib/site";
+import { person } from "../lib/person";
 
 interface Props {
   lang?: "fa" | "en";
 }
 
 const { lang = "fa" } = Astro.props;
-
 const isFa = lang === "fa";
+const identityLinks = person.identitySources.filter((source) => source.verified);
 
 const navigation = isFa
   ? [
       { label: "درباره من", href: "/about/" },
       { label: "آثار علمی", href: "/publications/" },
-      { label: "پژوهش", href: "/research/" },
       { label: "سوابق", href: "/experience/" },
+      { label: "رسانه", href: "/media/" },
       { label: "تماس", href: "/contact/" },
     ]
   : [
       { label: "About", href: "/en/about/" },
       { label: "Publications", href: "/en/publications/" },
-      { label: "Research", href: "/en/research/" },
       { label: "Experience", href: "/en/experience/" },
+      { label: "Media", href: "/en/media/" },
       { label: "Contact", href: "/en/contact/" },
     ];
 ---
 
 <footer class="site-footer">
-
   <div class="footer-container">
-
     <div class="footer-identity">
-
-      <div class="footer-name">
-        {isFa
-          ? "دکتر لیلا رضوی"
-          : "Dr. Leila Razavi"}
-      </div>
-
-      <p>
-        {isFa
-          ? "روان‌شناس و پژوهشگر"
-          : "Psychologist & Researcher"}
-      </p>
-
+      <div class="footer-name">{isFa ? person.fullNameFa : person.fullName}</div>
+      <p>{isFa ? person.jobTitle.fa : person.jobTitle.en}</p>
     </div>
-
-    <nav
-      class="footer-nav"
-      aria-label={
-        isFa
-          ? "پیوندهای سایت"
-          : "Site navigation"
-      }
-    >
-      {navigation.map((item) => (
-        <a href={item.href}>
-          {item.label}
-        </a>
-      ))}
+    <nav class="footer-nav" aria-label={isFa ? "پیوندهای سایت" : "Site navigation"}>
+      {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
     </nav>
-
     <div class="footer-social">
-
-      {
-        site.social.googleScholar && (
-          <a
-            href={site.social.googleScholar}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Google Scholar
-          </a>
-        )
-      }
-
-      {
-        site.social.linkedin && (
-          <a
-            href={site.social.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            LinkedIn
-          </a>
-        )
-      }
-
-      {
-        site.social.researchGate && (
-          <a
-            href={site.social.researchGate}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            ResearchGate
-          </a>
-        )
-      }
-
-      {
-        site.social.instagram && (
-          <a
-            href={site.social.instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Instagram
-          </a>
-        )
-      }
-
-      <a
-        href={site.social.pendar}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Pendar
-      </a>
-
+      {identityLinks.map((source) => (
+        <a href={source.url} target="_blank" rel="noopener noreferrer">{source.name}</a>
+      ))}
     </div>
-
   </div>
-
   <div class="footer-bottom">
-
     <div class="footer-container">
-
-      <span>
-        © {new Date().getFullYear()}
-        {isFa
-          ? " دکتر لیلا رضوی"
-          : " Dr. Leila Razavi"}
-      </span>
-
-      <span>
-        {isFa
-          ? "تمامی حقوق محفوظ است."
-          : "All rights reserved."}
-      </span>
-
+      <span>© {new Date().getFullYear()}{isFa ? ` ${person.fullNameFa}` : ` ${person.fullName}`}</span>
+      <span>{isFa ? "تمامی حقوق محفوظ است." : "All rights reserved."}</span>
     </div>
-
   </div>
-
 </footer>
 
 <style>
-  .site-footer {
-    margin-top: 100px;
-
-    border-top: 1px solid #e5e1dc;
-
-    background: #f4f1ed;
-  }
-
-  .footer-container {
-    width: min(
-      calc(100% - 40px),
-      1180px
-    );
-
-    margin-inline: auto;
-  }
-
-  .site-footer
-    > .footer-container {
-    padding-block: 52px;
-
-    display: grid;
-
-    grid-template-columns:
-      1.4fr
-      1fr
-      1fr;
-
-    gap: 48px;
-  }
-
-  .footer-name {
-    font-size: 1.1rem;
-
-    font-weight: 600;
-  }
-
-  .footer-identity p {
-    margin: 8px 0 0;
-
-    color: #777;
-
-    font-size: 0.88rem;
-  }
-
-  .footer-nav,
-  .footer-social {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 12px;
-  }
-
-  .footer-nav a,
-  .footer-social a {
-    width: fit-content;
-
-    color: #555;
-
-    text-decoration: none;
-
-    font-size: 0.88rem;
-  }
-
-  .footer-nav a:hover,
-  .footer-social a:hover {
-    color: #806f61;
-  }
-
-  .footer-bottom {
-    border-top: 1px solid #e1dcd6;
-
-    padding-block: 18px;
-
-    color: #888;
-
-    font-size: 0.75rem;
-  }
-
-  .footer-bottom
-    .footer-container {
-    display: flex;
-
-    justify-content: space-between;
-
-    gap: 20px;
-  }
-
-  @media (max-width: 700px) {
-    .site-footer
-      > .footer-container {
-      grid-template-columns: 1fr;
-
-      gap: 32px;
-
-      padding-block: 40px;
-    }
-
-    .footer-bottom
-      .footer-container {
-      flex-direction: column;
-
-      gap: 6px;
-    }
-  }
+.site-footer{margin-top:100px;border-top:1px solid #e5e1dc;background:#f4f1ed}.footer-container{width:min(calc(100% - 40px),1180px);margin-inline:auto}.site-footer>.footer-container{padding-block:52px;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px}.footer-name{font-size:1.1rem;font-weight:600}.footer-identity p{margin:8px 0 0;color:#777;font-size:.88rem}.footer-nav,.footer-social{display:flex;flex-direction:column;gap:12px}.footer-nav a,.footer-social a{width:fit-content;color:#555;text-decoration:none;font-size:.88rem}.footer-nav a:hover,.footer-social a:hover{color:#806f61}.footer-bottom{border-top:1px solid #e1dcd6;padding-block:18px;color:#888;font-size:.75rem}.footer-bottom .footer-container{display:flex;justify-content:space-between;gap:20px}@media(max-width:700px){.site-footer>.footer-container{grid-template-columns:1fr;gap:32px;padding-block:40px}.footer-bottom .footer-container{flex-direction:column;gap:6px}}
 </style>
