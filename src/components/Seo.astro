@@ -13,69 +13,46 @@ interface Props {
   schemas?: Record<string, unknown>[];
 }
 
-const {
-  title = site.title.fa,
-  description = site.description.fa,
-  canonical = site.url,
-  lang = "fa",
-  image,
-  noindex = false,
-  type = "website",
-  schemas = [],
-} = Astro.props;
-
+const { title = site.title.fa, description = site.description.fa, canonical = site.url, lang = "fa", image, noindex = false, type = "website", schemas = [] } = Astro.props;
 const locale = lang === "fa" ? "fa_IR" : "en_US";
 const defaultImage = new URL(image ?? "/images/leila-razavi.jpg", site.url).href;
-
 const personSchema = getPersonSchema();
 const websiteSchema = getWebsiteSchema();
 const allSchemas = [personSchema, websiteSchema, ...schemas];
-
 const canonicalUrl = new URL(canonical, site.url);
-const canonicalPath = canonicalUrl.pathname.endsWith("/")
-  ? canonicalUrl.pathname
-  : `${canonicalUrl.pathname}/`;
-
+const canonicalPath = canonicalUrl.pathname.endsWith("/") ? canonicalUrl.pathname : `${canonicalUrl.pathname}/`;
 const isEnglishPath = canonicalPath === "/en/" || canonicalPath.startsWith("/en/");
-const faPath = isEnglishPath
-  ? canonicalPath === "/en/" ? "/" : canonicalPath.replace(/^\/en/, "")
-  : canonicalPath;
-const enPath = isEnglishPath
-  ? canonicalPath
-  : canonicalPath === "/" ? "/en/" : `/en${canonicalPath}`;
-
-const languageUrl = lang === "fa"
-  ? `${site.url}${faPath}`
-  : `${site.url}${enPath}`;
-const alternateLanguageUrl = lang === "fa"
-  ? `${site.url}${enPath}`
-  : `${site.url}${faPath}`;
+const faPath = isEnglishPath ? (canonicalPath === "/en/" ? "/" : canonicalPath.replace(/^\/en/, "")) : canonicalPath;
+const enPath = isEnglishPath ? canonicalPath : (canonicalPath === "/" ? "/en/" : `/en${canonicalPath}`);
+const languageUrl = `${site.url}${lang === "fa" ? faPath : enPath}`;
+const alternateLanguageUrl = `${site.url}${lang === "fa" ? enPath : faPath}`;
 const alternateLanguage = lang === "fa" ? "en" : "fa";
 ---
 
 <title>{title}</title>
 <meta name="description" content={description} />
 <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
-<link rel="canonical" href={canonical} />
+<link rel="canonical" href={canonicalUrl.href} />
 <link rel="alternate" hreflang={lang} href={languageUrl} />
 <link rel="alternate" hreflang={alternateLanguage} href={alternateLanguageUrl} />
 <link rel="alternate" hreflang="x-default" href={`${site.url}${faPath}`} />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="/favicon.ico" sizes="any" />
 
 <meta property="og:type" content={type} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:url" content={canonical} />
+<meta property="og:url" content={canonicalUrl.href} />
 <meta property="og:site_name" content={site.name} />
 <meta property="og:locale" content={locale} />
+<meta property="og:locale:alternate" content={lang === "fa" ? "en_US" : "fa_IR"} />
 <meta property="og:image" content={defaultImage} />
-<meta property="og:image:alt" content={title} />
+<meta property="og:image:alt" content={`${title} — ${site.name}`} />
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={defaultImage} />
-<meta name="twitter:image:alt" content={title} />
+<meta name="twitter:image:alt" content={`${title} — ${site.name}`} />
 
-{allSchemas.map((schema) => (
-  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
-))}
+{allSchemas.map((schema) => <script type="application/ld+json" set:html={JSON.stringify(schema)} />)}

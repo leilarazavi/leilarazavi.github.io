@@ -6,91 +6,31 @@ interface Props {
   year?: number;
   journal?: string;
   url: string;
-  featured?: boolean;
 }
 
-const {
-  title,
-  titleFa,
-  authors,
-  year,
-  journal,
-  url,
-  featured = false,
-} = Astro.props;
+const { title, titleFa, authors, year, journal, url } = Astro.props;
 ---
 
-<article class:list={["publication-card", { featured }]}>
+<article class="publication-card">
   <div class="publication-meta">
     {year && <span>{year}</span>}
     {year && journal && <span aria-hidden="true">·</span>}
     {journal && <span>{journal}</span>}
   </div>
 
-  <h3>
-    <a href={url}>{title}</a>
-  </h3>
-
+  <h3><a href={url}>{title}</a></h3>
   {titleFa && <p class="title-fa">{titleFa}</p>}
-
   <p class="authors">{authors.join(", ")}</p>
-
-  <a class="read-more" href={url}>
-    مشاهده مقاله
-    <span aria-hidden="true">←</span>
-  </a>
+  <a class="read-more" href={url}>جزئیات و منابع <span aria-hidden="true">←</span></a>
 </article>
 
 <style>
-  .publication-card {
-    padding-block: 30px;
-    border-top: 1px solid #ddd7d0;
-  }
-
-  .publication-card.featured {
-    padding: 36px;
-    border: 1px solid #ddd7d0;
-    background: #f4f0eb;
-  }
-
-  .publication-meta {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 12px;
-    color: #806f61;
-    font-size: 0.78rem;
-  }
-
-  h3 {
-    max-width: 850px;
-    margin: 0;
-    font-size: 1.2rem;
-    line-height: 1.6;
-    font-weight: 600;
-  }
-
+  .publication-card { padding-block: 30px; border-top: 1px solid #ddd7d0; }
+  .publication-meta { display: flex; gap: 8px; margin-bottom: 12px; color: #806f61; font-size: .78rem; }
+  h3 { max-width: 850px; margin: 0; font-size: 1.2rem; line-height: 1.6; font-weight: 600; }
   h3 a { text-decoration: none; }
   h3 a:hover { color: #806f61; }
-
-  .title-fa {
-    margin: 10px 0;
-    color: #777;
-    font-size: 0.9rem;
-  }
-
-  .authors {
-    margin: 12px 0;
-    color: #666;
-    font-size: 0.85rem;
-  }
-
-  .read-more {
-    display: inline-flex;
-    gap: 8px;
-    margin-top: 8px;
-    color: #806f61;
-    text-decoration: none;
-    font-size: 0.82rem;
-    font-weight: 600;
-  }
+  .title-fa { margin: 10px 0; color: #777; font-size: .9rem; }
+  .authors { margin: 12px 0; color: #666; font-size: .85rem; line-height: 1.8; }
+  .read-more { display: inline-flex; gap: 8px; margin-top: 8px; color: #806f61; text-decoration: none; font-size: .82rem; font-weight: 600; }
 </style>

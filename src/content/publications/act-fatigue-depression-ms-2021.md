@@ -26,10 +26,13 @@ language: "en"
 type: "journal-article"
 verified: true
 featured: true
+verificationSources:
+  - label: "DOI"
+    url: "https://doi.org/10.34172/icnj.2021.08"
+    type: "journal"
+  - label: "Pendar professional profile"
+    url: "https://pendar-gp.ir/chart/%D8%AF%DA%A9%D8%AA%D8%B1-%D9%84%DB%8C%D9%84%D8%A7-%D8%B1%D8%B6%D9%88%DB%8C/"
+    type: "official"
 ---
 
-## Publication
-
 Leila Razavi is listed as an author with the School of Psychology and Educational Sciences, Islamic Azad University of Qom, Qom, Iran.
-
-**DOI:** https://doi.org/10.34172/icnj.2021.08

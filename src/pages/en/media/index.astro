@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { site } from "../../../lib/site";
+
+const media = [
+  { category: "Podcast and interviews", title: "Spotify show page", description: "The public Spotify show page supplied for documenting media presence. Episode titles and dates are intentionally not inferred from the URL alone.", url: "https://open.spotify.com/show/033SHyU9h8ewYbibDIUBfL" },
+  { category: "Professional activity", title: "Central Council of the School of Psychology in Qom", description: "Public announcement listing Dr. Leila Razavi among the council members.", url: "https://www.instagram.com/p/Da8wE5kE1Es/" },
+  { category: "Professional activity", title: "Professional psychology meeting in Qom", description: "Public meeting announcement identifying Dr. Leila Razavi as Deputy of the Association of Counseling Centers Employers in Qom.", url: "https://www.instagram.com/p/DbQ_uuvMC9i/" },
+  { category: "Professional activity", title: "Additional public source", description: "Additional public source supplied to strengthen the professional web footprint.", url: "https://www.instagram.com/p/DcKDxZlvQz6/" },
+];
+---
+<BaseLayout title={`Media and Public Presence | ${site.name}`} description="Podcasts, interviews, and public sources related to Dr. Leila Razavi's professional activity." canonical={`${site.url}/en/media/`} lang="en">
+  <section class="page"><div class="container"><header><p class="label">Media and public presence</p><h1>Podcasts, interviews, and public sources</h1><p class="lead">Media and public references are kept separate from scholarly publications and professional experience.</p></header><div class="media-list">{media.map((item) => <article><p class="category">{item.category}</p><h2>{item.title}</h2><p>{item.description}</p><a href={item.url} target="_blank" rel="noopener noreferrer">View source ↗</a></article>)}</div></div></section>
+</BaseLayout>
+<style>
+.page{padding-block:90px}header{max-width:820px;padding-bottom:60px}.label,.category{color:#806f61;font-size:.8rem;font-weight:600}h1{margin:0 0 24px;font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.25;font-weight:500}.lead,p{color:#555;line-height:2}.media-list{max-width:820px}.media-list article{padding:34px 0;border-top:1px solid #ddd7d0}.media-list h2{font-size:1.45rem;font-weight:500}.media-list a{color:#806f61}.category{margin-bottom:8px}
+</style>

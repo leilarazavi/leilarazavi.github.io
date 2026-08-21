@@ -1,93 +1,107 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PublicationCard from "../../components/PublicationCard.astro";
-
-import { getPublicationsByYear } from "../../lib/publications";
+import { getCollection } from "astro:content";
 import { site } from "../../lib/site";
 
-const publications =
-  getPublicationsByYear();
+const entries = await getCollection("publications", ({ data }) => data.verified);
+const publications = entries.sort((a, b) => (b.data.year ?? -Infinity) - (a.data.year ?? -Infinity));
+const years = [...new Set(publications.map(({ data }) => data.year).filter((year): year is number => year !== undefined))];
 ---
 
 <BaseLayout
   title={`آثار علمی | ${site.nameFa}`}
-  description="فهرست مقالات، پژوهش‌ها و آثار علمی تأییدشده دکتر لیلا رضوی."
+  description="فهرست مقالات، کتاب‌ها و آثار علمی تأییدشده دکتر لیلا رضوی، همراه با DOI و منابع راستی‌آزمایی."
   canonical={`${site.url}/publications/`}
   lang="fa"
 >
-
   <section class="publications-page">
-
     <div class="container">
-
       <header class="page-header">
-
-        <p class="section-label">
-          آثار علمی
-        </p>
-
-        <h1>
-          مقالات و پژوهش‌ها
-        </h1>
-
-        <p>
-          فهرست آثار علمی و پژوهشی
-          تأییدشده دکتر لیلا رضوی.
-        </p>
-
+        <p class="section-label">آثار علمی</p>
+        <h1>مقالات، کتاب‌ها و پژوهش‌ها</h1>
+        <p>فهرست آثار علمی تأییدشده، مرتب‌شده بر اساس جدیدترین سال شناخته‌شده.</p>
       </header>
 
-
-      <div class="publication-list">
-
-        {
-          publications.length > 0 ? (
-
-            publications.map(
-              (publication) => (
-
-                <PublicationCard
-                  title={
-                    publication.title
-                  }
-
-                  titleFa={
-                    publication.titleFa
-                  }
-
-                  authors={
-                    publication.authors
-                  }
-
-                  year={
-                    publication.year ?? 0
-                  }
-
-                  journal={
-                    publication.journal
-                  }
-
-                  url={`/publications/${publication.id}/`}
-                />
-
-              ),
-            )
-
-          ) : (
-
-            <div class="empty-state">
-              آثار علمی تأییدشده‌ای
-              هنوز برای نمایش عمومی
-              ثبت نشده است.
-            </div>
-
-          )
-        }
-
+      <div class="filters" aria-label="فیلتر آثار علمی">
+        <label>
+          <span>نوع اثر</span>
+          <select id="type-filter">
+            <option value="all">همه</option>
+            <option value="journal-article">مقاله</option>
+            <option value="conference-paper">کنفرانس</option>
+            <option value="book">کتاب</option>
+          </select>
+        </label>
+        <label>
+          <span>سال</span>
+          <select id="year-filter">
+            <option value="all">همه سال‌ها</option>
+            {years.map((year) => <option value={year}>{year}</option>)}
+          </select>
+        </label>
       </div>
 
+      <div class="publication-list" id="publication-list">
+        {publications.map((publication) => (
+          <article
+            class="publication-entry"
+            data-type={publication.data.type}
+            data-year={publication.data.year ?? "unknown"}
+          >
+            <PublicationCard
+              title={publication.data.title}
+              titleFa={publication.data.titleFa}
+              authors={publication.data.authors}
+              year={publication.data.year}
+              journal={publication.data.journal ?? publication.data.publisher}
+              url={`/publications/${publication.id}/`}
+            />
+          </article>
+        ))}
+      </div>
+
+      <p id="empty-results" class="empty-state" hidden>اثری با این فیلترها پیدا نشد.</p>
     </div>
-
   </section>
-
 </BaseLayout>
+
+<script>
+  const typeFilter = document.querySelector<HTMLSelectElement>("#type-filter");
+  const yearFilter = document.querySelector<HTMLSelectElement>("#year-filter");
+  const entries = [...document.querySelectorAll<HTMLElement>(".publication-entry")];
+  const empty = document.querySelector<HTMLElement>("#empty-results");
+
+  function applyFilters() {
+    const type = typeFilter?.value ?? "all";
+    const year = yearFilter?.value ?? "all";
+    let visible = 0;
+
+    entries.forEach((entry) => {
+      const matchesType = type === "all" || entry.dataset.type === type;
+      const matchesYear = year === "all" || entry.dataset.year === year;
+      const show = matchesType && matchesYear;
+      entry.hidden = !show;
+      if (show) visible += 1;
+    });
+
+    if (empty) empty.hidden = visible !== 0;
+  }
+
+  typeFilter?.addEventListener("change", applyFilters);
+  yearFilter?.addEventListener("change", applyFilters);
+</script>
+
+<style>
+  .publications-page { padding-block: 90px; }
+  .page-header { max-width: 820px; padding-bottom: 50px; }
+  .section-label { margin: 0 0 14px; color: #806f61; font-size: .8rem; font-weight: 600; }
+  h1 { margin: 0 0 24px; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.25; font-weight: 500; }
+  .page-header > p:last-child { color: #555; line-height: 2; }
+  .filters { display: flex; flex-wrap: wrap; gap: 16px; padding: 20px 0; margin-bottom: 15px; border-block: 1px solid #ddd7d0; }
+  .filters label { display: grid; gap: 6px; color: #806f61; font-size: .78rem; font-weight: 600; }
+  .filters select { min-width: 160px; padding: 10px 12px; border: 1px solid #ddd7d0; background: #faf9f7; color: #333; font: inherit; }
+  .publication-list { display: grid; }
+  .publication-entry[hidden] { display: none; }
+  .empty-state { padding: 30px 0; color: #777; }
+</style>

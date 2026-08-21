@@ -2,15 +2,10 @@ import { site } from "./site";
 
 export const person = {
   name: "Leila Razavi",
-
   nameFa: "لیلا رضوی",
-
   fullName: "Dr. Leila Razavi",
-
   fullNameFa: "دکتر لیلا رضوی",
-
   givenName: "Leila",
-
   familyName: "Razavi",
 
   jobTitle: {
@@ -30,47 +25,54 @@ export const person = {
     "Clinical Psychology",
     "Health Psychology",
     "Psychological Research",
-    "Couples Therapy",
-    "Family Therapy",
-    "Adolescent Counseling",
+    "Acceptance and Commitment Therapy",
+    "Mindfulness-Based Interventions",
+    "Pain and Health-Related Quality of Life",
+    "Family and Adolescent Counseling",
   ],
 
-  affiliations: [{ name: "Pendar Nimrokh Psychological Center", url: "https://pendar-gp.ir/" }],
+  affiliations: [
+    {
+      name: "Pendar Nimrokh Psychological Center",
+      url: "https://pendar-gp.ir/",
+    },
+  ],
 
   professionalCredentials: {
     psychologyOrganization: {
       name: "Iranian Psychology and Counseling Organization",
       membershipNumber: "30742",
       licenseNumber: "8240",
-      verificationDocument: "TODO_GET_FROM_DR",
     },
-    doctorate: {
-      degreeTitleFa: "TODO_GET_FROM_DR",
-      degreeTitleEn: "TODO_GET_FROM_DR",
-      institutionFa: "TODO_GET_FROM_DR",
-      institutionEn: "TODO_GET_FROM_DR",
-      country: "TODO_GET_FROM_DR",
-      graduationYear: "TODO_GET_FROM_DR",
-      verificationDocument: "TODO_GET_FROM_DR",
-    },
-    otherDegrees: [],
   },
 
-  positions: [{
-    titleFa: "TODO_GET_FROM_DR",
-    titleEn: "TODO_GET_FROM_DR",
-    organizationFa: "TODO_GET_FROM_DR",
-    organizationEn: "TODO_GET_FROM_DR",
-    startYear: "TODO_GET_FROM_DR",
-    endYear: "TODO_GET_FROM_DR",
-    verificationDocument: "TODO_GET_FROM_DR",
-  }],
+  positions: [
+    {
+      titleFa: "عضو شورای مرکزی مدرسه روان‌شناسی استان قم",
+      titleEn: "Member, Central Council of the School of Psychology in Qom Province",
+      organizationFa: "کانون روان‌شناسان و مشاوران استان قم / مدرسه روان‌شناسی",
+      organizationEn: "Psychologists and Counselors Association of Qom Province / School of Psychology",
+      source: "https://www.instagram.com/p/Da8wE5kE1Es/",
+    },
+    {
+      titleFa: "معاون انجمن صنفی کارفرمایی مراکز مشاوره قم",
+      titleEn: "Deputy, Association of Counseling Centers Employers in Qom",
+      organizationFa: "انجمن صنفی کارفرمایی مراکز مشاوره قم",
+      organizationEn: "Association of Counseling Centers Employers in Qom",
+      source: "https://www.instagram.com/p/DbQ_uuvMC9i/",
+    },
+  ],
 
   research: {
-    researchInterests: [],
-    academicCV: "TODO_GET_FROM_DR",
-    dissertationTitleFa: "TODO_GET_FROM_DR",
-    dissertationTitleEn: "TODO_GET_FROM_DR",
+    researchInterests: [
+      "Acceptance and Commitment Therapy",
+      "Mindfulness-Based Interventions",
+      "Pain and Health-Related Quality of Life",
+      "Depression and Fatigue",
+      "Alexithymia",
+      "Cognitive Emotion Regulation",
+      "Psychological Interventions in Health Conditions",
+    ],
   },
 
   profiles: {
@@ -86,9 +88,6 @@ export const person = {
   },
 
   contact: {
-    email: "TODO_GET_FROM_DR",
-    telephone: "TODO_GET_FROM_DR",
-    addressFa: "TODO_GET_FROM_DR",
-    addressEn: "TODO_GET_FROM_DR",
+    publicChannelsOnly: true,
   },
 } as const;

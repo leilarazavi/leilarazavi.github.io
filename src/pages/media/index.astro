@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { person } from "../../lib/person";
+import { site } from "../../lib/site";
+
+const media = [
+  { category: "پادکست و گفت‌وگو", title: "صفحه برنامه در Spotify", description: "صفحه عمومی برنامه در Spotify که برای مستندکردن حضور رسانه‌ای ارائه شده است؛ عنوان و جزئیات قسمت‌ها از منبع اصلی دریافت می‌شوند.", url: "https://open.spotify.com/show/033SHyU9h8ewYbibDIUBfL" },
+  { category: "حضور حرفه‌ای", title: "شورای مرکزی مدرسه روان‌شناسی استان قم", description: "اعلام عمومی عضویت دکتر لیلا رضوی در شورای مرکزی مدرسه روان‌شناسی استان قم.", url: "https://www.instagram.com/p/Da8wE5kE1Es/" },
+  { category: "حضور حرفه‌ای", title: "نشست هم‌افزایی نهادهای تخصصی روان‌شناسی استان قم", description: "منبع عمومی نشست تخصصی که در آن از دکتر لیلا رضوی به‌عنوان معاون انجمن صنفی کارفرمایی مراکز مشاوره قم نام برده شده است.", url: "https://www.instagram.com/p/DbQ_uuvMC9i/" },
+  { category: "حضور حرفه‌ای", title: "منبع عمومی تکمیلی", description: "منبع عمومی ارائه‌شده برای تکمیل ردپای آنلاین فعالیت حرفه‌ای.", url: "https://www.instagram.com/p/DcKDxZlvQz6/" },
+];
+---
+<BaseLayout title={`رسانه و حضور عمومی | ${site.nameFa}`} description="پادکست‌ها، گفت‌وگوها و منابع عمومی مرتبط با فعالیت حرفه‌ای دکتر لیلا رضوی." canonical={`${site.url}/media/`} lang="fa">
+  <section class="page"><div class="container"><header><p class="label">رسانه و حضور عمومی</p><h1>پادکست‌ها، گفت‌وگوها و منابع عمومی</h1><p class="lead">این بخش برای تفکیک ردپای رسانه‌ای و عمومی از آثار علمی و سوابق حرفه‌ای ساخته شده است.</p></header><div class="media-list">{media.map((item) => <article><p class="category">{item.category}</p><h2>{item.title}</h2><p>{item.description}</p><a href={item.url} target="_blank" rel="noopener noreferrer">مشاهده منبع ↗</a></article>)}</div></div></section>
+</BaseLayout>
+<style>
+.page{padding-block:90px}header{max-width:820px;padding-bottom:60px}.label,.category{color:#806f61;font-size:.8rem;font-weight:600}h1{margin:0 0 24px;font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.25;font-weight:500}.lead,p{color:#555;line-height:2}.media-list{max-width:820px}.media-list article{padding:34px 0;border-top:1px solid #ddd7d0}.media-list h2{font-size:1.45rem;font-weight:500}.media-list a{color:#806f61}.category{margin-bottom:8px}
+</style>
