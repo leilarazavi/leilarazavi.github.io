@@ -1,11 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PublicationCard from "../components/PublicationCard.astro";
-import { getPublicationsByYear } from "../lib/publications";
+import { getCollection } from "astro:content";
 import { site } from "../lib/site";
 import { person } from "../lib/person";
 
-const publications = getPublicationsByYear();
+const entries = await getCollection("publications", ({ data }) => data.verified);
+const publications = entries.sort((a, b) => (b.data.year ?? 0) - (a.data.year ?? 0));
 ---
 
 <BaseLayout
@@ -76,11 +77,11 @@ const publications = getPublicationsByYear();
       <div class="publication-list">
         {publications.slice(0, 3).map((publication) => (
           <PublicationCard
-            title={publication.title}
-            titleFa={publication.titleFa}
-            authors={publication.authors}
-            year={publication.year}
-            journal={publication.journal}
+            title={publication.data.title}
+            titleFa={publication.data.titleFa}
+            authors={publication.data.authors}
+            year={publication.data.year}
+            journal={publication.data.journal}
             url={`/publications/${publication.id}/`}
           />
         ))}
