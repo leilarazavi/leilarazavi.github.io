@@ -13,6 +13,9 @@ url: "https://www.jedusocio.com/index.php/se/article/view/65"
 language: "en"
 type: "journal-article"
 verified: true
+status: "verified"
+identityConfidence: "high"
+verificationDate: "2026-08-21"
 featured: false
 verificationSources:
   - label: "Official journal article page"
