@@ -4,10 +4,12 @@ import { person } from "../../../lib/person";
 import { site } from "../../../lib/site";
 ---
 <BaseLayout title={`Profiles and Contact | ${site.name}`} description="Public academic and professional profiles for Dr. Leila Razavi." canonical={`${site.url}/en/contact/`} lang="en">
-  <section class="page"><div class="container"><header><p class="label">Profiles and contact</p><h1>Academic and professional profiles</h1><p class="lead">Direct contact details are not published until explicitly verified. The public professional channels below are currently available.</p></header><div class="links">
+  <section class="page"><div class="container"><header><p class="label">Profiles and contact</p><h1>Academic and professional profiles</h1><p class="lead">For professional contact, use the public academic and organizational channels below. The published phone number is the contact number for Pendar.</p></header><div class="links">
     {person.profiles.googleScholar && <a href={person.profiles.googleScholar} target="_blank" rel="noopener noreferrer"><strong>Google Scholar</strong><span>Research profile and publications</span></a>}
-    {person.profiles.instagram && <a href={person.profiles.instagram} target="_blank" rel="noopener noreferrer"><strong>Instagram</strong><span>Public professional presence</span></a>}
-    {person.profiles.pendar && <a href={person.profiles.pendar} target="_blank" rel="noopener noreferrer"><strong>Pendar</strong><span>Professional and organizational contact route</span></a>}
+    {person.profiles.instagram && <a href={person.profiles.instagram} target="_blank" rel="noopener noreferrer"><strong>Instagram — Dr. Leila Razavi</strong><span>Public professional presence</span></a>}
+    {person.profiles.pendar && <a href={person.profiles.pendar} target="_blank" rel="noopener noreferrer"><strong>Pendar — professional profile</strong><span>Professional and organizational contact route</span></a>}
+    {person.profiles.pendarInstagram && <a href={person.profiles.pendarInstagram} target="_blank" rel="noopener noreferrer"><strong>Pendar — Instagram</strong><span>Official Pendar account</span></a>}
+    {person.contact.pendarPhone && <a href={`tel:${person.contact.pendarPhone}`}><strong>Pendar phone</strong><span dir="ltr">{person.contact.pendarPhone}</span></a>}
   </div></div></section>
 </BaseLayout>
 <style>
