@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../lib/site";
+
+const isEnglish = Astro.url.pathname === "/en" || Astro.url.pathname.startsWith("/en/");
+const home = isEnglish ? "/en/" : "/";
+---
+<BaseLayout title={isEnglish ? `Page not found | ${site.name}` : `صفحه پیدا نشد | ${site.nameFa}`} description={isEnglish ? "The requested page could not be found." : "صفحه موردنظر پیدا نشد."} canonical={`${site.url}${Astro.url.pathname}`} lang={isEnglish ? "en" : "fa"} noindex>
+  <section class="page"><div class="container"><p class="code">404</p><h1>{isEnglish ? "This page is not available." : "این صفحه پیدا نشد."}</h1><p>{isEnglish ? "The address may have changed or the page may no longer exist." : "ممکن است آدرس صفحه تغییر کرده باشد یا صفحه دیگر وجود نداشته باشد."}</p><a href={home}>{isEnglish ? "Return home →" : "بازگشت به صفحه اصلی ←"}</a></div></section>
+</BaseLayout>
+<style>
+.page{min-height:65vh;display:grid;place-items:center;text-align:center}.container{max-width:760px}.code{margin:0;color:#806f61;font-size:.9rem;font-weight:700;letter-spacing:.15em}h1{margin:14px 0;font-size:clamp(2.4rem,6vw,4.5rem);font-weight:500}p:not(.code){color:#666;line-height:2}a{display:inline-block;margin-top:22px;color:#806f61;text-decoration:none;font-weight:600}
+</style>
