@@ -11,6 +11,9 @@ url: "https://mahdroo.ir/shop/product/book-1474674-h2dlbe"
 language: "fa"
 type: "book"
 verified: true
+status: "verified"
+identityConfidence: "high"
+verificationDate: "2026-08-21"
 featured: false
 verificationSources:
   - label: "Mahdro bibliographic record"

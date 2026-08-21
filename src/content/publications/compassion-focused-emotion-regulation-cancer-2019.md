@@ -12,6 +12,9 @@ url: "https://civilica.com/doc/922205/"
 language: "fa"
 type: "conference-paper"
 verified: true
+status: "verified"
+identityConfidence: "high"
+verificationDate: "2026-08-21"
 featured: false
 verificationSources:
   - label: "Civilica conference record"

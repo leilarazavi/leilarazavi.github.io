@@ -3,16 +3,12 @@ interface Props { lang?: "fa" | "en"; }
 const { lang = "fa" } = Astro.props;
 const isFa = lang === "fa";
 const currentPath = Astro.url.pathname.endsWith("/") ? Astro.url.pathname : `${Astro.url.pathname}/`;
-const languageHref = isFa
-  ? currentPath === "/" ? "/en/" : `/en${currentPath}`
-  : currentPath === "/en/" ? "/" : currentPath.replace(/^\/en/, "");
+const languageHref = isFa ? (currentPath === "/" ? "/en/" : `/en${currentPath}`) : (currentPath === "/en/" ? "/" : currentPath.replace(/^\/en/, ""));
 const languageLabel = isFa ? "EN" : "فارسی";
-
 const navItems = isFa
   ? [
       { label: "درباره من", href: "/about/" },
       { label: "آثار علمی", href: "/publications/" },
-      { label: "حوزه‌های پژوهشی", href: "/research/" },
       { label: "سوابق", href: "/experience/" },
       { label: "رسانه", href: "/media/" },
       { label: "تماس", href: "/contact/" },
@@ -20,7 +16,6 @@ const navItems = isFa
   : [
       { label: "About", href: "/en/about/" },
       { label: "Publications", href: "/en/publications/" },
-      { label: "Research", href: "/en/research/" },
       { label: "Experience", href: "/en/experience/" },
       { label: "Media", href: "/en/media/" },
       { label: "Contact", href: "/en/contact/" },

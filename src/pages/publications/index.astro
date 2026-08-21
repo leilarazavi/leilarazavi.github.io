@@ -4,33 +4,33 @@ import PublicationCard from "../../components/PublicationCard.astro";
 import { getCollection } from "astro:content";
 import { site } from "../../lib/site";
 
-const entries = await getCollection("publications", ({ data }) => data.verified);
+const entries = await getCollection("publications", ({ data }) => data.verified && data.status !== "rejected");
 const publications = entries.sort((a, b) => (b.data.year ?? -Infinity) - (a.data.year ?? -Infinity));
-const years = [...new Set(publications.map(({ data }) => data.year).filter((year): year is number => year !== undefined))];
+const years = [...new Set(publications.map(({ data }) => data.year).filter((year): year is number => year !== undefined))].sort((a, b) => b - a);
 ---
 
-<BaseLayout
-  title={`آثار علمی | ${site.nameFa}`}
-  description="فهرست مقالات، کتاب‌ها و آثار علمی تأییدشده دکتر لیلا رضوی، همراه با DOI و منابع راستی‌آزمایی."
-  canonical={`${site.url}/publications/`}
-  lang="fa"
->
+<BaseLayout title={`آثار علمی | ${site.nameFa}`} description="فهرست مقالات، کتاب‌ها و آثار علمی تأییدشده دکتر لیلا رضوی، همراه با DOI و منابع راستی‌آزمایی." canonical={`${site.url}/publications/`} lang="fa">
   <section class="publications-page">
     <div class="container">
       <header class="page-header">
         <p class="section-label">آثار علمی</p>
         <h1>مقالات، کتاب‌ها و پژوهش‌ها</h1>
-        <p>فهرست آثار علمی تأییدشده، مرتب‌شده بر اساس جدیدترین سال شناخته‌شده.</p>
+        <p>آثار تأییدشده را بر اساس نوع، سال یا کلیدواژه جست‌وجو کنید.</p>
       </header>
 
-      <div class="filters" aria-label="فیلتر آثار علمی">
+      <div class="filters" aria-label="فیلتر و جست‌وجوی آثار علمی">
+        <label class="search-field">
+          <span>جست‌وجو</span>
+          <input id="search-filter" type="search" placeholder="مثلاً ADHD یا depression" autocomplete="off" />
+        </label>
         <label>
           <span>نوع اثر</span>
           <select id="type-filter">
             <option value="all">همه</option>
-            <option value="journal-article">مقاله</option>
-            <option value="conference-paper">کنفرانس</option>
-            <option value="book">کتاب</option>
+            <option value="journal-article">مقالات</option>
+            <option value="book">کتاب‌ها</option>
+            <option value="book-chapter">فصل کتاب</option>
+            <option value="conference-paper">همایش</option>
           </select>
         </label>
         <label>
@@ -38,6 +38,14 @@ const years = [...new Set(publications.map(({ data }) => data.year).filter((year
           <select id="year-filter">
             <option value="all">همه سال‌ها</option>
             {years.map((year) => <option value={year}>{year}</option>)}
+          </select>
+        </label>
+        <label>
+          <span>مرتب‌سازی</span>
+          <select id="sort-filter">
+            <option value="newest">جدیدترین</option>
+            <option value="oldest">قدیمی‌ترین</option>
+            <option value="featured">منتخب</option>
           </select>
         </label>
       </div>
@@ -48,6 +56,8 @@ const years = [...new Set(publications.map(({ data }) => data.year).filter((year
             class="publication-entry"
             data-type={publication.data.type}
             data-year={publication.data.year ?? "unknown"}
+            data-featured={publication.data.featured ? "true" : "false"}
+            data-search={`${publication.data.title} ${publication.data.titleFa ?? ""} ${publication.data.authors.join(" ")} ${publication.data.journal ?? ""} ${publication.data.keywords.join(" ")}`.toLowerCase()}
           >
             <PublicationCard
               title={publication.data.title}
@@ -61,35 +71,44 @@ const years = [...new Set(publications.map(({ data }) => data.year).filter((year
         ))}
       </div>
 
-      <p id="empty-results" class="empty-state" hidden>اثری با این فیلترها پیدا نشد.</p>
+      <p id="empty-results" class="empty-state" hidden>اثری با این معیارها پیدا نشد.</p>
     </div>
   </section>
 </BaseLayout>
 
 <script>
+  const searchFilter = document.querySelector<HTMLInputElement>("#search-filter");
   const typeFilter = document.querySelector<HTMLSelectElement>("#type-filter");
   const yearFilter = document.querySelector<HTMLSelectElement>("#year-filter");
+  const sortFilter = document.querySelector<HTMLSelectElement>("#sort-filter");
+  const list = document.querySelector<HTMLElement>("#publication-list");
   const entries = [...document.querySelectorAll<HTMLElement>(".publication-entry")];
   const empty = document.querySelector<HTMLElement>("#empty-results");
 
   function applyFilters() {
+    const query = searchFilter?.value.trim().toLowerCase() ?? "";
     const type = typeFilter?.value ?? "all";
     const year = yearFilter?.value ?? "all";
-    let visible = 0;
-
-    entries.forEach((entry) => {
+    const sort = sortFilter?.value ?? "newest";
+    const visible = entries.filter((entry) => {
+      const matchesSearch = !query || (entry.dataset.search ?? "").includes(query);
       const matchesType = type === "all" || entry.dataset.type === type;
       const matchesYear = year === "all" || entry.dataset.year === year;
-      const show = matchesType && matchesYear;
-      entry.hidden = !show;
-      if (show) visible += 1;
+      return matchesSearch && matchesType && matchesYear;
     });
 
-    if (empty) empty.hidden = visible !== 0;
+    const order = (entry: HTMLElement) => Number(entry.dataset.year ?? -Infinity);
+    [...entries].sort((a, b) => {
+      if (sort === "featured") return Number(b.dataset.featured === "true") - Number(a.dataset.featured === "true") || order(b) - order(a);
+      return sort === "oldest" ? order(a) - order(b) : order(b) - order(a);
+    }).forEach((entry) => list?.appendChild(entry));
+
+    entries.forEach((entry) => { entry.hidden = !visible.includes(entry); });
+    if (empty) empty.hidden = visible.length !== 0;
   }
 
-  typeFilter?.addEventListener("change", applyFilters);
-  yearFilter?.addEventListener("change", applyFilters);
+  [searchFilter, typeFilter, yearFilter, sortFilter].forEach((control) => control?.addEventListener("input", applyFilters));
+  [typeFilter, yearFilter, sortFilter].forEach((control) => control?.addEventListener("change", applyFilters));
 </script>
 
 <style>
@@ -98,10 +117,12 @@ const years = [...new Set(publications.map(({ data }) => data.year).filter((year
   .section-label { margin: 0 0 14px; color: #806f61; font-size: .8rem; font-weight: 600; }
   h1 { margin: 0 0 24px; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.25; font-weight: 500; }
   .page-header > p:last-child { color: #555; line-height: 2; }
-  .filters { display: flex; flex-wrap: wrap; gap: 16px; padding: 20px 0; margin-bottom: 15px; border-block: 1px solid #ddd7d0; }
+  .filters { display: grid; grid-template-columns: minmax(240px, 1.5fr) repeat(3, minmax(150px, 1fr)); gap: 16px; padding: 20px 0; margin-bottom: 15px; border-block: 1px solid #ddd7d0; }
   .filters label { display: grid; gap: 6px; color: #806f61; font-size: .78rem; font-weight: 600; }
-  .filters select { min-width: 160px; padding: 10px 12px; border: 1px solid #ddd7d0; background: #faf9f7; color: #333; font: inherit; }
+  .filters input, .filters select { width: 100%; min-width: 0; box-sizing: border-box; padding: 10px 12px; border: 1px solid #ddd7d0; background: #faf9f7; color: #333; font: inherit; }
   .publication-list { display: grid; }
   .publication-entry[hidden] { display: none; }
   .empty-state { padding: 30px 0; color: #777; }
+  @media (max-width: 800px) { .filters { grid-template-columns: 1fr 1fr; } .search-field { grid-column: 1 / -1; } }
+  @media (max-width: 520px) { .filters { grid-template-columns: 1fr; } .search-field { grid-column: auto; } }
 </style>

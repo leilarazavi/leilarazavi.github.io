@@ -1,9 +1,6 @@
 /**
- * Central website configuration.
- *
- * IMPORTANT:
- * Change `githubUsername` before deploying.
- * Do not hard-code the GitHub URL in individual pages.
+ * Website-only configuration.
+ * Person identity, profiles, affiliations and public contact channels live in person.ts.
  */
 
 export const site = {
@@ -17,7 +14,6 @@ export const site = {
   nameFa: "دکتر لیلا رضوی",
 
   defaultLocale: "fa" as const,
-
   locales: ["fa", "en"] as const,
 
   title: {
@@ -28,19 +24,6 @@ export const site = {
   description: {
     fa: "وب‌سایت رسمی دکتر لیلا رضوی، روان‌شناس و پژوهشگر.",
     en: "Official website of Dr. Leila Razavi, psychologist and researcher.",
-  },
-
-  social: {
-    linkedin: "",
-    googleScholar: "",
-    researchGate: "",
-    instagram: "",
-    pendar: "https://pendar-gp.ir/",
-  },
-
-  contact: {
-    email: "",
-    phone: "",
   },
 
   copyright: "Leila Razavi",
