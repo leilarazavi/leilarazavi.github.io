@@ -2,14 +2,55 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { person } from "../../../lib/person";
 import { site } from "../../../lib/site";
+
+const activities = [
+  {
+    title: "Central Council of the School of Psychology in Qom Province",
+    description: "Dr. Leila Razavi is listed among the members of the Central Council of the School of Psychology in Qom Province.",
+    source: "https://www.instagram.com/p/Da8wE5kE1Es/",
+    sourceLabel: "Public council announcement",
+  },
+  {
+    title: "Association of Counseling Centers Employers in Qom",
+    description: "A public announcement about a professional psychology meeting in Qom identifies Dr. Leila Razavi as Deputy of the Association of Counseling Centers Employers in Qom.",
+    source: "https://www.instagram.com/p/DbQ_uuvMC9i/",
+    sourceLabel: "Public meeting announcement",
+  },
+  {
+    title: "Professional psychology meetings in Qom",
+    description: "Participation in professional meetings involving psychology institutions and specialists in Qom, focused on service quality and coordination of professional capacities.",
+    source: "https://www.instagram.com/p/DbQ_uuvMC9i/",
+    sourceLabel: "Public source example",
+  },
+];
 ---
-<BaseLayout title={`Professional Experience | ${site.name}`} description="Verified professional activities and affiliations of Dr. Leila Razavi." canonical={`${site.url}/en/experience/`} lang="en">
+
+<BaseLayout title={`Professional Experience | ${site.name}`} description="Verified professional activities, memberships, and public professional activities of Dr. Leila Razavi in psychology." canonical={`${site.url}/en/experience/`} lang="en">
   <section class="page"><div class="container">
-    <header><p class="label">Professional experience</p><h1>Professional activities</h1><p class="lead">{person.description.en}</p></header>
-    <section><h2>Central Council of the School of Psychology</h2><p>Dr. Leila Razavi is listed among the members of the Central Council of the School of Psychology in Qom Province in a public announcement by the Association of Psychologists and Counselors of Qom Province.</p><a href="https://t.me/s/ahmadtorabie" target="_blank" rel="noopener noreferrer">Public source</a></section>
-    <section><h2>Professional affiliation</h2>{person.affiliations.map((affiliation) => <p><a href={affiliation.url} target="_blank" rel="noopener noreferrer">{affiliation.name}</a></p>)}</section>
+    <header>
+      <p class="label">Professional experience</p>
+      <h1>Professional activities</h1>
+      <p class="lead">{person.description.en}</p>
+    </header>
+
+    <section class="category">
+      <h2>Professional roles and memberships</h2>
+      {activities.map((activity) => (
+        <article class="activity">
+          <h3>{activity.title}</h3>
+          <p>{activity.description}</p>
+          <a href={activity.source} target="_blank" rel="noopener noreferrer">{activity.sourceLabel}</a>
+        </article>
+      ))}
+    </section>
+
+    <section class="category">
+      <h2>Professional affiliation</h2>
+      {person.affiliations.map((affiliation) => <p><a href={affiliation.url} target="_blank" rel="noopener noreferrer">{affiliation.name}</a></p>)}
+    </section>
   </div></section>
 </BaseLayout>
+
 <style>
-.page{padding-block:90px}header{max-width:820px;padding-bottom:60px}.label{color:#806f61;font-size:.8rem;font-weight:600}h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:500}.lead,p{color:#555;line-height:2}section section{max-width:820px;padding:50px 0;border-top:1px solid #ddd7d0}h2{font-size:1.8rem;font-weight:500}a{color:#806f61}
+.page{padding-block:90px}header{max-width:820px;padding-bottom:60px}.label{color:#806f61;font-size:.8rem;font-weight:600}h1{margin:0 0 24px;font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.25;font-weight:500}.lead,p{color:#555;line-height:2}.category{max-width:820px;padding:50px 0;border-top:1px solid #ddd7d0}h2{font-size:1.8rem;font-weight:500}.activity{padding:28px 0;border-top:1px solid #eee9e3}.activity:first-of-type{border-top:0}.activity h3{font-size:1.25rem;font-weight:600}.activity p{margin-bottom:10px}.activity a,a{color:#806f61}
 </style>
