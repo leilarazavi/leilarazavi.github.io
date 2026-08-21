@@ -59,6 +59,11 @@ export function getPersonSchema() {
       name: affiliation.name,
       url: affiliation.url,
     })),
+    memberOf: {
+      "@type": "Organization",
+      "@id": `${site.url}/#psychology-council-qom`,
+      name: "شورای مرکزی مدرسه روان‌شناسی در استان قم",
+    },
     sameAs,
     subjectOf,
     image: person.image.src
