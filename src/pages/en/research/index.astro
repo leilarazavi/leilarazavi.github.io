@@ -1,18 +1,15 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { getPublicationsByYear } from "../../../lib/publications";
+import PublicationCard from "../../../components/PublicationCard.astro";
+import { getCollection } from "astro:content";
 import { person } from "../../../lib/person";
 import { site } from "../../../lib/site";
 
-const publications = getPublicationsByYear();
+const publications = (await getCollection("publications", ({ data }) => data.verified)).sort((a, b) => (b.data.year ?? -Infinity) - (a.data.year ?? -Infinity));
 ---
-<BaseLayout title={`Research | ${site.name}`} description="Research areas and verified scientific publications associated with Dr. Leila Razavi." canonical={`${site.url}/en/research/`} lang="en">
-  <section class="page"><div class="container">
-    <header><p class="label">Research</p><h1>Research areas</h1><p class="lead">{person.description.en}</p></header>
-    <section><h2>Areas of work</h2><div class="topics">{person.knowsAbout.map((area) => <span>{area}</span>)}</div></section>
-    <section><h2>Verified publications</h2>{publications.map((publication) => <article><p>{publication.year ?? ""}{publication.year && publication.journal ? ` · ${publication.journal}` : ""}</p><h3><a href={`/publications/${publication.id}/`}>{publication.title}</a></h3><span>{publication.authors.join(", ")}</span></article>)}</section>
-  </div></section>
+<BaseLayout title={`Research | ${site.name}`} description="Research areas derived from verified scholarly work associated with Dr. Leila Razavi." canonical={`${site.url}/en/research/`} lang="en">
+  <section class="page"><div class="container"><header><p class="label">Research</p><h1>Research areas</h1><p class="lead">These areas are derived from the verified publications and professional research record currently documented on the site.</p></header><section><h2>Research interests</h2><div class="topics">{person.research.researchInterests.map((topic) => <span>{topic}</span>)}</div></section><section><h2>Related publications</h2><div class="publications">{publications.map((publication) => <PublicationCard title={publication.data.title} titleFa={publication.data.titleFa} authors={publication.data.authors} year={publication.data.year} journal={publication.data.journal ?? publication.data.publisher} url={`/en/publications/${publication.id}/`} />)}</div></section></div></section>
 </BaseLayout>
 <style>
-.page{padding-block:90px}header{max-width:820px;padding-bottom:60px}.label{color:#806f61;font-size:.8rem;font-weight:600}h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:500}.lead{color:#555;line-height:2}section section{padding-top:55px}.topics{display:flex;flex-wrap:wrap;gap:10px}.topics span{padding:9px 14px;border:1px solid #ddd7d0;color:#555}article{padding:28px 0;border-top:1px solid #ddd7d0}article p{color:#806f61;font-size:.8rem}article h3{max-width:900px;font-size:1.2rem;line-height:1.6}article a{color:#222;text-decoration:none}article span{color:#666;font-size:.9rem}
+.page{padding-block:90px}header{max-width:820px;padding-bottom:60px}.label{color:#806f61;font-size:.8rem;font-weight:600}h1{margin:0 0 24px;font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.25;font-weight:500}.lead{color:#555;line-height:2;font-size:1.05rem}section section{padding-top:60px}h2{font-size:1.8rem;font-weight:500}.topics{display:flex;flex-wrap:wrap;gap:10px}.topics span{padding:9px 14px;border:1px solid #ddd7d0;color:#555}.publications{display:grid}
 </style>
