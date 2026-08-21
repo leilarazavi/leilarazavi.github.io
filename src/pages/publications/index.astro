@@ -1,93 +1,91 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PublicationCard from "../../components/PublicationCard.astro";
-
 import { getPublicationsByYear } from "../../lib/publications";
 import { site } from "../../lib/site";
+import { books } from "../../data/books";
 
-const publications =
-  getPublicationsByYear();
+const publications = getPublicationsByYear();
 ---
 
 <BaseLayout
   title={`آثار علمی | ${site.nameFa}`}
-  description="فهرست مقالات، پژوهش‌ها و آثار علمی تأییدشده دکتر لیلا رضوی."
+  description="فهرست مقالات، پژوهش‌ها و کتاب‌های دکتر لیلا رضوی."
   canonical={`${site.url}/publications/`}
   lang="fa"
 >
-
   <section class="publications-page">
-
     <div class="container">
-
       <header class="page-header">
-
-        <p class="section-label">
-          آثار علمی
-        </p>
-
-        <h1>
-          مقالات و پژوهش‌ها
-        </h1>
-
-        <p>
-          فهرست آثار علمی و پژوهشی
-          تأییدشده دکتر لیلا رضوی.
-        </p>
-
+        <p class="section-label">آثار علمی</p>
+        <h1>مقالات، پژوهش‌ها و کتاب‌ها</h1>
+        <p>فهرست آثار علمی و پژوهشی تأییدشده دکتر لیلا رضوی.</p>
       </header>
 
-
-      <div class="publication-list">
-
-        {
-          publications.length > 0 ? (
-
-            publications.map(
-              (publication) => (
-
-                <PublicationCard
-                  title={
-                    publication.title
-                  }
-
-                  titleFa={
-                    publication.titleFa
-                  }
-
-                  authors={
-                    publication.authors
-                  }
-
-                  year={
-                    publication.year ?? 0
-                  }
-
-                  journal={
-                    publication.journal
-                  }
-
-                  url={`/publications/${publication.id}/`}
-                />
-
-              ),
-            )
-
-          ) : (
-
-            <div class="empty-state">
-              آثار علمی تأییدشده‌ای
-              هنوز برای نمایش عمومی
-              ثبت نشده است.
+      {books.length > 0 && (
+        <section class="books-section" aria-labelledby="books-heading">
+          <div class="section-heading">
+            <div>
+              <p class="section-label">کتاب‌ها</p>
+              <h2 id="books-heading">آثار منتشرشده</h2>
             </div>
+          </div>
+          <div class="book-list">
+            {books.map((book) => (
+              <article class="book-card">
+                <div>
+                  <p class="book-type">کتاب</p>
+                  <h3>{book.titleFa}</h3>
+                  <p class="book-meta">{book.publisherFa} · {book.year} · {book.pages} صفحه</p>
+                  <p class="book-meta">ISBN: {book.isbn}</p>
+                </div>
+                <a class="text-link" href={book.url}>مشاهده صفحه کتاب ←</a>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
 
-          )
-        }
+      <section aria-labelledby="articles-heading">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">مقالات و پژوهش‌ها</p>
+            <h2 id="articles-heading">آثار علمی</h2>
+          </div>
+        </div>
 
-      </div>
-
+        <div class="publication-list">
+          {publications.length > 0 ? publications.map((publication) => (
+            <PublicationCard
+              title={publication.title}
+              titleFa={publication.titleFa}
+              authors={publication.authors}
+              year={publication.year ?? 0}
+              journal={publication.journal}
+              url={`/publications/${publication.id}/`}
+            />
+          )) : (
+            <div class="empty-state">آثار علمی تأییدشده‌ای هنوز برای نمایش عمومی ثبت نشده است.</div>
+          )}
+        </div>
+      </section>
     </div>
-
   </section>
-
 </BaseLayout>
+
+<style>
+  .publications-page { padding-block: 90px; }
+  .page-header { max-width: 760px; margin-bottom: 72px; }
+  .page-header h1 { margin: 0 0 20px; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.2; font-weight: 500; letter-spacing: -0.04em; }
+  .page-header > p:last-child { color: #666; line-height: 2; font-size: 1.05rem; }
+  .books-section { margin-bottom: 80px; padding-bottom: 72px; border-bottom: 1px solid #e5e1dc; }
+  .section-heading { margin-bottom: 30px; }
+  .section-heading h2 { margin: 0; font-size: clamp(1.8rem, 4vw, 2.7rem); font-weight: 500; }
+  .book-list { display: grid; gap: 1px; background: #ddd7d0; border: 1px solid #ddd7d0; }
+  .book-card { display: flex; align-items: center; justify-content: space-between; gap: 30px; padding: 32px; background: #faf9f7; }
+  .book-type { margin: 0 0 10px; color: #806f61; font-size: .78rem; font-weight: 600; }
+  .book-card h3 { margin: 0 0 12px; font-size: 1.25rem; line-height: 1.7; font-weight: 500; }
+  .book-meta { margin: 4px 0 0; color: #666; font-size: .9rem; }
+  .text-link { color: #806f61; text-decoration: none; white-space: nowrap; font-weight: 600; }
+  @media (max-width: 700px) { .book-card { align-items: flex-start; flex-direction: column; } }
+</style>
