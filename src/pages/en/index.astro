@@ -1,16 +1,15 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getHomePageSchema } from "../../lib/schema";
 import { person } from "../../lib/person";
 import { site } from "../../lib/site";
 import { getPublicationsByYear } from "../../lib/publications";
 
 const publications = getPublicationsByYear();
+const homeSchema = getHomePageSchema({ url: `${site.url}/en/`, name: site.title.en, language: "en" });
 ---
-<BaseLayout title={site.title.en} description="Official website of Dr. Leila Razavi, psychologist, university lecturer and researcher." canonical={`${site.url}/en/`} lang="en">
-  <section class="hero"><div class="container">
-    <img src={person.image.src} alt={person.image.altEn} width="600" height="750" loading="eager" decoding="async" />
-    <div><p class="label">Psychologist, University Lecturer and Researcher</p><h1>Dr. Leila Razavi</h1><p class="lead">Official profile presenting her professional background, research activities and verified publications.</p><div class="actions"><a href="/en/about/">About</a><a href="/en/publications/">Publications</a></div></div>
-  </div></section>
+<BaseLayout title={site.title.en} description="Official website of Dr. Leila Razavi, psychologist, university lecturer and researcher." canonical={`${site.url}/en/`} lang="en" schemas={[homeSchema]}>
+  <section class="hero"><div class="container"><img src={person.image.src} alt={person.image.altEn} width="600" height="750" loading="eager" decoding="async" /><div><p class="label">Psychologist, University Lecturer and Researcher</p><h1>Dr. Leila Razavi</h1><p class="lead">Official profile presenting her professional background, research activities and verified publications.</p><div class="actions"><a href="/en/about/">About</a><a href="/en/publications/">Publications</a></div></div></div></section>
   <section class="section"><div class="container"><h2>Research areas</h2><div class="topics">{person.knowsAbout.map((area) => <span>{area}</span>)}</div></div></section>
   <section class="section"><div class="container"><h2>Verified publications</h2>{publications.slice(0,3).map((publication) => <article><p>{publication.year ?? ""}{publication.year && publication.journal ? ` · ${publication.journal}` : ""}</p><h3><a href={`/publications/${publication.id}/`}>{publication.title}</a></h3><span>{publication.authors.join(", ")}</span></article>)}</div></section>
 </BaseLayout>
