@@ -1,12 +1,10 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PublicationCard from "../../components/PublicationCard.astro";
-
 import { getPublicationsByYear } from "../../lib/publications";
 import { site } from "../../lib/site";
 
-const publications =
-  getPublicationsByYear();
+const publications = getPublicationsByYear();
 ---
 
 <BaseLayout
@@ -15,79 +13,30 @@ const publications =
   canonical={`${site.url}/publications/`}
   lang="fa"
 >
-
   <section class="publications-page">
-
     <div class="container">
-
       <header class="page-header">
-
-        <p class="section-label">
-          آثار علمی
-        </p>
-
-        <h1>
-          مقالات و پژوهش‌ها
-        </h1>
-
-        <p>
-          فهرست آثار علمی و پژوهشی
-          تأییدشده دکتر لیلا رضوی.
-        </p>
-
+        <p class="section-label">آثار علمی</p>
+        <h1>مقالات و پژوهش‌ها</h1>
+        <p>فهرست آثار علمی و پژوهشی تأییدشده دکتر لیلا رضوی.</p>
       </header>
 
-
       <div class="publication-list">
-
-        {
-          publications.length > 0 ? (
-
-            publications.map(
-              (publication) => (
-
-                <PublicationCard
-                  title={
-                    publication.title
-                  }
-
-                  titleFa={
-                    publication.titleFa
-                  }
-
-                  authors={
-                    publication.authors
-                  }
-
-                  year={
-                    publication.year ?? 0
-                  }
-
-                  journal={
-                    publication.journal
-                  }
-
-                  url={`/publications/${publication.id}/`}
-                />
-
-              ),
-            )
-
-          ) : (
-
-            <div class="empty-state">
-              آثار علمی تأییدشده‌ای
-              هنوز برای نمایش عمومی
-              ثبت نشده است.
-            </div>
-
-          )
-        }
-
+        {publications.length > 0 ? (
+          publications.map((publication) => (
+            <PublicationCard
+              title={publication.title}
+              titleFa={publication.titleFa}
+              authors={publication.authors}
+              year={publication.year}
+              journal={publication.journal}
+              url={`/publications/${publication.id}/`}
+            />
+          ))
+        ) : (
+          <div class="empty-state">آثار علمی تأییدشده‌ای هنوز برای نمایش عمومی ثبت نشده است.</div>
+        )}
       </div>
-
     </div>
-
   </section>
-
 </BaseLayout>
