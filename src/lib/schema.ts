@@ -2,13 +2,11 @@ import { person } from "./person";
 import { site } from "./site";
 
 function removeEmpty<T extends Record<string, unknown>>(obj: T): T {
-  return Object.fromEntries(
-    Object.entries(obj).filter(([, value]) => {
-      if (value === undefined || value === null || value === "") return false;
-      if (Array.isArray(value) && value.length === 0) return false;
-      return true;
-    }),
-  ) as T;
+  return Object.fromEntries(Object.entries(obj).filter(([, value]) => {
+    if (value === undefined || value === null || value === "") return false;
+    if (Array.isArray(value) && value.length === 0) return false;
+    return true;
+  })) as T;
 }
 
 export function getPersonSchema() {
@@ -50,18 +48,21 @@ export function getPendarOrganizationSchema() {
     "@id": `${site.url}/#pendar-group`,
     name: "Pendar Group",
     alternateName: "گروه سازمان‌های علمی، اجتماعی و درمانی پندار",
+    sameAs: ["https://pendar-gp.ir/", "https://www.instagram.com/pendarqom/"],
     subOrganization: {
       "@type": "Organization",
       "@id": `${site.url}/#pendar-nimrokh`,
       name: "Pendar Nimrokh",
       alternateName: "پندار نیم‌رخ",
       url: "https://pendar-gp.ir/",
+      parentOrganization: { "@id": `${site.url}/#pendar-group` },
       subOrganization: {
         "@type": "Organization",
         "@id": `${site.url}/#pendar-nimrokh-qom`,
         name: "Pendar Nimrokh Qom",
         alternateName: "پندار نیم‌رخ قم",
         url: person.affiliations[0].url,
+        parentOrganization: { "@id": `${site.url}/#pendar-nimrokh` },
         employee: { "@id": `${site.url}/#person` },
       },
     },
@@ -105,7 +106,7 @@ export function getBreadcrumbSchema(items: Array<{ name: string; url: string }>)
   };
 }
 
-export function getPodcastSeriesSchema({ name, description, url, spotifyUrl, image, language = "fa-IR" }: { name: string; description: string; url: string; spotifyUrl: string; image?: string; language?: string }) {
+export function getPodcastSeriesSchema({ name, description, url, spotifyUrl, image, episodeUrls = [], language = "fa-IR" }: { name: string; description: string; url: string; spotifyUrl: string; image?: string; episodeUrls?: string[]; language?: string }) {
   return removeEmpty({
     "@context": "https://schema.org",
     "@type": "PodcastSeries",
@@ -116,6 +117,7 @@ export function getPodcastSeriesSchema({ name, description, url, spotifyUrl, ima
     sameAs: [spotifyUrl],
     author: { "@id": `${site.url}/#person` },
     creator: { "@id": `${site.url}/#person` },
+    episode: episodeUrls.map((episodeUrl) => ({ "@type": "PodcastEpisode", "@id": `${episodeUrl}#episode`, url: episodeUrl })),
     inLanguage: language,
     image,
   });
