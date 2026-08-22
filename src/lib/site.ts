@@ -17,13 +17,13 @@ export const site = {
   locales: ["fa", "en"] as const,
 
   title: {
-    fa: "دکتر لیلا رضوی | روان‌شناس و پژوهشگر",
-    en: "Dr. Leila Razavi | Psychologist & Researcher",
+    fa: "دکتر لیلا رضوی | روان‌شناس، مدرس دانشگاه و پژوهشگر",
+    en: "Dr. Leila Razavi | Psychologist, University Lecturer & Researcher",
   },
 
   description: {
-    fa: "وب‌سایت رسمی دکتر لیلا رضوی، روان‌شناس و پژوهشگر.",
-    en: "Official website of Dr. Leila Razavi, psychologist and researcher.",
+    fa: "وب‌سایت رسمی دکتر لیلا رضوی، روان‌شناس، مدرس دانشگاه و پژوهشگر حوزه روان‌شناسی؛ شامل سوابق حرفه‌ای، پژوهش‌ها، آثار علمی و فعالیت‌های رسانه‌ای.",
+    en: "Official website of Dr. Leila Razavi, psychologist, university lecturer and researcher, featuring professional background, research, publications and media activity.",
   },
 
   copyright: "Leila Razavi",
