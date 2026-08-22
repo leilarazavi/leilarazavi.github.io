@@ -1,0 +1,25 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { person } from "../../lib/person";
+import { site } from "../../lib/site";
+import { getBreadcrumbSchema, getProfilePageSchema } from "../../lib/schema";
+
+const url = `${site.url}/cv/`;
+const schemas = [getProfilePageSchema({ url, name: `رزومه حرفه‌ای ${person.fullNameFa}` }), getBreadcrumbSchema([
+  { name: "خانه", url: `${site.url}/` },
+  { name: "رزومه حرفه‌ای", url },
+])];
+---
+<BaseLayout title={`رزومه حرفه‌ای ${person.fullNameFa} | ${site.nameFa}`} description="رزومه حرفه‌ای دکتر لیلا رضوی شامل حوزه‌های علمی، فعالیت‌های پژوهشی، سوابق حرفه‌ای و فعالیت‌های سازمانی." canonical={url} lang="fa" schemas={schemas}>
+  <section class="page"><div class="container">
+    <p class="label">رزومه حرفه‌ای</p><h1>{person.fullNameFa}</h1><p class="lead">روان‌شناس، مدرس دانشگاه و پژوهشگر حوزه روان‌شناسی.</p>
+    <section><h2>حوزه‌های تخصصی و پژوهشی</h2><div class="tags">{person.research.researchInterests.map((item) => <span>{item}</span>)}</div></section>
+    <section><h2>فعالیت‌های سازمانی</h2><div class="entry"><h3>مدیریت پندار نیم‌رخ قم</h3><p>دکتر لیلا رضوی در این وب‌سایت به‌عنوان مدیر پندار نیم‌رخ قم معرفی می‌شود. پندار نیم‌رخ در ساختار گروه سازمان‌های علمی، اجتماعی و درمانی پندار قرار می‌گیرد.</p><a href="/organizations/">مشاهده ساختار سازمانی ↗</a></div>{person.positions.map((position) => <div class="entry"><h3>{position.titleFa}</h3><p>{position.organizationFa}</p><a href={position.source} target="_blank" rel="noopener noreferrer">منبع عمومی ↗</a></div>)}</section>
+    <section><h2>اعتبارنامه حرفه‌ای</h2><div class="entry"><p>عضویت سازمان نظام روان‌شناسی و مشاوره: {person.professionalCredentials.psychologyOrganization.membershipNumber}</p><p>شماره پروانه: {person.professionalCredentials.psychologyOrganization.licenseNumber}</p></div></section>
+    <section><h2>آثار علمی</h2><p>فهرست مقالات، کتاب‌ها و آثار علمی تأییدشده در صفحه اختصاصی آثار علمی نگهداری می‌شود.</p><a href="/publications/">مشاهده آثار علمی ↗</a></section>
+    <section><h2>رسانه و فعالیت عمومی</h2><p>پادکست صحبت جان و منابع عمومی مرتبط با فعالیت حرفه‌ای در بخش رسانه ثبت شده‌اند.</p><a href="/media/">مشاهده رسانه و حضور عمومی ↗</a></section>
+  </div></section>
+</BaseLayout>
+<style>
+.page{padding-block:90px}.container{max-width:900px}.label{color:#806f61;font-size:.8rem;font-weight:600}h1{margin:0 0 18px;font-size:clamp(3rem,7vw,5.5rem);font-weight:500}.lead{font-size:1.25rem;color:#555;line-height:2;margin-bottom:70px}section{padding:45px 0;border-top:1px solid #ddd7d0}h2{font-size:1.9rem;font-weight:500}.tags{display:flex;flex-wrap:wrap;gap:10px}.tags span{padding:8px 13px;border:1px solid #ddd7d0;color:#555}.entry{padding:25px 0;border-top:1px solid #e4dfda}.entry h3{font-size:1.35rem;font-weight:500}.entry p{color:#555;line-height:2}.entry a,section>a{color:#806f61;font-weight:600}
+</style>

@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../../../../../layouts/BaseLayout.astro";
+import { podcast } from "../../../../../lib/media";
+import { site } from "../../../../../lib/site";
+import { getBreadcrumbSchema, getPodcastEpisodeSchema } from "../../../../../lib/schema";
+const episode = podcast.episodes[0];
+const url = `${site.url}/en/media/sohbat-jan/${episode.slug}/`;
+const seriesUrl = `${site.url}/en/media/sohbat-jan/`;
+const description = "Suffering is a shared human experience. This episode explores the distinction between pain and suffering, acceptance, meaning in hardship, and how persistent resistance to difficult emotions can keep them present.";
+const schemas = [getPodcastEpisodeSchema({ name: episode.titleEn, description, url, spotifyUrl: episode.spotifyUrl, episodeNumber: episode.number, seriesUrl, language: "en" }), getBreadcrumbSchema([{ name: "Home", url: `${site.url}/en/` }, { name: "Media", url: `${site.url}/en/media/` }, { name: podcast.nameEn, url: seriesUrl }, { name: `Episode ${episode.number}`, url }])];
+---
+<BaseLayout title={`${episode.titleEn} | Sohbat Jan | ${site.name}`} description="Episode one of Sohbat Jan on pain and suffering, acceptance, meaning and responding to difficult experiences." canonical={url} lang="en" type="article" schemas={schemas}>
+<article class="page"><div class="container"><p class="eyebrow">Sohbat Jan · Episode {episode.number}</p><h1>{episode.titleEn}</h1><p class="lead">Suffering is a shared human experience. What changes the quality of life is not only what happens to us, but also how we respond to it.</p><div class="actions"><a href={episode.spotifyUrl} target="_blank" rel="noopener noreferrer">Listen on Spotify →</a><a href={seriesUrl}>Podcast page</a></div><section><h2>About this episode</h2><p>{description}</p></section><section class="note"><h2>Important note</h2><p>This episode is intended for psychological awareness and is not a substitute for psychotherapy or professional intervention. Experiences of suffering can have different causes and dimensions for different people and should not be reduced to a single pattern.</p></section><section><h2>Related</h2><p>This episode is part of <a href={seriesUrl}>Sohbat Jan</a>, a podcast connected to Dr. Leila Razavi.</p><p><a href="/en/about/">Dr. Leila Razavi</a> is presented on this website as a psychologist, university lecturer and researcher.</p></section></div></article>
+</BaseLayout>
+<style>
+.page{padding-block:90px}.container{max-width:900px}.eyebrow{color:#806f61;font-size:.82rem;font-weight:600}h1{max-width:900px;font-size:clamp(2.5rem,7vw,5rem);line-height:1.25;font-weight:500}.lead{font-size:1.25rem;color:#555;line-height:2.1}.actions{display:flex;flex-wrap:wrap;gap:14px;margin:36px 0 80px}.actions a{padding:11px 18px;border:1px solid #806f61;color:#806f61;text-decoration:none;font-weight:600}section{padding:45px 0;border-top:1px solid #ddd7d0}h2{font-size:1.7rem;font-weight:500}section p{color:#555;line-height:2}.note{background:#f3f0ec;padding-inline:24px}section a{color:#806f61;font-weight:600}
+</style>

@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { person } from "../../../lib/person";
+import { site } from "../../../lib/site";
+import { getBreadcrumbSchema, getProfilePageSchema } from "../../../lib/schema";
+const url = `${site.url}/en/cv/`;
+const schemas = [getProfilePageSchema({ url, name: `Professional CV — ${person.fullName}`, language: "en" }), getBreadcrumbSchema([{ name: "Home", url: `${site.url}/en/` }, { name: "Professional CV", url }])];
+---
+<BaseLayout title={`Professional CV | ${person.fullName}`} description="Professional CV of Dr. Leila Razavi, psychologist, university lecturer and researcher." canonical={url} lang="en" schemas={schemas}>
+<section class="page"><div class="container"><p class="label">Professional CV</p><h1>{person.fullName}</h1><p class="lead">Psychologist, university lecturer and researcher in psychology.</p><section><h2>Research interests</h2><div class="tags">{person.research.researchInterests.map((item)=><span>{item}</span>)}</div></section><section><h2>Organizational activity</h2><div class="entry"><h3>Management of Pendar Nimrokh Qom</h3><p>Dr. Leila Razavi is presented on this website as manager of Pendar Nimrokh Qom, within the Pendar organizational structure.</p><a href="/en/organizations/">View organizational structure →</a></div>{person.positions.map((position)=><div class="entry"><h3>{position.titleEn}</h3><p>{position.organizationEn}</p><a href={position.source} target="_blank" rel="noopener noreferrer">Public source →</a></div>)}</section><section><h2>Professional credentials</h2><div class="entry"><p>Iranian Psychology and Counseling Organization membership: {person.professionalCredentials.psychologyOrganization.membershipNumber}</p><p>License number: {person.professionalCredentials.psychologyOrganization.licenseNumber}</p></div></section><section><h2>Publications</h2><p>Verified scholarly works are maintained on the publications page.</p><a href="/en/publications/">View publications →</a></section><section><h2>Media</h2><p>Sohbat Jan and selected public professional sources are collected in the media section.</p><a href="/en/media/">View media and public presence →</a></section></div></section>
+</BaseLayout>
+<style>
+.page{padding-block:90px}.container{max-width:900px}.label{color:#806f61;font-size:.8rem;font-weight:600}h1{margin:0 0 18px;font-size:clamp(3rem,7vw,5.5rem);font-weight:500}.lead{font-size:1.25rem;color:#555;line-height:2;margin-bottom:70px}section{padding:45px 0;border-top:1px solid #ddd7d0}h2{font-size:1.9rem;font-weight:500}.tags{display:flex;flex-wrap:wrap;gap:10px}.tags span{padding:8px 13px;border:1px solid #ddd7d0;color:#555}.entry{padding:25px 0;border-top:1px solid #e4dfda}.entry h3{font-size:1.35rem;font-weight:500}.entry p{color:#555;line-height:2}.entry a,section>a{color:#806f61;font-weight:600}
+</style>

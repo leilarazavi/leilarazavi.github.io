@@ -1,0 +1,15 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import { podcast } from "../../../../lib/media";
+import { site } from "../../../../lib/site";
+import { getBreadcrumbSchema, getPodcastSeriesSchema } from "../../../../lib/schema";
+const url = `${site.url}/en/media/sohbat-jan/`;
+const episodeUrls = podcast.episodes.map((episode) => `${url}${episode.slug}/`);
+const schemas = [getPodcastSeriesSchema({ name: podcast.nameEn, description: podcast.descriptionEn, url, spotifyUrl: podcast.spotifyUrl, episodeUrls, language: "en" }), getBreadcrumbSchema([{ name: "Home", url: `${site.url}/en/` }, { name: "Media", url: `${site.url}/en/media/` }, { name: podcast.nameEn, url }])];
+---
+<BaseLayout title={`Sohbat Jan Podcast | ${site.name}`} description="Sohbat Jan, a podcast connected to Dr. Leila Razavi, featuring conversations about psychology, relationships and human experience." canonical={url} lang="en" schemas={schemas}>
+<section class="page"><div class="container"><p class="label">Podcast</p><h1>{podcast.nameEn}</h1><p class="lead">A place for conversations about psychology, relationships and human experience.</p><div class="actions"><a href={podcast.spotifyUrl} target="_blank" rel="noopener noreferrer">Listen on Spotify →</a></div><section><h2>About the podcast</h2><p>{podcast.descriptionEn}</p></section><section><h2>Episodes</h2>{podcast.episodes.map((episode)=><article><p>Episode {episode.number}</p><h3><a href={`/en/media/sohbat-jan/${episode.slug}/`}>{episode.titleEn}</a></h3><p>{episode.descriptionEn}</p><a href={`/en/media/sohbat-jan/${episode.slug}/`}>Episode details →</a></article>)}</section></div></section>
+</BaseLayout>
+<style>
+.page{padding-block:90px}.container{max-width:900px}.label{color:#806f61;font-size:.8rem;font-weight:600}h1{font-size:clamp(3rem,8vw,6rem);font-weight:500}.lead{font-size:1.35rem;color:#555;line-height:2}.actions{margin:32px 0 80px}.actions a{display:inline-block;padding:12px 20px;border:1px solid #806f61;color:#806f61;text-decoration:none;font-weight:600}section{padding:45px 0;border-top:1px solid #ddd7d0}h2{font-size:1.8rem;font-weight:500}section p{color:#555;line-height:2}article{padding:25px 0;border-top:1px solid #e4dfda}article h3 a{color:#222;text-decoration:none}article>a{color:#806f61;font-weight:600}
+</style>
