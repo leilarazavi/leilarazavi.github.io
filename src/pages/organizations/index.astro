@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { person } from "../../lib/person";
+import { site } from "../../lib/site";
+import { getBreadcrumbSchema, getPendarOrganizationSchema } from "../../lib/schema";
+
+const url = `${site.url}/organizations/`;
+const schemas = [getPendarOrganizationSchema(), getBreadcrumbSchema([
+  { name: "خانه", url: `${site.url}/` },
+  { name: "سازمان‌ها و وابستگی‌های حرفه‌ای", url },
+])];
+---
+<BaseLayout title={`سازمان‌ها و وابستگی‌های حرفه‌ای | ${site.nameFa}`} description="ارتباط حرفه‌ای دکتر لیلا رضوی با گروه پندار، پندار نیم‌رخ و پندار نیم‌رخ قم و سایر فعالیت‌های سازمانی." canonical={url} lang="fa" schemas={schemas}>
+  <section class="page"><div class="container">
+    <p class="label">سازمان‌ها و وابستگی‌های حرفه‌ای</p><h1>فعالیت‌های سازمانی</h1>
+    <p class="lead">در این صفحه رابطه میان دکتر لیلا رضوی و ساختار سازمانی پندار به‌صورت مشخص و تفکیک‌شده ارائه می‌شود.</p>
+    <div class="org-tree">
+      <article><p class="level">گروه اصلی</p><h2>گروه سازمان‌های علمی، اجتماعی و درمانی پندار</h2><p>گروه اصلی پندار که مجموعه‌ها و ساختارهای وابسته در چارچوب آن معرفی می‌شوند.</p><a href="https://pendar-gp.ir/" target="_blank" rel="noopener noreferrer">وب‌سایت پندار ↗</a></article>
+      <div class="connector">↓</div>
+      <article><p class="level">زیرمجموعه</p><h2>پندار نیم‌رخ</h2><p>یکی از مجموعه‌های وابسته به گروه پندار.</p><a href="https://pendar-gp.ir/" target="_blank" rel="noopener noreferrer">منبع رسمی پندار ↗</a></article>
+      <div class="connector">↓</div>
+      <article><p class="level">مرکز در قم</p><h2>پندار نیم‌رخ قم</h2><p>مرکز پندار نیم‌رخ در قم که مدیریت آن بر اساس پروفایل حرفه‌ای پندار با دکتر لیلا رضوی مرتبط است.</p><a href={person.profiles.pendar} target="_blank" rel="noopener noreferrer">پروفایل دکتر لیلا رضوی در پندار ↗</a></article>
+    </div>
+    <section class="role"><h2>نقش دکتر لیلا رضوی</h2><p>دکتر لیلا رضوی در ساختار این وب‌سایت به‌عنوان مدیر پندار نیم‌رخ قم معرفی می‌شود. برای جزئیات و سوابق رسمی، پروفایل حرفه‌ای پندار منبع اصلی است.</p><a href="/about/">مشاهده پروفایل حرفه‌ای ↗</a></section>
+  </div></section>
+</BaseLayout>
+<style>
+.page{padding-block:90px}.container{max-width:900px}.label,.level{color:#806f61;font-size:.8rem;font-weight:600}.label{margin-bottom:12px}h1{margin:0 0 24px;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:500}.lead{font-size:1.2rem;color:#555;line-height:2;max-width:760px;margin-bottom:70px}.org-tree{max-width:760px}.org-tree article,.role{padding:32px 0;border-top:1px solid #ddd7d0}.org-tree h2,.role h2{font-size:1.7rem;font-weight:500}.org-tree p,.role p{color:#555;line-height:2}.org-tree a,.role a{color:#806f61;font-weight:600}.connector{text-align:center;color:#806f61;padding:16px}.role{margin-top:45px}
+</style>
