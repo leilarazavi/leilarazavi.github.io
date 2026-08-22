@@ -6,8 +6,9 @@ import { site } from "../../../lib/site";
 import { getBreadcrumbSchema, getPodcastSeriesSchema } from "../../../lib/schema";
 
 const url = `${site.url}/media/sohbat-jan/`;
+const episodeUrls = podcast.episodes.map((episode) => `${url}${episode.slug}/`);
 const schemas = [
-  getPodcastSeriesSchema({ name: podcast.nameFa, description: podcast.descriptionFa, url, spotifyUrl: podcast.spotifyUrl }),
+  getPodcastSeriesSchema({ name: podcast.nameFa, description: podcast.descriptionFa, url, spotifyUrl: podcast.spotifyUrl, episodeUrls }),
   getBreadcrumbSchema([
     { name: "خانه", url: `${site.url}/` },
     { name: "رسانه و حضور عمومی", url: `${site.url}/media/` },
