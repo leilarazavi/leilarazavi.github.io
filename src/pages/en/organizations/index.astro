@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { person } from "../../../lib/person";
+import { site } from "../../../lib/site";
+import { getBreadcrumbSchema, getPendarOrganizationSchema } from "../../../lib/schema";
+const url = `${site.url}/en/organizations/`;
+const schemas = [getPendarOrganizationSchema(), getBreadcrumbSchema([{ name: "Home", url: `${site.url}/en/` }, { name: "Professional organizations", url }])];
+---
+<BaseLayout title={`Professional Organizations | ${site.name}`} description="Professional organizational relationships of Dr. Leila Razavi, including Pendar Group, Pendar Nimrokh and Pendar Nimrokh Qom." canonical={url} lang="en" schemas={schemas}>
+<section class="page"><div class="container"><p class="label">Professional organizations</p><h1>Organizational activity</h1><p class="lead">The relationship between Dr. Leila Razavi and the Pendar organizational structure is presented explicitly and separately from her personal profile.</p><div class="tree"><article><p>Group</p><h2>Pendar Group</h2><p>The main Pendar group within which related organizations are structured.</p><a href="https://pendar-gp.ir/" target="_blank" rel="noopener noreferrer">Official Pendar website →</a></article><div>↓</div><article><p>Sub-organization</p><h2>Pendar Nimrokh</h2><p>A Pendar-related organization.</p><a href="https://pendar-gp.ir/" target="_blank" rel="noopener noreferrer">Pendar source →</a></article><div>↓</div><article><p>Qom center</p><h2>Pendar Nimrokh Qom</h2><p>The Qom center of Pendar Nimrokh, associated with Dr. Leila Razavi's management according to her professional Pendar profile.</p><a href={person.profiles.pendar} target="_blank" rel="noopener noreferrer">Leila Razavi's Pendar profile →</a></article></div></div></section>
+</BaseLayout>
+<style>
+.page{padding-block:90px}.container{max-width:900px}.label{color:#806f61;font-size:.8rem;font-weight:600}h1{margin:0 0 24px;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:500}.lead{font-size:1.2rem;color:#555;line-height:2;max-width:760px;margin-bottom:70px}.tree{max-width:760px}.tree article{padding:32px 0;border-top:1px solid #ddd7d0}.tree h2{font-size:1.7rem;font-weight:500}.tree p{color:#555;line-height:2}.tree a{color:#806f61;font-weight:600}.tree>div{text-align:center;color:#806f61;padding:16px}
+</style>
