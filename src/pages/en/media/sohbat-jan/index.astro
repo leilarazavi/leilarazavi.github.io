@@ -4,7 +4,8 @@ import { podcast } from "../../../../lib/media";
 import { site } from "../../../../lib/site";
 import { getBreadcrumbSchema, getPodcastSeriesSchema } from "../../../../lib/schema";
 const url = `${site.url}/en/media/sohbat-jan/`;
-const schemas = [getPodcastSeriesSchema({ name: podcast.nameEn, description: podcast.descriptionEn, url, spotifyUrl: podcast.spotifyUrl, language: "en" }), getBreadcrumbSchema([{ name: "Home", url: `${site.url}/en/` }, { name: "Media", url: `${site.url}/en/media/` }, { name: podcast.nameEn, url }])];
+const episodeUrls = podcast.episodes.map((episode) => `${url}${episode.slug}/`);
+const schemas = [getPodcastSeriesSchema({ name: podcast.nameEn, description: podcast.descriptionEn, url, spotifyUrl: podcast.spotifyUrl, episodeUrls, language: "en" }), getBreadcrumbSchema([{ name: "Home", url: `${site.url}/en/` }, { name: "Media", url: `${site.url}/en/media/` }, { name: podcast.nameEn, url }])];
 ---
 <BaseLayout title={`Sohbat Jan Podcast | ${site.name}`} description="Sohbat Jan, a podcast connected to Dr. Leila Razavi, featuring conversations about psychology, relationships and human experience." canonical={url} lang="en" schemas={schemas}>
 <section class="page"><div class="container"><p class="label">Podcast</p><h1>{podcast.nameEn}</h1><p class="lead">A place for conversations about psychology, relationships and human experience.</p><div class="actions"><a href={podcast.spotifyUrl} target="_blank" rel="noopener noreferrer">Listen on Spotify →</a></div><section><h2>About the podcast</h2><p>{podcast.descriptionEn}</p></section><section><h2>Episodes</h2>{podcast.episodes.map((episode)=><article><p>Episode {episode.number}</p><h3><a href={`/en/media/sohbat-jan/${episode.slug}/`}>{episode.titleEn}</a></h3><p>{episode.descriptionEn}</p><a href={`/en/media/sohbat-jan/${episode.slug}/`}>Episode details →</a></article>)}</section></div></section>
