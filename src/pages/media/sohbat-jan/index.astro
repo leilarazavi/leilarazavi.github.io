@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { person } from "../../../lib/person";
+import { podcast } from "../../../lib/media";
+import { site } from "../../../lib/site";
+import { getBreadcrumbSchema, getPodcastSeriesSchema } from "../../../lib/schema";
+
+const url = `${site.url}/media/sohbat-jan/`;
+const schemas = [
+  getPodcastSeriesSchema({ name: podcast.nameFa, description: podcast.descriptionFa, url, spotifyUrl: podcast.spotifyUrl }),
+  getBreadcrumbSchema([
+    { name: "خانه", url: `${site.url}/` },
+    { name: "رسانه و حضور عمومی", url: `${site.url}/media/` },
+    { name: "صحبت جان", url },
+  ]),
+];
+---
+<BaseLayout title={`پادکست صحبت جان | ${site.nameFa}`} description="پادکست صحبت جان با ارتباط مستقیم به دکتر لیلا رضوی؛ گفت‌وگوهایی درباره روان، رابطه و تجربه انسانی." canonical={url} lang="fa" schemas={schemas}>
+  <section class="page"><div class="container">
+    <p class="label">پادکست</p>
+    <h1>صحبت جان</h1>
+    <p class="lead">جایی برای گفت‌وگو درباره روان، رابطه و تجربه‌ی انسانی.</p>
+    <div class="actions"><a href={podcast.spotifyUrl} target="_blank" rel="noopener noreferrer">شنیدن در Spotify ↗</a></div>
+    <section class="content"><h2>درباره پادکست</h2><p>{podcast.aboutFa}</p></section>
+    <section class="content"><h2>قسمت‌ها</h2>{podcast.episodes.map((episode) => <article class="episode"><p class="episode-number">قسمت {episode.number}</p><h3><a href={`/media/sohbat-jan/${episode.slug}/`}>{episode.titleFa}</a></h3><p>{episode.descriptionFa}</p><a href={`/media/sohbat-jan/${episode.slug}/`}>جزئیات قسمت ↗</a></article>)}</section>
+    <section class="related"><h2>مرتبط با</h2><a href="/about/">دکتر لیلا رضوی</a><a href="/media/">رسانه و حضور عمومی</a></section>
+  </div></section>
+</BaseLayout>
+<style>
+.page{padding-block:90px}.container{max-width:900px}.label,.episode-number{color:#806f61;font-size:.82rem;font-weight:600}.label{margin:0 0 12px}h1{margin:0 0 18px;font-size:clamp(3rem,8vw,6rem);font-weight:500;line-height:1.15}.lead{font-size:1.35rem;color:#555;line-height:2;max-width:700px}.actions{margin:32px 0 80px}.actions a,.related a,.episode>a{color:#806f61;font-weight:600}.actions a{display:inline-block;padding:12px 20px;border:1px solid #806f61;text-decoration:none}.content{padding:50px 0;border-top:1px solid #ddd7d0}.content h2,.related h2{font-size:1.8rem;font-weight:500}.content p{color:#555;line-height:2.1}.episode{padding:28px 0;border-top:1px solid #e4dfda}.episode h3{font-size:1.45rem;font-weight:500}.episode h3 a{color:#222;text-decoration:none}.related{display:flex;flex-wrap:wrap;gap:24px;padding-top:50px;border-top:1px solid #ddd7d0}.related h2{width:100%}
+</style>
