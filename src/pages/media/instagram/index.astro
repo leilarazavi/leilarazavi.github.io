@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { professionalMedia } from "../../../lib/media";
+import { site } from "../../../lib/site";
+import { getBreadcrumbSchema } from "../../../lib/schema";
+
+const url = `${site.url}/media/instagram/`;
+const schemas = [getBreadcrumbSchema([
+ {name:"خانه", url:`${site.url}/`},
+ {name:"رسانه", url:`${site.url}/media/`},
+ {name:"منابع اینستاگرام", url}
+])];
+---
+<BaseLayout title={`منابع اینستاگرام حرفه‌ای | ${site.nameFa}`} description="منابع اینستاگرام مرتبط با فعالیت‌های حرفه‌ای دکتر لیلا رضوی." canonical={url} lang="fa" schemas={schemas}>
+<section class="page"><div class="container">
+<h1>منابع اینستاگرام حرفه‌ای</h1>
+<p>این صفحه منابع بیرونی مرتبط با فعالیت‌های حرفه‌ای، آموزشی و سازمانی دکتر لیلا رضوی را جمع‌آوری می‌کند.</p>
+{professionalMedia.map((item)=>(
+<article>
+<span>{item.categoryFa}</span>
+<h2>{item.titleFa}</h2>
+<p>{item.descriptionFa}</p>
+<a href={item.url} target="_blank" rel="noopener noreferrer">مشاهده منبع ↗</a>
+</article>
+))}
+</div></section>
+</BaseLayout>
+<style>
+.page{padding:80px 0}.container{max-width:900px;margin:auto}article{padding:30px 0;border-top:1px solid #ddd}h1{font-size:3rem;font-weight:500}h2{font-weight:500}p{line-height:2}a{color:#806f61;font-weight:600}span{font-size:.8rem;color:#806f61}
+</style>
