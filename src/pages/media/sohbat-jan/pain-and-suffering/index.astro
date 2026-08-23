@@ -7,27 +7,70 @@ import { getBreadcrumbSchema, getPodcastEpisodeSchema } from "../../../../lib/sc
 const episode = podcast.episodes[0];
 const url = `${site.url}/media/sohbat-jan/${episode.slug}/`;
 const seriesUrl = `${site.url}/media/sohbat-jan/`;
+
 const schemas = [
-  getPodcastEpisodeSchema({ name: episode.titleFa, description: episode.descriptionFa, url, spotifyUrl: episode.spotifyUrl, episodeNumber: episode.number, seriesUrl }),
+  getPodcastEpisodeSchema({
+    name: episode.titleFa,
+    description: episode.descriptionFa,
+    url,
+    spotifyUrl: episode.spotifyUrl,
+    episodeNumber: episode.number,
+    seriesUrl,
+  }),
   getBreadcrumbSchema([
     { name: "خانه", url: `${site.url}/` },
-    { name: "رسانه و حضور عمومی", url: `${site.url}/media/` },
+    { name: "رسانه", url: `${site.url}/media/` },
     { name: "صحبت جان", url: seriesUrl },
-    { name: `قسمت ${episode.number}`, url },
+    { name: episode.titleFa, url },
   ]),
 ];
 ---
-<BaseLayout title={`${episode.titleFa} | صحبت جان | ${site.nameFa}`} description="قسمت اول پادکست صحبت جان درباره تفاوت درد و رنج، پذیرش، معنا و مواجهه با تجربه‌های دشوار." canonical={url} lang="fa" type="article" schemas={schemas}>
-  <article class="page"><div class="container">
-    <p class="eyebrow">صحبت جان · قسمت {episode.number}</p>
-    <h1>{episode.titleFa}</h1>
-    <p class="lead">رنج، تجربه‌ای مشترک میان همه‌ی انسان‌هاست؛ اما آنچه کیفیت زندگی ما را تغییر می‌دهد، فقط اتفاقاتی نیست که برایمان رخ می‌دهد، بلکه نحوه‌ی مواجهه‌ی ما با آن‌هاست.</p>
-    <div class="actions"><a href={episode.spotifyUrl} target="_blank" rel="noopener noreferrer">شنیدن قسمت در Spotify ↗</a><a href={seriesUrl}>صفحه پادکست</a></div>
-    <section><h2>درباره این قسمت</h2><p>{episode.descriptionFa}</p></section>
-    <section class="note"><h2>توضیح مهم</h2><p>{episode.disclaimerFa}</p></section>
-    <section class="related"><h2>پادکست صحبت جان</h2><p>این اپیزود بخشی از <a href={seriesUrl}>پادکست صحبت جان</a> است؛ پادکستی برای گفت‌وگو درباره روان، رابطه و تجربه انسانی.</p><p><a href="/about/">دکتر لیلا رضوی</a> در این وب‌سایت به‌عنوان روان‌شناس، مدرس دانشگاه و پژوهشگر معرفی شده است.</p></section>
-  </div></article>
+
+<BaseLayout
+  title={`${episode.titleFa} | صحبت جان | ${site.nameFa}`}
+  description={episode.descriptionFa}
+  canonical={url}
+  lang="fa"
+  type="article"
+  schemas={schemas}
+>
+  <article class="page">
+    <div class="container">
+      <p class="eyebrow">پادکست صحبت جان · قسمت {episode.number}</p>
+      <h1>{episode.titleFa}</h1>
+
+      <p class="lead">
+        رنج، تجربه‌ای مشترک میان همه‌ی انسان‌هاست؛ اما آنچه کیفیت زندگی ما را تغییر می‌دهد، فقط اتفاقاتی نیست که برایمان رخ می‌دهد، بلکه نحوه‌ی مواجهه‌ی ما با آن‌هاست.
+      </p>
+
+      <div class="actions">
+        <a href={episode.spotifyUrl} target="_blank" rel="noopener noreferrer">شنیدن در Spotify ↗</a>
+        <a href={seriesUrl}>مشاهده پادکست صحبت جان</a>
+      </div>
+
+      <section>
+        <h2>درباره این اپیزود</h2>
+        <p>{episode.descriptionFa}</p>
+      </section>
+
+      <section>
+        <h2>موضوعات این قسمت</h2>
+        <p>درد و رنج، پذیرش، مواجهه با احساسات ناخوشایند، معنا در سختی‌ها و نگاه ویکتور فرانکل به تجربه انسانی.</p>
+      </section>
+
+      <section class="note">
+        <h2>توضیح مهم</h2>
+        <p>{episode.disclaimerFa}</p>
+      </section>
+
+      <section>
+        <h2>مرتبط با</h2>
+        <p><a href={seriesUrl}>پادکست صحبت جان</a> و <a href="/about/">دکتر لیلا رضوی</a></p>
+      </section>
+    </div>
+  </article>
 </BaseLayout>
+
 <style>
-.page{padding-block:90px}.container{max-width:900px}.eyebrow{color:#806f61;font-size:.82rem;font-weight:600}h1{max-width:900px;margin:0 0 24px;font-size:clamp(2.5rem,7vw,5rem);line-height:1.35;font-weight:500}.lead{font-size:1.25rem;color:#555;line-height:2.15;max-width:820px}.actions{display:flex;flex-wrap:wrap;gap:14px;margin:36px 0 80px}.actions a{padding:11px 18px;border:1px solid #806f61;color:#806f61;text-decoration:none;font-weight:600}section{padding:48px 0;border-top:1px solid #ddd7d0}h2{font-size:1.7rem;font-weight:500}section p{color:#555;line-height:2.15}.note{background:#f3f0ec;padding-inline:24px}.related a{color:#806f61;font-weight:600}
+.page{padding-block:90px}.container{max-width:900px}.eyebrow{color:#806f61;font-weight:600}.lead{font-size:1.25rem;line-height:2;color:#555}h1{font-size:clamp(2.5rem,7vw,5rem);line-height:1.3;font-weight:500}.actions{display:flex;gap:14px;flex-wrap:wrap;margin:40px 0}.actions a{border:1px solid #806f61;padding:12px 18px;color:#806f61;text-decoration:none}section{padding:45px 0;border-top:1px solid #ddd7d0}h2{font-weight:500}p{line-height:2.1;color:#555}.note{background:#f3f0ec;padding-inline:24px}a{color:#806f61}
 </style>
