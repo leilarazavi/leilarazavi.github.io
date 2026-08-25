@@ -1,0 +1,28 @@
+---
+import { person } from "../lib/person";
+
+interface Props { lang?: "fa" | "en"; compact?: boolean; }
+const { lang = "fa", compact = false } = Astro.props;
+const sources = person.identitySources.filter((source) => source.verified);
+
+/*
+ * COMPONENT ARCHITECTURE DECISION
+ *
+ * Identity links are entity data, not page-specific markup. Keeping the source
+ * filtering here means every page only renders verified profiles and we avoid
+ * duplicating the same filtering logic in Footer, Contact and About.
+ */
+---
+
+<div class:list={["social-links", { compact }]} aria-label={lang === "fa" ? "پروفایل‌های رسمی" : "Official profiles"}>
+  {sources.map((source) => (
+    <a href={source.url} target="_blank" rel="noopener noreferrer">{source.name}</a>
+  ))}
+</div>
+
+<style>
+  .social-links { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-3); }
+  .social-links a { color: var(--color-ink-muted); text-decoration: none; font-size: var(--text-sm); transition: color var(--transition-fast); }
+  .social-links a:hover { color: var(--color-accent-strong); }
+  .social-links.compact { flex-direction: row; flex-wrap: wrap; gap: var(--space-4); }
+</style>
