@@ -1,6 +1,11 @@
 /**
  * Website-only configuration.
  * Person identity, profiles, affiliations and public contact channels live in person.ts.
+ *
+ * SEO ARCHITECTURE DECISION
+ * Keep entity IDs deterministic and first-party. Schema consumers should be
+ * able to connect the Person, Website and organization graph without relying
+ * on page-specific strings or duplicated IDs.
  */
 
 export const site = {
@@ -12,6 +17,14 @@ export const site = {
 
   name: "Dr. Leila Razavi",
   nameFa: "دکتر لیلا رضوی",
+
+  entityIds: {
+    person: "https://leilarazavi.github.io/#person",
+    website: "https://leilarazavi.github.io/#website",
+    pendarGroup: "https://leilarazavi.github.io/#pendar-group",
+    pendarNimrokh: "https://leilarazavi.github.io/#pendar-nimrokh",
+    pendarQom: "https://leilarazavi.github.io/#pendar-nimrokh-qom",
+  },
 
   defaultLocale: "fa" as const,
   locales: ["fa", "en"] as const,

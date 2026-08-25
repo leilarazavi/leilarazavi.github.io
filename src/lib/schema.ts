@@ -9,21 +9,34 @@ function removeEmpty<T extends Record<string, unknown>>(obj: T): T {
   })) as T;
 }
 
+const personId = `${site.url}/#person`;
+const websiteId = `${site.url}/#website`;
+const pendarGroupId = `${site.url}/#pendar-group`;
+const pendarNimrokhId = `${site.url}/#pendar-nimrokh`;
+const pendarQomId = `${site.url}/#pendar-nimrokh-qom`;
+
+function organizationRef(id: string, name: string) {
+  return { "@type": "Organization", "@id": id, name };
+}
+
+function getVerifiedSameAs() {
+  return person.identitySources.filter((source) => source.verified).map((source) => source.url);
+}
+
 export function getPersonSchema() {
-  const sameAs = person.identitySources.filter((source) => source.verified).map((source) => source.url);
   const pendarQom = {
     "@type": "Organization",
-    "@id": `${site.url}/#pendar-nimrokh-qom`,
+    "@id": pendarQomId,
     name: "Pendar Nimrokh Qom",
     alternateName: "پندار نیم‌رخ قم",
     url: person.affiliations[0].url,
-    parentOrganization: { "@id": `${site.url}/#pendar-nimrokh` },
+    parentOrganization: { "@id": pendarNimrokhId },
   };
 
   return removeEmpty({
     "@context": "https://schema.org",
     "@type": "Person",
-    "@id": `${site.url}/#person`,
+    "@id": personId,
     name: person.fullName,
     givenName: person.givenName,
     familyName: person.familyName,
@@ -34,10 +47,11 @@ export function getPersonSchema() {
     description: person.description.en,
     knowsAbout: person.knowsAbout,
     affiliation: [pendarQom],
-    worksFor: pendarQom,
-    memberOf: person.positions.map((position) => ({ "@type": "Organization", name: position.organizationEn })),
-    sameAs,
+    worksFor: { "@id": pendarQomId },
+    memberOf: person.positions.map((position) => organizationRef(`${site.url}/#org-${position.organizationEn.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`, position.organizationEn)),
+    sameAs: getVerifiedSameAs(),
     image: person.image.src ? new URL(person.image.src, site.url).toString() : undefined,
+    mainEntityOfPage: { "@id": `${site.url}/about/#profile` },
   });
 }
 
@@ -45,25 +59,25 @@ export function getPendarOrganizationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "@id": `${site.url}/#pendar-group`,
+    "@id": pendarGroupId,
     name: "Pendar Group",
     alternateName: "گروه سازمان‌های علمی، اجتماعی و درمانی پندار",
     sameAs: ["https://pendar-gp.ir/", "https://www.instagram.com/pendarqom/"],
     subOrganization: {
       "@type": "Organization",
-      "@id": `${site.url}/#pendar-nimrokh`,
+      "@id": pendarNimrokhId,
       name: "Pendar Nimrokh",
       alternateName: "پندار نیم‌رخ",
       url: "https://pendar-gp.ir/",
-      parentOrganization: { "@id": `${site.url}/#pendar-group` },
+      parentOrganization: { "@id": pendarGroupId },
       subOrganization: {
         "@type": "Organization",
-        "@id": `${site.url}/#pendar-nimrokh-qom`,
+        "@id": pendarQomId,
         name: "Pendar Nimrokh Qom",
         alternateName: "پندار نیم‌رخ قم",
         url: person.affiliations[0].url,
-        parentOrganization: { "@id": `${site.url}/#pendar-nimrokh` },
-        employee: { "@id": `${site.url}/#person` },
+        parentOrganization: { "@id": pendarNimrokhId },
+        employee: { "@id": personId },
       },
     },
   };
@@ -73,11 +87,11 @@ export function getWebsiteSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "@id": `${site.url}/#website`,
+    "@id": websiteId,
     url: site.url,
     name: site.name,
     alternateName: site.nameFa,
-    publisher: { "@id": `${site.url}/#person` },
+    publisher: { "@id": personId },
     inLanguage: ["fa-IR", "en"],
   };
 }
@@ -91,9 +105,9 @@ export function getProfilePageSchema({ url = `${site.url}/about/`, name = site.t
     url: normalizedUrl,
     name,
     inLanguage: language,
-    isPartOf: { "@id": `${site.url}/#website` },
-    about: { "@id": `${site.url}/#person` },
-    mainEntity: { "@id": `${site.url}/#person` },
+    isPartOf: { "@id": websiteId },
+    about: { "@id": personId },
+    mainEntity: { "@id": personId },
     primaryImageOfPage: { "@type": "ImageObject", url: new URL(person.image.src, site.url).toString() },
   };
 }
@@ -115,8 +129,8 @@ export function getPodcastSeriesSchema({ name, description, url, spotifyUrl, ima
     description,
     url,
     sameAs: [spotifyUrl],
-    author: { "@id": `${site.url}/#person` },
-    creator: { "@id": `${site.url}/#person` },
+    author: { "@id": personId },
+    creator: { "@id": personId },
     episode: episodeUrls.map((episodeUrl) => ({ "@type": "PodcastEpisode", "@id": `${episodeUrl}#episode`, url: episodeUrl })),
     inLanguage: language,
     image,
@@ -134,8 +148,8 @@ export function getPodcastEpisodeSchema({ name, description, url, spotifyUrl, ep
     sameAs: [spotifyUrl],
     episodeNumber,
     partOfSeries: { "@type": "PodcastSeries", "@id": `${seriesUrl}#podcast`, url: seriesUrl },
-    author: { "@id": `${site.url}/#person` },
-    creator: { "@id": `${site.url}/#person` },
+    author: { "@id": personId },
+    creator: { "@id": personId },
     inLanguage: language,
   };
 }
@@ -144,7 +158,7 @@ function getAuthorSchemas(authors: string[]) {
   return authors.map((author) => {
     const normalized = author.toLowerCase().replace(/\s+/g, " ");
     const isLeilaRazavi = normalized.includes("leila razavi") || normalized.includes("لیلا رضوی");
-    if (isLeilaRazavi) return { "@type": "Person", "@id": `${site.url}/#person`, name: person.fullName, url: person.url };
+    if (isLeilaRazavi) return { "@type": "Person", "@id": personId, name: person.fullName, url: person.url };
     return { "@type": "Person", name: author };
   });
 }
