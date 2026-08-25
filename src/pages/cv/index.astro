@@ -9,17 +9,89 @@ const schemas = [getProfilePageSchema({ url, name: `رزومه حرفه‌ای $
   { name: "خانه", url: `${site.url}/` },
   { name: "رزومه حرفه‌ای", url },
 ])];
+
+/*
+ * CV ARCHITECTURE DECISION
+ *
+ * CV is intentionally a document-like endpoint, not a second About page.
+ * About tells the professional story; Experience explains roles in depth;
+ * this route is the compact, scannable credential layer for recruiters,
+ * collaborators and academic visitors. Repeated narrative is therefore
+ * replaced with concise evidence and links to canonical detail pages.
+ *
+ * SEO: /cv/ is retained so existing links and indexed equity are not broken.
+ * The page keeps ProfilePage + BreadcrumbList schema and does not introduce
+ * a new URL family just for presentation.
+ */
 ---
-<BaseLayout title={`رزومه حرفه‌ای ${person.fullNameFa} | ${site.nameFa}`} description="رزومه حرفه‌ای دکتر لیلا رضوی شامل حوزه‌های علمی، فعالیت‌های پژوهشی، سوابق حرفه‌ای و فعالیت‌های سازمانی." canonical={url} lang="fa" schemas={schemas}>
-  <section class="page"><div class="container">
-    <p class="label">رزومه حرفه‌ای</p><h1>{person.fullNameFa}</h1><p class="lead">روان‌شناس، مدرس دانشگاه و پژوهشگر حوزه روان‌شناسی.</p>
-    <section><h2>حوزه‌های تخصصی و پژوهشی</h2><div class="tags">{person.research.researchInterests.map((item) => <span>{item}</span>)}</div></section>
-    <section><h2>فعالیت‌های سازمانی</h2><div class="entry"><h3>مدیریت پندار نیم‌رخ قم</h3><p>دکتر لیلا رضوی در این وب‌سایت به‌عنوان مدیر پندار نیم‌رخ قم معرفی می‌شود. پندار نیم‌رخ در ساختار گروه سازمان‌های علمی، اجتماعی و درمانی پندار قرار می‌گیرد.</p><a href="/organizations/">مشاهده ساختار سازمانی ↗</a></div>{person.positions.map((position) => <div class="entry"><h3>{position.titleFa}</h3><p>{position.organizationFa}</p><a href={position.source} target="_blank" rel="noopener noreferrer">منبع عمومی ↗</a></div>)}</section>
-    <section><h2>اعتبارنامه حرفه‌ای</h2><div class="entry"><p>عضویت سازمان نظام روان‌شناسی و مشاوره: {person.professionalCredentials.psychologyOrganization.membershipNumber}</p><p>شماره پروانه: {person.professionalCredentials.psychologyOrganization.licenseNumber}</p></div></section>
-    <section><h2>آثار علمی</h2><p>فهرست مقالات، کتاب‌ها و آثار علمی تأییدشده در صفحه اختصاصی آثار علمی نگهداری می‌شود.</p><a href="/publications/">مشاهده آثار علمی ↗</a></section>
-    <section><h2>رسانه و فعالیت عمومی</h2><p>پادکست صحبت جان و منابع عمومی مرتبط با فعالیت حرفه‌ای در بخش رسانه ثبت شده‌اند.</p><a href="/media/">مشاهده رسانه و حضور عمومی ↗</a></section>
-  </div></section>
+<BaseLayout title={`رزومه حرفه‌ای ${person.fullNameFa} | ${site.nameFa}`} description="رزومه حرفه‌ای دکتر لیلا رضوی شامل حوزه‌های علمی، سوابق حرفه‌ای، فعالیت‌های سازمانی و اعتبارنامه‌های حرفه‌ای." canonical={url} lang="fa" schemas={schemas}>
+  <section class="cv-page">
+    <div class="container">
+      <header class="cv-header">
+        <div>
+          <p class="eyebrow">رزومه حرفه‌ای</p>
+          <h1 class="text-display">{person.fullNameFa}</h1>
+          <p class="text-lead">روان‌شناس، مدرس دانشگاه و پژوهشگر حوزه روان‌شناسی.</p>
+        </div>
+        <a class="download-link" href="/about/">مشاهده پروفایل کامل ↗</a>
+      </header>
+
+      <div class="cv-grid">
+        <main>
+          <section class="cv-section">
+            <p class="eyebrow">01 · تخصص</p>
+            <h2 class="text-heading">حوزه‌های تخصصی و پژوهشی</h2>
+            <div class="tags">{person.research.researchInterests.map((item) => <span>{item}</span>)}</div>
+          </section>
+
+          <section class="cv-section">
+            <p class="eyebrow">02 · سوابق</p>
+            <h2 class="text-heading">سوابق حرفه‌ای</h2>
+            <div class="entries">
+              {person.positions.map((position) => (
+                <article class="entry">
+                  <h3>{position.titleFa}</h3>
+                  <p>{position.organizationFa}</p>
+                  <a href={position.source} target="_blank" rel="noopener noreferrer">منبع عمومی ↗</a>
+                </article>
+              ))}
+            </div>
+            <a class="section-link" href="/experience/">مشاهده جزئیات فعالیت حرفه‌ای ↗</a>
+          </section>
+
+          <section class="cv-section">
+            <p class="eyebrow">03 · سازمان</p>
+            <h2 class="text-heading">فعالیت سازمانی</h2>
+            <div class="entry">
+              <h3>مدیریت پندار نیم‌رخ قم</h3>
+              <p>ارتباط حرفه‌ای با ساختار پندار و پندار نیم‌رخ قم.</p>
+              <a href="/organizations/">مشاهده ساختار سازمانی ↗</a>
+            </div>
+          </section>
+        </main>
+
+        <aside class="cv-aside">
+          <section class="credential-card">
+            <p class="eyebrow">اعتبارنامه</p>
+            <h2 class="text-heading">اعتبار حرفه‌ای</h2>
+            <dl>
+              <div><dt>عضویت</dt><dd>سازمان نظام روان‌شناسی و مشاوره</dd></div>
+              <div><dt>شماره عضویت</dt><dd>{person.professionalCredentials.psychologyOrganization.membershipNumber}</dd></div>
+              <div><dt>شماره پروانه</dt><dd>{person.professionalCredentials.psychologyOrganization.licenseNumber}</dd></div>
+            </dl>
+          </section>
+          <section class="quick-links">
+            <p class="eyebrow">مطالعه بیشتر</p>
+            <a href="/publications/">آثار علمی ↗</a>
+            <a href="/media/">رسانه و حضور عمومی ↗</a>
+            <a href="/contact/">پروفایل‌ها و ارتباط ↗</a>
+          </section>
+        </aside>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
+
 <style>
-.page{padding-block:90px}.container{max-width:900px}.label{color:#806f61;font-size:.8rem;font-weight:600}h1{margin:0 0 18px;font-size:clamp(3rem,7vw,5.5rem);font-weight:500}.lead{font-size:1.25rem;color:#555;line-height:2;margin-bottom:70px}section{padding:45px 0;border-top:1px solid #ddd7d0}h2{font-size:1.9rem;font-weight:500}.tags{display:flex;flex-wrap:wrap;gap:10px}.tags span{padding:8px 13px;border:1px solid #ddd7d0;color:#555}.entry{padding:25px 0;border-top:1px solid #e4dfda}.entry h3{font-size:1.35rem;font-weight:500}.entry p{color:#555;line-height:2}.entry a,section>a{color:#806f61;font-weight:600}
+  .cv-page{padding-block:clamp(72px,9vw,110px)}.container{max-width:1100px}.cv-header{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;padding-bottom:clamp(55px,7vw,80px);border-bottom:1px solid var(--color-border)}.cv-header h1{margin-bottom:18px}.download-link,.section-link,.entry a,.quick-links a{color:var(--color-accent-strong);font-size:var(--text-sm);font-weight:600;text-decoration:none}.download-link:hover,.section-link:hover,.entry a:hover,.quick-links a:hover{text-decoration:underline;text-underline-offset:5px}.cv-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(250px,.65fr);gap:clamp(50px,8vw,100px)}.cv-section{padding-block:55px;border-bottom:1px solid var(--color-border)}.cv-section .eyebrow{margin-bottom:12px}.cv-section h2{margin-bottom:28px}.tags{display:flex;flex-wrap:wrap;gap:9px}.tags span{padding:8px 12px;border:1px solid var(--color-border);color:var(--color-ink-muted);font-size:var(--text-sm)}.entries{border-top:1px solid var(--color-border)}.entry{padding:24px 0;border-bottom:1px solid var(--color-border)}.entry h3{margin:0 0 6px;font-size:var(--text-lg);font-weight:600}.entry p{margin:0 0 10px;color:var(--color-ink-muted);line-height:1.8}.section-link{display:inline-block;margin-top:24px}.cv-aside{padding-top:55px}.credential-card{padding:28px;border:1px solid var(--color-border);background:var(--color-surface)}.credential-card h2{margin-bottom:25px}.credential-card dl{margin:0}.credential-card dl div{padding-block:16px;border-top:1px solid var(--color-border)}.credential-card dt{margin-bottom:5px;color:var(--color-ink-subtle);font-size:var(--text-xs)}.credential-card dd{margin:0;line-height:1.7}.quick-links{display:grid;gap:15px;padding-top:35px}.quick-links a{display:block;padding-bottom:15px;border-bottom:1px solid var(--color-border)}@media(max-width:760px){.cv-header{align-items:flex-start;flex-direction:column}.cv-grid{grid-template-columns:1fr}.cv-aside{padding-top:0}}
 </style>
