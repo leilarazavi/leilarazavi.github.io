@@ -34,6 +34,8 @@ const navItems = isFa
       { label: "Media", href: "/en/media/" },
       { label: "Contact", href: "/en/contact/" },
     ];
+
+const isActive = (href: string) => currentPath === href || (href !== (isFa ? "/" : "/en/") && currentPath.startsWith(href));
 ---
 <header class="site-header">
   <div class="container header-container">
@@ -43,17 +45,17 @@ const navItems = isFa
     </a>
 
     <nav class="desktop-nav" aria-label={isFa ? "ناوبری اصلی" : "Main navigation"}>
-      {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+      {navItems.map((item) => <a class:list={{ active: isActive(item.href) }} href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>{item.label}</a>)}
       <LanguageSwitcher lang={lang} href={languageHref} />
     </nav>
 
     <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label={isFa ? "باز کردن منو" : "Open menu"}>
-      <span></span><span></span><span></span>
+      <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
     </button>
   </div>
 
   <nav id="mobile-menu" class="mobile-nav container" aria-label={isFa ? "ناوبری موبایل" : "Mobile navigation"} hidden>
-    {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+    {navItems.map((item) => <a class:list={{ active: isActive(item.href) }} href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>{item.label}</a>)}
     <LanguageSwitcher lang={lang} href={languageHref} />
   </nav>
 </header>
@@ -77,10 +79,12 @@ const navItems = isFa
   .brand-description { margin-top: var(--space-1); color: var(--color-ink-muted); font-size: var(--text-xs); }
   .desktop-nav { display: flex; align-items: center; gap: var(--space-5); }
   .desktop-nav a { color: var(--color-ink-muted); text-decoration: none; font-size: var(--text-sm); transition: color var(--transition-fast); }
-  .desktop-nav a:hover { color: var(--color-accent-strong); }
+  .desktop-nav a:hover, .desktop-nav a.active { color: var(--color-accent-strong); }
+  .desktop-nav a.active { font-weight: 600; }
   .menu-button { display: none; width: 42px; height: 42px; padding: 8px; border: 1px solid var(--color-border-strong); border-radius: 50%; background: transparent; cursor: pointer; }
   .menu-button span { display: block; width: 100%; height: 1px; margin-block: 5px; background: var(--color-ink); }
   .mobile-nav { display: none; padding-block: var(--space-5) var(--space-6); flex-direction: column; gap: var(--space-4); }
   .mobile-nav a { color: var(--color-ink-muted); text-decoration: none; font-size: var(--text-sm); }
+  .mobile-nav a.active { color: var(--color-accent-strong); font-weight: 600; }
   @media (max-width: 980px) { .desktop-nav { display: none; } .menu-button { display: block; } .mobile-nav:not([hidden]) { display: flex; } }
 </style>
