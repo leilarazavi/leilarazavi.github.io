@@ -5,20 +5,39 @@ const isFa = lang === "fa";
 const currentPath = Astro.url.pathname.endsWith("/") ? Astro.url.pathname : `${Astro.url.pathname}/`;
 const languageHref = isFa ? (currentPath === "/" ? "/en/" : `/en${currentPath}`) : (currentPath === "/en/" ? "/" : currentPath.replace(/^\/en/, ""));
 const languageLabel = isFa ? "EN" : "فارسی";
+
+/*
+ * INFORMATION ARCHITECTURE DECISION — Personal Brand v1
+ *
+ * این Header عمداً از ۶ مقصد پراکنده به ۵ مفهوم اصلی کاهش یافته است:
+ * 1) درباره من
+ * 2) فعالیت حرفه‌ای
+ * 3) پژوهش و آثار
+ * 4) رسانه
+ * 5) ارتباط
+ *
+ * دلیل: «سوابق» و «رزومه» برای کاربر هم‌پوشانی ذهنی زیادی دارند؛ بنابراین
+ * /cv/ حفظ می‌شود اما از Navigation اصلی خارج می‌شود. همچنین /research/
+ * و /organizations/ برای SEO و Entity Architecture حفظ می‌شوند، اما لازم
+ * نیست به‌عنوان آیتم مستقل Header نمایش داده شوند. این تفکیک بین
+ * Navigation UX و SEO Architecture است: منو باید ساده باشد، در حالی که
+ * صفحات ارزشمند برای موتور جست‌وجو و لینک‌سازی داخلی باقی می‌مانند.
+ *
+ * IMPORTANT: در این مرحله هیچ URLی حذف یا redirect نشده است.
+ * این تغییر فقط Navigation است تا قبل از refactor URLها، ارزش SEO فعلی حفظ شود.
+ */
 const navItems = isFa
   ? [
       { label: "درباره من", href: "/about/" },
-      { label: "آثار علمی", href: "/publications/" },
-      { label: "سوابق", href: "/experience/" },
-      { label: "رزومه", href: "/cv/" },
+      { label: "فعالیت حرفه‌ای", href: "/experience/" },
+      { label: "پژوهش و آثار", href: "/publications/" },
       { label: "رسانه", href: "/media/" },
-      { label: "تماس", href: "/contact/" },
+      { label: "ارتباط", href: "/contact/" },
     ]
   : [
       { label: "About", href: "/en/about/" },
-      { label: "Publications", href: "/en/publications/" },
-      { label: "Experience", href: "/en/experience/" },
-      { label: "CV", href: "/en/cv/" },
+      { label: "Professional", href: "/en/experience/" },
+      { label: "Research & Publications", href: "/en/publications/" },
       { label: "Media", href: "/en/media/" },
       { label: "Contact", href: "/en/contact/" },
     ];
@@ -27,7 +46,7 @@ const navItems = isFa
   <div class="header-container">
     <a class="brand" href={isFa ? "/" : "/en/"} aria-label={isFa ? "صفحه اصلی دکتر لیلا رضوی" : "Dr. Leila Razavi home page"}>
       <span class="brand-name">{isFa ? "دکتر لیلا رضوی" : "Dr. Leila Razavi"}</span>
-      <span class="brand-description">{isFa ? "روان‌شناس و پژوهشگر" : "Psychologist & Researcher"}</span>
+      <span class="brand-description">{isFa ? "روان‌شناس، مدرس دانشگاه و پژوهشگر" : "Psychologist, Lecturer & Researcher"}</span>
     </a>
     <nav class="desktop-nav" aria-label={isFa ? "ناوبری اصلی" : "Main navigation"}>
       {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
