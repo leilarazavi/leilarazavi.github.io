@@ -1,0 +1,22 @@
+---
+interface Props { lang?: "fa" | "en"; href: string; }
+const { lang = "fa", href } = Astro.props;
+const isFa = lang === "fa";
+
+/*
+ * COMPONENT ARCHITECTURE DECISION
+ *
+ * Language switching is a reusable navigation concern. The destination is
+ * passed in by the page/header because locale mapping is an SEO concern owned
+ * by routing/SEO logic; this component only presents the control consistently.
+ */
+---
+
+<a class="language-switcher" href={href} lang={isFa ? "en" : "fa"} hreflang={isFa ? "en" : "fa"}>
+  {isFa ? "EN" : "فارسی"}
+</a>
+
+<style>
+  .language-switcher { color: var(--color-ink-muted); text-decoration: none; font-size: var(--text-sm); font-weight: 600; transition: color var(--transition-fast); }
+  .language-switcher:hover { color: var(--color-accent-strong); }
+</style>
