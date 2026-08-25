@@ -27,49 +27,49 @@ const breadcrumbSchema = getBreadcrumbSchema([
   { name: title, url: canonical },
 ]);
 
-const citation = [
-  authors.join(", "),
-  publication.year ? `(${publication.year})` : "",
-  title,
-  publication.journal ? ` ${publication.journal}` : "",
-  publication.volume ? `, ${publication.volume}` : "",
-  publication.issue ? `(${publication.issue})` : "",
-  publication.pages ? `, ${publication.pages}` : "",
-  publication.doi ? `. ${publication.doi}` : "",
-].join("").replace(/\s+/g, " ").trim();
----
+const citation = [authors.join(", "), publication.year ? `(${publication.year})` : "", title, publication.journal ? ` ${publication.journal}` : "", publication.volume ? `, ${publication.volume}` : "", publication.issue ? `(${publication.issue})` : "", publication.pages ? `, ${publication.pages}` : "", publication.doi ? `. ${publication.doi}` : ""].join("").replace(/\s+/g, " ").trim();
 
+/*
+ * PUBLICATION DETAIL DECISION
+ *
+ * This route is an SEO landing page, not merely a modal/detail view. Each
+ * verified work gets its own canonical URL and scholarly/book schema so search
+ * engines can understand the work independently from the publications index.
+ *
+ * UX follows an academic reading pattern: identify the work first, then expose
+ * bibliographic facts, abstract and verification sources. The source panel is
+ * intentionally secondary so the page remains readable while retaining strong
+ * outbound verification signals.
+ */
+---
 <BaseLayout title={`${title} | ${person.fullNameFa}`} description={description} canonical={canonical} lang="fa" type="article" schemas={[schema, breadcrumbSchema]}>
   <article class="publication-page">
     <div class="container">
       <header class="publication-header">
-        <p class="eyebrow">
-          {publication.type === "journal-article" ? "مقاله ژورنالی" : publication.type === "conference-paper" ? "مقاله کنفرانسی" : publication.type === "book" ? "کتاب" : "اثر علمی"}
-        </p>
-        <h1>{title}</h1>
+        <p class="eyebrow">{publication.type === "journal-article" ? "مقاله ژورنالی" : publication.type === "conference-paper" ? "مقاله کنفرانسی" : publication.type === "book" ? "کتاب" : "اثر علمی"}</p>
+        <h1 class="text-title">{title}</h1>
         {publication.titleFa && <p class="title-fa">{publication.titleFa}</p>}
       </header>
 
       <div class="publication-layout">
         <main>
-          <section><h2>نویسندگان</h2><div class="authors">{authors.map((author) => <span class:list={{ author: true, primary: author.toLowerCase().includes("leila razavi") || author.includes("لیلا رضوی") }}>{author}</span>)}</div></section>
-          {publication.year && <section><h2>سال انتشار</h2><p>{publication.year}</p></section>}
-          {publication.journal && <section><h2>نشریه</h2><p>{publication.journal}</p></section>}
-          {publication.volume && <section><h2>جلد و شماره</h2><p>{publication.volume}{publication.issue ? ` (${publication.issue})` : ""}{publication.pages ? `، صفحات ${publication.pages}` : ""}</p></section>}
-          {publication.conference && <section><h2>همایش</h2><p>{publication.conference}</p></section>}
-          {publication.publisher && <section><h2>ناشر</h2><p>{publication.publisher}</p></section>}
-          {publication.isbn && <section><h2>شابک</h2><p>{publication.isbn}</p></section>}
-          {publication.abstract && <section><h2>چکیده</h2><p>{publication.abstract}</p></section>}
-
-          <section class="citation"><h2>اطلاعات استنادی</h2><p>{citation}</p><button id="copy-citation" type="button">کپی استناد</button></section>
+          <section><p class="meta-label">نویسندگان</p><div class="authors">{authors.map((author) => <span class:list={{ author: true, primary: author.toLowerCase().includes("leila razavi") || author.includes("لیلا رضوی") }}>{author}</span>)}</div></section>
+          {publication.year && <section><p class="meta-label">سال انتشار</p><p>{publication.year}</p></section>}
+          {publication.journal && <section><p class="meta-label">نشریه</p><p>{publication.journal}</p></section>}
+          {(publication.volume || publication.issue || publication.pages) && <section><p class="meta-label">مشخصات انتشار</p><p>{publication.volume}{publication.issue ? ` (${publication.issue})` : ""}{publication.pages ? `، صفحات ${publication.pages}` : ""}</p></section>}
+          {publication.conference && <section><p class="meta-label">همایش</p><p>{publication.conference}</p></section>}
+          {publication.publisher && <section><p class="meta-label">ناشر</p><p>{publication.publisher}</p></section>}
+          {publication.isbn && <section><p class="meta-label">شابک</p><p>{publication.isbn}</p></section>}
+          {publication.abstract && <section class="abstract"><p class="meta-label">چکیده</p><p>{publication.abstract}</p></section>}
+          <section class="citation"><p class="meta-label">اطلاعات استنادی</p><p>{citation}</p><button id="copy-citation" type="button">کپی استناد</button></section>
         </main>
 
         <aside>
           <div class="source-box">
             <strong>منابع و راستی‌آزمایی</strong>
-            {publication.doi && <a href={publication.doi} target="_blank" rel="noopener noreferrer">DOI</a>}
-            {publication.url && <a href={publication.url} target="_blank" rel="noopener noreferrer">منبع اثر</a>}
-            {publication.verificationSources.map((source) => <a href={source.url} target="_blank" rel="noopener noreferrer">{source.label}</a>)}
+            {publication.doi && <a href={publication.doi} target="_blank" rel="noopener noreferrer">DOI ↗</a>}
+            {publication.url && <a href={publication.url} target="_blank" rel="noopener noreferrer">منبع اثر ↗</a>}
+            {publication.verificationSources.map((source) => <a href={source.url} target="_blank" rel="noopener noreferrer">{source.label} ↗</a>)}
           </div>
         </aside>
       </div>
@@ -80,30 +80,11 @@ const citation = [
 <script define:vars={{ citation }}>
   const button = document.querySelector<HTMLButtonElement>("#copy-citation");
   button?.addEventListener("click", async () => {
-    await navigator.clipboard.writeText(citation);
-    button.textContent = "کپی شد";
-    window.setTimeout(() => { button.textContent = "کپی استناد"; }, 1400);
+    try { await navigator.clipboard.writeText(citation); button.textContent = "کپی شد"; window.setTimeout(() => { button.textContent = "کپی استناد"; }, 1400); } catch { button.textContent = "کپی انجام نشد"; }
   });
 </script>
 
 <style>
-  .publication-page { padding-block: 90px; }
-  .publication-header { max-width: 900px; padding-bottom: 60px; border-bottom: 1px solid #ddd7d0; }
-  .eyebrow { margin: 0 0 20px; color: #806f61; font-size: .8rem; font-weight: 600; }
-  h1 { margin: 0; font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1.4; font-weight: 500; }
-  .title-fa { margin-top: 25px; color: #777; line-height: 2; }
-  .publication-layout { display: grid; grid-template-columns: minmax(0, 760px) 240px; gap: 90px; padding-top: 60px; }
-  main section { padding-bottom: 38px; }
-  h2 { margin-bottom: 12px; font-size: 1rem; color: #806f61; font-weight: 600; }
-  p { color: #555; line-height: 2; }
-  .authors { display: flex; flex-wrap: wrap; gap: 7px; line-height: 1.9; }
-  .author:not(:last-child)::after { content: ","; margin-inline-start: 4px; }
-  .primary { font-weight: 700; color: #222; }
-  .source-box { display: flex; flex-direction: column; gap: 12px; padding: 25px; border: 1px solid #ddd7d0; }
-  .source-box strong { margin-bottom: 8px; }
-  .source-box a { color: #806f61; text-decoration: none; font-size: .9rem; }
-  .citation { padding: 28px; background: #f4f0eb; }
-  button { padding: 9px 14px; border: 1px solid #cfc6bd; background: transparent; color: #806f61; cursor: pointer; font: inherit; }
-  @media print { .source-box, button { display: none; } .publication-page { padding-block: 0; } }
-  @media (max-width: 800px) { .publication-layout { grid-template-columns: 1fr; gap: 40px; } }
+  .publication-page{padding-block:clamp(72px,9vw,110px)}.publication-header{max-width:920px;padding-bottom:clamp(50px,7vw,75px);border-bottom:1px solid var(--color-border)}.publication-header h1{margin-bottom:22px}.eyebrow,.meta-label{margin:0 0 12px;color:var(--color-accent);font-size:var(--text-xs);font-weight:700}.title-fa{margin:0;color:var(--color-ink-muted);line-height:2}.publication-layout{display:grid;grid-template-columns:minmax(0,760px) minmax(220px,280px);gap:clamp(45px,8vw,90px);padding-top:55px}.publication-layout main section{padding-block:26px;border-bottom:1px solid var(--color-border)}.publication-layout main section:first-child{padding-top:0}.publication-layout p:not(.meta-label){margin:0;color:var(--color-ink-muted);line-height:2}.authors{display:flex;flex-wrap:wrap;gap:5px;color:var(--color-ink);line-height:2}.author:not(:last-child)::after{content:",";margin-inline-start:4px}.primary{font-weight:700}.abstract p:last-child{max-width:740px}.source-box{position:sticky;top:110px;display:grid;gap:13px;padding:24px;border:1px solid var(--color-border);background:var(--color-surface)}.source-box strong{margin-bottom:5px}.source-box a{color:var(--color-accent-strong);font-size:var(--text-sm);text-decoration:none}.source-box a:hover{text-decoration:underline;text-underline-offset:5px}.citation{margin-top:18px;padding:26px!important;background:var(--color-surface-muted);border:0!important}.citation button{margin-top:18px;padding:9px 14px;border:1px solid var(--color-border-strong);background:transparent;color:var(--color-accent-strong);cursor:pointer;font:inherit}@media(max-width:800px){.publication-layout{grid-template-columns:1fr}.source-box{position:static}}
+@media print{.source-box,.citation button{display:none}.publication-page{padding-block:0}}
 </style>

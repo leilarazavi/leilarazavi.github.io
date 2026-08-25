@@ -9,21 +9,62 @@ const schemas = [getPendarOrganizationSchema(), getBreadcrumbSchema([
   { name: "خانه", url: `${site.url}/` },
   { name: "سازمان‌ها و وابستگی‌های حرفه‌ای", url },
 ])];
+
+/*
+ * ORGANIZATION ENTITY DECISION
+ *
+ * This page is not a generic list of workplaces. It exists to clarify the
+ * relationship between the Person entity and the Pendar organization graph.
+ * The hierarchy is therefore explicit and source-linked.
+ *
+ * UX: organizations remain out of the primary header because they are a
+ * supporting destination, not the main user journey. SEO: the route and
+ * Organization schema remain stable so Person <-> Organization relationships
+ * can be understood without duplicating the information on About or CV.
+ */
 ---
 <BaseLayout title={`سازمان‌ها و وابستگی‌های حرفه‌ای | ${site.nameFa}`} description="ارتباط حرفه‌ای دکتر لیلا رضوی با گروه پندار، پندار نیم‌رخ و پندار نیم‌رخ قم و سایر فعالیت‌های سازمانی." canonical={url} lang="fa" schemas={schemas}>
-  <section class="page"><div class="container">
-    <p class="label">سازمان‌ها و وابستگی‌های حرفه‌ای</p><h1>فعالیت‌های سازمانی</h1>
-    <p class="lead">در این صفحه رابطه میان دکتر لیلا رضوی و ساختار سازمانی پندار به‌صورت مشخص و تفکیک‌شده ارائه می‌شود.</p>
-    <div class="org-tree">
-      <article><p class="level">گروه اصلی</p><h2>گروه سازمان‌های علمی، اجتماعی و درمانی پندار</h2><p>گروه اصلی پندار که مجموعه‌ها و ساختارهای وابسته در چارچوب آن معرفی می‌شوند.</p><a href="https://pendar-gp.ir/" target="_blank" rel="noopener noreferrer">وب‌سایت پندار ↗</a></article>
-      <div class="connector">↓</div>
-      <article><p class="level">زیرمجموعه</p><h2>پندار نیم‌رخ</h2><p>یکی از مجموعه‌های وابسته به گروه پندار.</p><a href="https://pendar-gp.ir/" target="_blank" rel="noopener noreferrer">منبع رسمی پندار ↗</a></article>
-      <div class="connector">↓</div>
-      <article><p class="level">مرکز در قم</p><h2>پندار نیم‌رخ قم</h2><p>مرکز پندار نیم‌رخ در قم که مدیریت آن بر اساس پروفایل حرفه‌ای پندار با دکتر لیلا رضوی مرتبط است.</p><a href={person.profiles.pendar} target="_blank" rel="noopener noreferrer">پروفایل دکتر لیلا رضوی در پندار ↗</a></article>
+  <section class="org-page">
+    <div class="container">
+      <header class="org-header">
+        <p class="eyebrow">سازمان‌ها و وابستگی‌های حرفه‌ای</p>
+        <h1 class="text-display">شبکه حرفه‌ای پندار</h1>
+        <p class="text-lead">رابطه میان دکتر لیلا رضوی و ساختار سازمانی پندار، به‌صورت روشن و منبع‌محور.</p>
+      </header>
+
+      <section class="org-tree" aria-label="ساختار سازمانی">
+        <article class="org-node">
+          <p class="node-level">01 · گروه اصلی</p>
+          <h2 class="text-heading">گروه سازمان‌های علمی، اجتماعی و درمانی پندار</h2>
+          <p>ساختار اصلی که مجموعه‌ها و فعالیت‌های وابسته به پندار در چارچوب آن معرفی می‌شوند.</p>
+          <a href="https://pendar-gp.ir/" target="_blank" rel="noopener noreferrer">وب‌سایت رسمی پندار ↗</a>
+        </article>
+        <div class="connector" aria-hidden="true">↓</div>
+        <article class="org-node">
+          <p class="node-level">02 · مجموعه وابسته</p>
+          <h2 class="text-heading">پندار نیم‌رخ</h2>
+          <p>یکی از مجموعه‌های وابسته به گروه پندار که در ساختار حرفه‌ای این پروفایل به آن ارجاع داده می‌شود.</p>
+          <a href="https://pendar-gp.ir/" target="_blank" rel="noopener noreferrer">منبع رسمی پندار ↗</a>
+        </article>
+        <div class="connector" aria-hidden="true">↓</div>
+        <article class="org-node org-node--person">
+          <p class="node-level">03 · مرکز در قم</p>
+          <h2 class="text-heading">پندار نیم‌رخ قم</h2>
+          <p>مرکز پندار نیم‌رخ در قم که مدیریت آن در پروفایل حرفه‌ای پندار با دکتر لیلا رضوی مرتبط است.</p>
+          <a href={person.profiles.pendar} target="_blank" rel="noopener noreferrer">پروفایل دکتر لیلا رضوی در پندار ↗</a>
+        </article>
+      </section>
+
+      <section class="role-card">
+        <p class="eyebrow">نقش شخص</p>
+        <h2 class="text-heading">دکتر لیلا رضوی در این ساختار</h2>
+        <p>در این وب‌سایت، دکتر لیلا رضوی به‌عنوان مدیر پندار نیم‌رخ قم معرفی می‌شود. برای جزئیات و سوابق رسمی، پروفایل حرفه‌ای پندار منبع اصلی است.</p>
+        <div class="role-links"><a href="/about/">مشاهده پروفایل حرفه‌ای ↗</a><a href="/experience/">مشاهده فعالیت‌های حرفه‌ای ↗</a></div>
+      </section>
     </div>
-    <section class="role"><h2>نقش دکتر لیلا رضوی</h2><p>دکتر لیلا رضوی در ساختار این وب‌سایت به‌عنوان مدیر پندار نیم‌رخ قم معرفی می‌شود. برای جزئیات و سوابق رسمی، پروفایل حرفه‌ای پندار منبع اصلی است.</p><a href="/about/">مشاهده پروفایل حرفه‌ای ↗</a></section>
-  </div></section>
+  </section>
 </BaseLayout>
+
 <style>
-.page{padding-block:90px}.container{max-width:900px}.label,.level{color:#806f61;font-size:.8rem;font-weight:600}.label{margin-bottom:12px}h1{margin:0 0 24px;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:500}.lead{font-size:1.2rem;color:#555;line-height:2;max-width:760px;margin-bottom:70px}.org-tree{max-width:760px}.org-tree article,.role{padding:32px 0;border-top:1px solid #ddd7d0}.org-tree h2,.role h2{font-size:1.7rem;font-weight:500}.org-tree p,.role p{color:#555;line-height:2}.org-tree a,.role a{color:#806f61;font-weight:600}.connector{text-align:center;color:#806f61;padding:16px}.role{margin-top:45px}
+  .org-page{padding-block:clamp(72px,9vw,110px)}.container{max-width:1000px}.org-header{max-width:850px;padding-bottom:clamp(55px,8vw,85px)}.org-header h1{margin-bottom:22px}.org-tree{max-width:820px;margin-inline:auto}.org-node{padding:32px 0;border-block:1px solid var(--color-border)}.org-node+.connector{border:0}.node-level{margin:0 0 10px;color:var(--color-accent);font-size:var(--text-xs);font-weight:700}.org-node h2{margin-bottom:16px}.org-node p:not(.node-level),.role-card p{max-width:720px;margin:0 0 16px;color:var(--color-ink-muted);line-height:2}.org-node a,.role-links a{color:var(--color-accent-strong);font-size:var(--text-sm);font-weight:600;text-decoration:none}.org-node a:hover,.role-links a:hover{text-decoration:underline;text-underline-offset:5px}.connector{padding:14px 0;text-align:center;color:var(--color-accent);font-size:1.2rem}.org-node--person{padding-bottom:40px}.role-card{max-width:820px;margin:clamp(55px,8vw,90px) auto 0;padding:34px 0;border-top:1px solid var(--color-border)}.role-card h2{margin-bottom:18px}.role-links{display:flex;flex-wrap:wrap;gap:24px;margin-top:24px}@media(max-width:560px){.role-links{flex-direction:column;gap:14px}}
 </style>
