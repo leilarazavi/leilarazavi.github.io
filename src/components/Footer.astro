@@ -9,15 +9,15 @@ const isFa = lang === "fa";
 const navigation = isFa
   ? [
       { label: "درباره من", href: "/about/" },
-      { label: "آثار علمی", href: "/publications/" },
-      { label: "سوابق", href: "/experience/" },
+      { label: "پژوهش و آثار", href: "/publications/" },
+      { label: "فعالیت حرفه‌ای", href: "/experience/" },
       { label: "رسانه", href: "/media/" },
       { label: "ارتباط", href: "/contact/" },
     ]
   : [
       { label: "About", href: "/en/about/" },
-      { label: "Publications", href: "/en/publications/" },
-      { label: "Experience", href: "/en/experience/" },
+      { label: "Research & Publications", href: "/en/publications/" },
+      { label: "Professional Activity", href: "/en/experience/" },
       { label: "Media", href: "/en/media/" },
       { label: "Contact", href: "/en/contact/" },
     ];
@@ -27,9 +27,9 @@ const navigation = isFa
  *
  * The footer owns composition only. Verified identity sources are rendered by
  * SocialLinks so the same presentation logic can be reused by Contact, About
- * and future media/profile sections. Navigation remains intentionally smaller
- * than the full SEO route graph; footer navigation is a usability layer, not
- * a replacement for crawlable internal links elsewhere in the site.
+ * and future media/profile sections. Footer navigation intentionally mirrors
+ * the primary concepts, while supporting SEO routes remain discoverable from
+ * their contextual pages instead of being repeated everywhere.
  */
 ---
 
@@ -56,17 +56,8 @@ const navigation = isFa
 </footer>
 
 <style>
-  .site-footer {
-    margin-top: var(--space-10);
-    border-top: 1px solid var(--color-border);
-    background: var(--color-surface-muted);
-  }
-  .footer-grid {
-    padding-block: var(--space-8);
-    display: grid;
-    grid-template-columns: 1.4fr 1fr 1fr;
-    gap: var(--space-7);
-  }
+  .site-footer { margin-top: var(--space-10); border-top: 1px solid var(--color-border); background: var(--color-surface-muted); }
+  .footer-grid { padding-block: var(--space-8); display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: var(--space-7); }
   .footer-name { font-size: var(--text-lg); font-weight: 600; }
   .footer-identity p { margin: var(--space-2) 0 0; color: var(--color-ink-muted); font-size: var(--text-sm); }
   .footer-nav { display: flex; flex-direction: column; gap: var(--space-3); }

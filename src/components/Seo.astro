@@ -24,28 +24,24 @@ const canonicalPath = canonicalUrl.pathname.endsWith("/") ? canonicalUrl.pathnam
 const isEnglishPath = canonicalPath === "/en/" || canonicalPath.startsWith("/en/");
 const faPath = isEnglishPath ? (canonicalPath === "/en/" ? "/" : canonicalPath.replace(/^\/en/, "")) : canonicalPath;
 const enPath = isEnglishPath ? canonicalPath : (canonicalPath === "/" ? "/en/" : `/en${canonicalPath}`);
-const languageUrl = `${site.url}${lang === "fa" ? faPath : enPath}`;
-const alternateLanguageUrl = `${site.url}${lang === "fa" ? enPath : faPath}`;
-const alternateLanguage = lang === "fa" ? "en" : "fa";
 
 /*
  * TECHNICAL SEO DECISION
  *
- * Keep canonical URLs authoritative and emit a reciprocal hreflang pair for
- * every localized page. The document language remains fa-IR/en at the HTML
- * level, while hreflang uses the broader language codes "fa" and "en" so the
- * site does not imply a country-specific English audience. x-default points to
- * the Persian root because Persian is the site's primary locale.
+ * Canonical URLs remain the source of truth. Localized pages receive a
+ * reciprocal fa/en pair derived from the canonical route, plus x-default to
+ * the primary Persian locale. We intentionally do not hard-code page pairs.
  *
- * This component must derive alternate URLs from the canonical path rather than
- * hard-coding page pairs; that prevents future internal pages from accidentally
- * pointing to the wrong locale.
+ * A noindex compatibility route is still allowed to expose its canonical and
+ * locale information, but its robots directive is `noindex, follow`: links on
+ * a transitional page remain crawlable even though the page itself should not
+ * enter the index. This is safer for internal-link discovery than nofollow.
  */
 ---
 
 <title>{title}</title>
 <meta name="description" content={description} />
-<meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
+<meta name="robots" content={noindex ? "noindex, follow" : "index, follow"} />
 <link rel="canonical" href={canonicalUrl.href} />
 <link rel="alternate" hreflang="fa" href={`${site.url}${faPath}`} />
 <link rel="alternate" hreflang="en" href={`${site.url}${enPath}`} />

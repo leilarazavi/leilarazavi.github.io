@@ -20,10 +20,10 @@ const years = [...new Set(publications.map(({ data }) => data.year).filter((year
       </header>
 
       <div class="filters" aria-label="فیلتر و جست‌وجوی آثار علمی">
-        <label class="search-field"><span>جست‌وجو</span><input id="search-filter" type="search" placeholder="مثلاً ADHD یا depression" autocomplete="off" /></label>
-        <label><span>نوع اثر</span><select id="type-filter"><option value="all">همه</option><option value="journal-article">مقالات</option><option value="book">کتاب‌ها</option><option value="book-chapter">فصل کتاب</option><option value="conference-paper">همایش</option></select></label>
-        <label><span>سال</span><select id="year-filter"><option value="all">همه سال‌ها</option>{years.map((year) => <option value={year}>{year}</option>)}</select></label>
-        <label><span>مرتب‌سازی</span><select id="sort-filter"><option value="newest">جدیدترین</option><option value="oldest">قدیمی‌ترین</option><option value="featured">منتخب</option></select></label>
+        <label class="search-field" for="search-filter"><span>جست‌وجو</span><input id="search-filter" type="search" placeholder="مثلاً ADHD یا depression" autocomplete="off" /></label>
+        <label for="type-filter"><span>نوع اثر</span><select id="type-filter"><option value="all">همه</option><option value="journal-article">مقالات</option><option value="book">کتاب‌ها</option><option value="book-chapter">فصل کتاب</option><option value="conference-paper">همایش</option></select></label>
+        <label for="year-filter"><span>سال</span><select id="year-filter"><option value="all">همه سال‌ها</option>{years.map((year) => <option value={year}>{year}</option>)}</select></label>
+        <label for="sort-filter"><span>مرتب‌سازی</span><select id="sort-filter"><option value="newest">جدیدترین</option><option value="oldest">قدیمی‌ترین</option><option value="featured">منتخب</option></select></label>
       </div>
 
       <div class="publication-list" id="publication-list">

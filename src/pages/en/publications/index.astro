@@ -12,7 +12,10 @@ const years = [...new Set(publications.map(({ data }) => data.year).filter((year
   <!-- The English scholarly hub mirrors Persian SEO intent and keeps filtering client-side so publication URLs remain crawlable. -->
   <section class="page"><div class="container">
     <header><p class="label">Publications</p><h1>Research and scholarly work</h1><p class="lead">Verified articles, conference papers, and books, organized by type and year.</p></header>
-    <div class="filters"><label>Type<select id="type-filter" aria-label="Filter publications by type"><option value="all">All</option><option value="journal-article">Articles</option><option value="conference-paper">Conference</option><option value="book">Books</option></select></label><label>Year<select id="year-filter" aria-label="Filter publications by year"><option value="all">All years</option>{years.map((year) => <option value={year}>{year}</option>)}</select></label></div>
+    <div class="filters">
+      <label for="type-filter">Type<select id="type-filter"><option value="all">All</option><option value="journal-article">Articles</option><option value="conference-paper">Conference</option><option value="book">Books</option></select></label>
+      <label for="year-filter">Year<select id="year-filter"><option value="all">All years</option>{years.map((year) => <option value={year}>{year}</option>)}</select></label>
+    </div>
     <div id="publication-list">{publications.map((publication) => <article class="publication-entry" data-type={publication.data.type} data-year={publication.data.year ?? "unknown"}><PublicationCard title={publication.data.title} titleFa={publication.data.titleFa} authors={publication.data.authors} year={publication.data.year} journal={publication.data.journal ?? publication.data.publisher} url={`/en/publications/${publication.id}/`} /></article>)}</div>
     <p id="empty-results" hidden>No publications match these filters.</p>
   </div></section>
