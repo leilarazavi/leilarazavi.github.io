@@ -1,0 +1,65 @@
+/*
+ * TYPOGRAPHY SYSTEM — Personal Authority v1
+ *
+ * Typography is doing most of the brand work here. We deliberately avoid
+ * decorative display fonts: the site should feel editorial, academic and
+ * contemporary, while Persian remains comfortable to read at long lengths.
+ *
+ * Components should use these utility classes or the same tokens rather than
+ * introducing arbitrary font sizes. This prevents the current one-off styling
+ * pattern from growing during the redesign.
+ */
+
+.text-display {
+  margin: 0;
+  font-size: var(--text-display);
+  line-height: var(--leading-tight);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+
+.text-title {
+  margin: 0;
+  font-size: var(--text-3xl);
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.text-heading {
+  margin: 0;
+  font-size: var(--text-2xl);
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+.text-lead {
+  margin: 0;
+  max-width: var(--reading-width);
+  color: var(--color-ink-muted);
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+}
+
+.text-body {
+  margin: 0;
+  max-width: var(--reading-width);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+}
+
+.text-meta {
+  margin: 0;
+  color: var(--color-ink-subtle);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
+.eyebrow {
+  margin: 0 0 var(--space-4);
+  color: var(--color-accent);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
