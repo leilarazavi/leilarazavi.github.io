@@ -2,46 +2,63 @@
 
 ## Current baseline
 
-- Astro is configured with the production `site` URL, and `@astrojs/sitemap` is enabled. The sitemap is therefore generated at build time rather than committed manually.
+- Astro is configured with the production `site` URL, and `@astrojs/sitemap` is enabled.
 - `robots.txt` allows crawling and references the generated sitemap index.
 - The shared SEO component emits canonical, robots, Open Graph, Twitter Card and JSON-LD metadata.
 - Persian and English routes are intentionally kept as separate localized URL spaces (`/` and `/en/`).
 
-## Hardening applied in this milestone
+## Hardening applied
 
 ### 1. Reciprocal hreflang generation
 
-`Seo.astro` now emits exactly one `fa` and one `en` alternate URL derived from the canonical path, plus `x-default`.
+`Seo.astro` emits one `fa`, one `en`, and one `x-default` alternate URL derived from the canonical path.
 
-**Why:** the alternate URL should be derived from the current route rather than relying on duplicated page-level logic. This reduces the chance of broken locale pairs as the site grows.
+**Why:** locale mapping belongs to one shared layer. This reduces the chance of individual pages drifting into incorrect language pairs.
 
 ### 2. Canonical remains authoritative
 
-No canonical URLs were changed in this milestone. Existing page-level canonical values remain the source of truth.
+No indexed URL was changed merely for visual or navigation reasons.
 
-**Why:** visual/IA work must not silently change the indexed URL set.
+**Why:** navigation simplicity and search architecture are separate concerns.
 
-### 3. Noindex remains explicit
+### 3. Noindex compatibility routes use `noindex, follow`
 
-Pages intentionally marked `noindex` remain controlled by the page-level `noindex` prop.
+Legacy research routes remain compatibility endpoints, but they no longer request `nofollow`.
 
-**Why:** SEO-only architectural decisions should be explicit in the page source rather than inferred from navigation visibility.
+**Why:** the route should stay out of search while still allowing crawlers to follow useful links to the canonical destination.
 
-## Remaining technical SEO QA
+### 4. Sitemap excludes consolidated research routes
 
-The following require the built site / browser or Search Console validation and are intentionally not claimed as complete from source inspection alone:
+The Astro sitemap integration filters `/research/` and `/en/research/` out of the generated sitemap.
 
-- Verify every canonical resolves with HTTP 200.
-- Verify every `fa`/`en` hreflang target resolves with HTTP 200 and is reciprocal.
-- Verify generated sitemap contains only canonical, indexable URLs.
-- Verify no `noindex` URL appears as an important internal navigation destination.
-- Validate Person, WebSite, BreadcrumbList and Article/ScholarlyArticle schemas against rendered HTML.
-- Check title uniqueness and description uniqueness across all indexable routes.
-- Check Open Graph image availability and dimensions.
-- Run Lighthouse/PageSpeed for mobile and desktop.
-- Verify Core Web Vitals after deployment.
-- Inspect Google Search Console indexing, sitemap status, canonical selection and enhancement reports.
+**Why:** XML sitemaps should represent the canonical indexable URL set, not transitional/noindex endpoints.
 
-## SEO principle for the redesign
+### 5. Entity graph remains centralized
 
-Navigation simplicity and search architecture are separate layers. Removing an item from the primary Header does **not** imply removing its URL from search. CV, Organizations and other supporting pages remain indexable when their content provides unique value and their canonical/noindex strategy explicitly allows it.
+Person, WebSite, organization, publication and podcast schemas are generated from shared data/functions rather than hand-written independently on every page.
+
+## Source-level QA status
+
+The repository now documents and implements the following controls:
+
+- canonical URL preservation;
+- locale pairing;
+- sitemap quality;
+- explicit noindex behavior;
+- structured-data generation;
+- centralized identity data;
+- accessibility foundations;
+- shared UI tokens and components.
+
+## Deployment-only validation still required
+
+The following require a browser/deployment/Search Console environment and are intentionally not claimed as complete from source inspection alone:
+
+- HTTP 200 checks for all canonical/hreflang targets;
+- generated sitemap contents;
+- rendered structured-data validation;
+- title/description uniqueness across the final rendered route set;
+- Open Graph image availability;
+- Lighthouse and Core Web Vitals;
+- Search Console indexing and canonical-selection reports;
+- real-world mobile/keyboard interaction testing.
