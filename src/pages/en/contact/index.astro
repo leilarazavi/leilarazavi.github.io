@@ -4,6 +4,7 @@ import { person } from "../../../lib/person";
 import { site } from "../../../lib/site";
 ---
 <BaseLayout title={`Profiles and Contact | ${site.name}`} description="Public academic and professional profiles for Dr. Leila Razavi." canonical={`${site.url}/en/contact/`} lang="en">
+  <!-- Contact is an official-profile hub, not a generic lead form; this keeps the personal-brand entity graph explicit. -->
   <section class="page"><div class="container"><header><p class="label">Profiles and contact</p><h1>Academic and professional profiles</h1><p class="lead">For professional contact, use the public academic and organizational channels below. The published phone number is the contact number for Pendar.</p></header><div class="links">
     {person.profiles.googleScholar && <a href={person.profiles.googleScholar} target="_blank" rel="noopener noreferrer"><strong>Google Scholar</strong><span>Research profile and publications</span></a>}
     {person.profiles.instagram && <a href={person.profiles.instagram} target="_blank" rel="noopener noreferrer"><strong>Instagram — Dr. Leila Razavi</strong><span>Public professional presence</span></a>}
@@ -13,5 +14,5 @@ import { site } from "../../../lib/site";
   </div></div></section>
 </BaseLayout>
 <style>
-.page{padding-block:90px}header{max-width:820px;padding-bottom:60px}.label{color:#806f61;font-size:.8rem;font-weight:600}h1{margin:0 0 24px;font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.25;font-weight:500}.lead{color:#555;line-height:2}.links{display:grid;max-width:820px}.links a{display:flex;flex-direction:column;gap:6px;padding:24px 0;border-top:1px solid #ddd7d0;color:#222;text-decoration:none}.links a:hover{color:#806f61}.links strong{font-size:1.05rem}.links span{color:#777;font-size:.9rem}
+.page{padding-block:var(--space-9)}header{max-width:820px;padding-bottom:var(--space-8)}.label{margin:0 0 var(--space-3);color:var(--color-accent);font-size:var(--text-xs);font-weight:700}h1{margin:0 0 var(--space-5);font-size:var(--text-display);line-height:1.15;font-weight:500;letter-spacing:-.04em}.lead{max-width:var(--reading-width);color:var(--color-ink-muted);font-size:var(--text-lg);line-height:var(--leading-relaxed)}.links{display:grid;max-width:820px}.links a{display:flex;flex-direction:column;gap:6px;padding:24px 0;border-top:1px solid var(--color-border);color:var(--color-ink);text-decoration:none}.links a:hover{color:var(--color-accent)}.links strong{font-size:var(--text-lg)}.links span{color:var(--color-ink-subtle);font-size:var(--text-sm)}
 </style>
