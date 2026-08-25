@@ -3,18 +3,21 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { person } from "../../lib/person";
 import { site } from "../../lib/site";
 ---
+
 <BaseLayout title={`ارتباط و پروفایل‌ها | ${site.nameFa}`} description="راه‌های ارتباط عمومی و پروفایل‌های علمی و حرفه‌ای دکتر لیلا رضوی." canonical={`${site.url}/contact/`} lang="fa">
+  <!-- Contact is positioned as an official resource hub, not a generic contact form. This keeps the page useful for both public visitors and professional/academic visitors. -->
   <section class="page"><div class="container">
-    <header><p class="label">ارتباط</p><h1>پروفایل‌ها و مسیرهای ارتباط عمومی</h1><p class="lead">برای ارتباط حرفه‌ای، از مسیرهای عمومی و سازمانی زیر استفاده کنید. شماره اعلام‌شده متعلق به مرکز پندار و برای ارتباط با این مجموعه است.</p></header>
+    <header><p class="label">ارتباط و منابع رسمی</p><h1>از مسیرهای رسمی با دکتر لیلا رضوی در ارتباط باشید.</h1><p class="lead">برای ارتباط حرفه‌ای و دنبال‌کردن فعالیت‌های علمی و عمومی، از پروفایل‌ها و مسیرهای رسمی زیر استفاده کنید.</p></header>
     <div class="links">
-      {person.profiles.googleScholar && <a href={person.profiles.googleScholar} target="_blank" rel="noopener noreferrer"><strong>Google Scholar</strong><span>پروفایل پژوهشی و آثار علمی</span></a>}
-      {person.profiles.instagram && <a href={person.profiles.instagram} target="_blank" rel="noopener noreferrer"><strong>Instagram — دکتر لیلا رضوی</strong><span>حضور عمومی و حرفه‌ای</span></a>}
-      {person.profiles.pendar && <a href={person.profiles.pendar} target="_blank" rel="noopener noreferrer"><strong>پندار — پروفایل حرفه‌ای</strong><span>پروفایل حرفه‌ای و مسیر ارتباط سازمانی</span></a>}
-      {person.profiles.pendarInstagram && <a href={person.profiles.pendarInstagram} target="_blank" rel="noopener noreferrer"><strong>پندار — Instagram</strong><span>حساب رسمی مجموعه پندار</span></a>}
-      {person.contact.pendarPhone && <a href={`tel:${person.contact.pendarPhone}`}><strong>تماس با پندار</strong><span dir="ltr">{person.contact.pendarPhone}</span></a>}
+      {person.profiles.googleScholar && <a href={person.profiles.googleScholar} target="_blank" rel="noopener noreferrer"><span class="number">01</span><div><strong>Google Scholar</strong><small>پروفایل پژوهشی و آثار علمی</small></div><b aria-hidden="true">↗</b></a>}
+      {person.profiles.instagram && <a href={person.profiles.instagram} target="_blank" rel="noopener noreferrer"><span class="number">02</span><div><strong>Instagram — دکتر لیلا رضوی</strong><small>حضور عمومی و حرفه‌ای</small></div><b aria-hidden="true">↗</b></a>}
+      {person.profiles.pendar && <a href={person.profiles.pendar} target="_blank" rel="noopener noreferrer"><span class="number">03</span><div><strong>پندار — پروفایل حرفه‌ای</strong><small>پروفایل حرفه‌ای و مسیر ارتباط سازمانی</small></div><b aria-hidden="true">↗</b></a>}
+      {person.profiles.pendarInstagram && <a href={person.profiles.pendarInstagram} target="_blank" rel="noopener noreferrer"><span class="number">04</span><div><strong>پندار — Instagram</strong><small>حساب رسمی مجموعه پندار</small></div><b aria-hidden="true">↗</b></a>}
+      {person.contact.pendarPhone && <a href={`tel:${person.contact.pendarPhone}`}><span class="number">05</span><div><strong>تماس با پندار</strong><small dir="ltr">{person.contact.pendarPhone}</small></div><b aria-hidden="true">↗</b></a>}
     </div>
   </div></section>
 </BaseLayout>
+
 <style>
-.page{padding-block:90px}header{max-width:820px;padding-bottom:60px}.label{color:#806f61;font-size:.8rem;font-weight:600}h1{margin:0 0 24px;font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.25;font-weight:500}.lead{color:#555;line-height:2}.links{display:grid;max-width:820px}.links a{display:flex;flex-direction:column;gap:6px;padding:24px 0;border-top:1px solid #ddd7d0;color:#222;text-decoration:none}.links a:hover{color:#806f61}.links strong{font-size:1.05rem}.links span{color:#777;font-size:.9rem}
+  .page{padding-block:clamp(72px,9vw,110px)}header{max-width:900px;padding-bottom:clamp(50px,7vw,75px)}.label{margin:0 0 var(--space-4);color:var(--color-accent);font-size:var(--text-xs);font-weight:700}h1{margin:0 0 24px;font-size:var(--text-display);line-height:1.15;font-weight:500;letter-spacing:-.04em}.lead{max-width:760px;margin:0;color:var(--color-ink-muted);font-size:var(--text-lg);line-height:2}.links{max-width:900px;border-top:1px solid var(--color-border)}.links a{display:grid;grid-template-columns:48px 1fr 30px;align-items:center;gap:18px;padding:25px 0;border-bottom:1px solid var(--color-border);color:var(--color-ink);text-decoration:none}.links a:hover strong{color:var(--color-accent-strong)}.number{color:var(--color-accent);font-size:var(--text-xs)}.links div{display:flex;flex-direction:column;gap:5px}.links strong{font-size:var(--text-lg);font-weight:500}.links small{color:var(--color-ink-muted);font-size:var(--text-sm)}.links b{color:var(--color-accent);font-weight:400;text-align:end}@media(max-width:520px){.links a{grid-template-columns:32px 1fr 22px}.links strong{font-size:var(--text-base)}}
 </style>
