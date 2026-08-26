@@ -48,11 +48,12 @@ function htmlFor(route) {
 }
 
 function hrefForRel(html, rel) {
-  // Use a RegExp constructor here because the HTML attribute pattern is
-  // dynamic. The previous implementation over-escaped the backslashes,
-  // causing valid canonical links to be invisible to the smoke test.
+  // The HTML tag pattern is dynamic because `rel` is supplied by the caller.
+  // In a RegExp constructor, `\\b` in the JS source becomes `\b` in the
+  // resulting regular expression. Using four backslashes here would search
+  // for a literal backslash followed by `b`, which cannot match HTML.
   const tag = new RegExp(`<link\\b[^>]*\\brel=["']${rel}["'][^>]*>`, "i").exec(html)?.[0];
-  return tag?.match(/\\bhref=["']([^"']+)["']/i)?.[1];
+  return tag?.match(/\bhref=["']([^"']+)["']/i)?.[1];
 }
 
 for (const route of routes) {
