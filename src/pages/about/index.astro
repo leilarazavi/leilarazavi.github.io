@@ -28,6 +28,13 @@ const breadcrumbSchema = getBreadcrumbSchema([{ name: "خانه", url: `${site.u
     around the person's professional profile. This avoids sending duplicate
     title signals while keeping the person's name and professional identity in
     both titles.
+
+    COMPONENT CONTRACT DECISION
+
+    PublicationCard has an explicit prop contract (title/authors/year/journal/url).
+    The collection entry is deliberately mapped into that contract here instead
+    of passing the whole Astro content entry. This prevents a runtime mismatch
+    when a component expects `authors` but receives only a `publication` object.
   -->
   <article class="profile-page">
     <div class="container">
@@ -75,7 +82,16 @@ const breadcrumbSchema = getBreadcrumbSchema([{ name: "خانه", url: `${site.u
           <h2>پژوهش و انتشارات</h2>
         </header>
         <div class="publication-list">
-          {publications.slice(0, 3).map((publication) => <PublicationCard publication={publication} lang="fa" />)}
+          {publications.slice(0, 3).map((publication) => (
+            <PublicationCard
+              title={publication.data.title}
+              titleFa={publication.data.titleFa}
+              authors={publication.data.authors}
+              year={publication.data.year}
+              journal={publication.data.journal}
+              url={`/publications/${publication.id}/`}
+            />
+          ))}
         </div>
       </section>
     </div>
