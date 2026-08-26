@@ -30,3 +30,6 @@ jobs:
 
       - name: SEO smoke test
         run: node scripts/seo-smoke-test.mjs
+
+      - name: Route quality audit
+        run: node scripts/route-quality-audit.mjs
