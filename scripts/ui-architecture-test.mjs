@@ -5,10 +5,12 @@ const root = resolve(process.cwd());
 const header = await readFile(resolve(root, "src/components/Header.astro"), "utf8");
 const person = await readFile(resolve(root, "src/lib/person.ts"), "utf8");
 const homepage = await readFile(resolve(root, "src/pages/index.astro"), "utf8");
+const about = await readFile(resolve(root, "src/pages/about/index.astro"), "utf8");
+const publications = await readFile(resolve(root, "src/pages/publications/index.astro"), "utf8");
+const publicationCard = await readFile(resolve(root, "src/components/PublicationCard.astro"), "utf8");
 
 const primaryNav = header.match(/const navItems = isFa\s*\?\s*\[([\s\S]*?)\]\s*:\s*\[/)?.[1] ?? "";
 const primaryLabels = [...primaryNav.matchAll(/label:\s*"([^"]+)"/g)].map((match) => match[1]);
-
 const requiredFa = ["درباره من", "فعالیت حرفه‌ای", "پژوهش و آثار", "رسانه", "ارتباط"];
 
 assert(primaryLabels.length === 5, `expected 5 primary Persian navigation items, got ${primaryLabels.length}`);
@@ -22,6 +24,16 @@ assert(homepage.includes('class="works"'), "homepage should expose selected acad
 assert(homepage.includes('class="professional"'), "homepage should expose professional activity");
 assert(homepage.includes('class="media"'), "homepage should expose media presence");
 assert(homepage.includes('class="final-cta"'), "homepage should end with a clear official-resources CTA");
+assert(about.includes('class="about-hero"'), "about should use the personal-brand profile hero");
+assert(about.includes('class="expertise"'), "about should expose expertise as a dedicated section");
+assert(about.includes('class="positions"'), "about should expose professional positions");
+assert(about.includes('class="selected-work"'), "about should expose selected academic evidence");
+assert(publications.includes('id="search-filter"'), "publications should retain searchable catalog behavior");
+assert(publications.includes('id="visible-count"'), "publications should expose a live result count");
+assert(publications.includes('class="publication-marker"'), "publications should use scannable editorial numbering");
+assert(publicationCard.includes('var(--color-border)'), "publication card should use shared design tokens");
+assert(!publicationCard.includes('#ddd7d0'), "publication card should not hardcode the old border color");
+assert(!publicationCard.includes('#806f61'), "publication card should not hardcode the old accent color");
 
 console.log("UI architecture smoke test passed.");
 
