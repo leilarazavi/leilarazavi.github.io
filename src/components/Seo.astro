@@ -24,23 +24,6 @@ const canonicalPath = canonicalUrl.pathname.endsWith("/") ? canonicalUrl.pathnam
 const isEnglishPath = canonicalPath === "/en/" || canonicalPath.startsWith("/en/");
 const faPath = isEnglishPath ? (canonicalPath === "/en/" ? "/" : canonicalPath.replace(/^\/en/, "")) : canonicalPath;
 const enPath = isEnglishPath ? canonicalPath : (canonicalPath === "/" ? "/en/" : `/en${canonicalPath}`);
-
-/*
- * TECHNICAL SEO DECISION
- *
- * Canonical URLs remain the source of truth. Localized pages receive a
- * reciprocal fa/en pair derived from the canonical route, plus x-default to
- * the primary Persian locale. We intentionally do not hard-code page pairs.
- *
- * Entity SEO decision: the Person and WebSite JSON-LD nodes use stable IDs
- * from site.ts/schema.ts so every page refers to the same first-party entity
- * instead of creating page-specific copies of the person.
- *
- * A noindex compatibility route is still allowed to expose its canonical and
- * locale information, but its robots directive is `noindex, follow`: links on
- * a transitional page remain crawlable even though the page itself should not
- * enter the index. This is safer for internal-link discovery than nofollow.
- */
 ---
 
 <title>{title}</title>

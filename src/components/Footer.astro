@@ -9,61 +9,58 @@ const isFa = lang === "fa";
 const navigation = isFa
   ? [
       { label: "درباره من", href: "/about/" },
-      { label: "پژوهش و آثار", href: "/publications/" },
       { label: "فعالیت حرفه‌ای", href: "/experience/" },
+      { label: "پژوهش و آثار", href: "/publications/" },
       { label: "رسانه", href: "/media/" },
       { label: "ارتباط", href: "/contact/" },
     ]
   : [
       { label: "About", href: "/en/about/" },
-      { label: "Research & Publications", href: "/en/publications/" },
       { label: "Professional Activity", href: "/en/experience/" },
+      { label: "Research & Publications", href: "/en/publications/" },
       { label: "Media", href: "/en/media/" },
       { label: "Contact", href: "/en/contact/" },
     ];
-
-/*
- * COMPONENT ARCHITECTURE DECISION
- *
- * The footer owns composition only. Verified identity sources are rendered by
- * SocialLinks so the same presentation logic can be reused by Contact, About
- * and future media/profile sections. Footer navigation intentionally mirrors
- * the primary concepts, while supporting SEO routes remain discoverable from
- * their contextual pages instead of being repeated everywhere.
- */
 ---
 
 <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-identity">
-      <div class="footer-name">{isFa ? person.fullNameFa : person.fullName}</div>
-      <p>{isFa ? person.jobTitle.fa : person.jobTitle.en}</p>
+      <div class="footer-mark" aria-hidden="true">LR</div>
+      <div>
+        <div class="footer-name">{isFa ? person.fullNameFa : person.fullName}</div>
+        <p>{isFa ? person.jobTitle.fa : person.jobTitle.en}</p>
+      </div>
     </div>
 
     <nav class="footer-nav" aria-label={isFa ? "پیوندهای سایت" : "Site navigation"}>
       {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+      <a href={isFa ? "/cv/" : "/en/cv/"}>{isFa ? "رزومه" : "CV"}</a>
     </nav>
 
-    <SocialLinks lang={lang} />
+    <div class="footer-social"><SocialLinks lang={lang} /></div>
   </div>
 
   <div class="footer-bottom">
     <div class="container footer-bottom-inner">
       <span>© {new Date().getFullYear()} {isFa ? person.fullNameFa : person.fullName}</span>
-      <span>{isFa ? "تمامی حقوق محفوظ است." : "All rights reserved."}</span>
+      <span>{isFa ? "منبع رسمی اطلاعات حرفه‌ای" : "Official professional information source"}</span>
     </div>
   </div>
 </footer>
 
 <style>
-  .site-footer { margin-top: var(--space-10); border-top: 1px solid var(--color-border); background: var(--color-surface-muted); }
-  .footer-grid { padding-block: var(--space-8); display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: var(--space-7); }
-  .footer-name { font-size: var(--text-lg); font-weight: 600; }
-  .footer-identity p { margin: var(--space-2) 0 0; color: var(--color-ink-muted); font-size: var(--text-sm); }
-  .footer-nav { display: flex; flex-direction: column; gap: var(--space-3); }
-  .footer-nav a { width: fit-content; color: var(--color-ink-muted); text-decoration: none; font-size: var(--text-sm); transition: color var(--transition-fast); }
-  .footer-nav a:hover { color: var(--color-accent-strong); }
-  .footer-bottom { border-top: 1px solid var(--color-border); padding-block: var(--space-4); color: var(--color-ink-subtle); font-size: var(--text-xs); }
-  .footer-bottom-inner { display: flex; justify-content: space-between; gap: var(--space-4); }
-  @media (max-width: 700px) { .footer-grid { grid-template-columns: 1fr; gap: var(--space-6); } .footer-bottom-inner { flex-direction: column; gap: var(--space-2); } }
+  .site-footer { margin-top: var(--space-10); border-top: 1px solid var(--color-border); background: var(--color-ink); color: #f6f4ed; }
+  .footer-grid { padding-block: clamp(56px, 8vw, 92px); display: grid; grid-template-columns: 1.35fr .9fr .9fr; gap: clamp(32px, 7vw, 96px); }
+  .footer-identity { display: flex; align-items: flex-start; gap: 14px; }
+  .footer-mark { display: grid; width: 42px; height: 42px; flex: 0 0 42px; place-items: center; border: 1px solid color-mix(in srgb, #f6f4ed 45%, transparent); border-radius: 50%; font-family: Georgia, serif; font-size: .7rem; letter-spacing: .08em; }
+  .footer-name { font-size: var(--text-lg); font-weight: 700; }
+  .footer-identity p { margin: 7px 0 0; color: #b7c2bd; font-size: var(--text-sm); }
+  .footer-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 22px; align-content: start; }
+  .footer-nav a { width: fit-content; color: #c7d0cc; text-decoration: none; font-size: var(--text-sm); transition: color var(--transition-fast); }
+  .footer-nav a:hover { color: #fff; }
+  .footer-social :global(a) { color: #c7d0cc; }
+  .footer-bottom { border-top: 1px solid color-mix(in srgb, #f6f4ed 16%, transparent); padding-block: 16px; color: #9eaba6; font-size: var(--text-xs); }
+  .footer-bottom-inner { display: flex; justify-content: space-between; gap: 16px; }
+  @media (max-width: 760px) { .footer-grid { grid-template-columns: 1fr; } .footer-nav { max-width: 420px; } .footer-bottom-inner { flex-direction: column; gap: 6px; } }
 </style>
