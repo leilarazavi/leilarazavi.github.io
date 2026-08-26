@@ -9,6 +9,7 @@ const about = await readFile(resolve(root, "src/pages/about/index.astro"), "utf8
 const publications = await readFile(resolve(root, "src/pages/publications/index.astro"), "utf8");
 const publicationCard = await readFile(resolve(root, "src/components/PublicationCard.astro"), "utf8");
 const contact = await readFile(resolve(root, "src/pages/contact/index.astro"), "utf8");
+const experience = await readFile(resolve(root, "src/pages/experience/index.astro"), "utf8");
 
 const primaryNav = header.match(/const navItems = isFa\s*\?\s*\[([\s\S]*?)\]\s*:\s*\[/)?.[1] ?? "";
 const primaryLabels = [...primaryNav.matchAll(/label:\s*"([^"]+)"/g)].map((match) => match[1]);
@@ -38,6 +39,8 @@ assert(!publicationCard.includes('#806f61'), "publication card should not hardco
 assert(contact.includes("منابع علمی و حرفه‌ای"), "contact should distinguish professional resources");
 assert(contact.includes("حضور عمومی"), "contact should distinguish public presence");
 assert(contact.includes("تماس حرفه‌ای"), "contact should provide a clear direct-contact section");
+assert(experience.includes("مسیر حرفه‌ای و نقش‌های مستند"), "experience should use the new professional trajectory hierarchy");
+assert(experience.includes("برای جزئیات کامل‌تر"), "experience should keep CV as a secondary destination");
 
 console.log("UI architecture smoke test passed.");
 
