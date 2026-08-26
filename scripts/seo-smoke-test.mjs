@@ -47,12 +47,6 @@ function htmlFor(route) {
   return readFileSync(file, "utf8");
 }
 
-function attrValues(html, tag, attr, value) {
-  const escaped = value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const regex = new RegExp(`<${tag}\\b[^>]*\\b${attr}=["']${escaped}["'][^>]*>`, "gi");
-  return html.match(regex) ?? [];
-}
-
 function hrefForRel(html, rel) {
   const tag = new RegExp(`<link\\b[^>]*\\brel=["']${rel}["'][^>]*>`, "i").exec(html)?.[0];
   return tag?.match(/\\bhref=["']([^"']+)["']/i)?.[1];
@@ -62,18 +56,22 @@ for (const route of routes) {
   const html = htmlFor(route);
   if (!html) continue;
 
-  const title = html.match(/<title>(.*?)<\\/title>/is)?.[1]?.trim();
+  const title = html.match(/<title>(.*?)<\/title>/is)?.[1]?.trim();
   const canonical = hrefForRel(html, "canonical");
-  const h1Count = (html.match(/<h1\\b/gi) ?? []).length;
+  const h1Count = (html.match(/<h1\b/gi) ?? []).length;
   const expectedLang = route.startsWith("/en/") ? "en" : "fa-IR";
   const langMatch = html.match(/<html[^>]+lang=["']([^"']+)["']/i)?.[1];
   const expectedCanonicalPath = route === "/" ? "/" : route;
-  const expectedFa = route.startsWith("/en/") ? (route === "/en/" ? "/" : route.replace(/^\\/en/, "")) : route;
-  const expectedEn = route.startsWith("/en/") ? route : (route === "/" ? "/en/" : `/en${route}`);
+  const expectedFa = route.startsWith("/en/")
+    ? route === "/en/"
+      ? "/"
+      : route.replace(/^\/en/, "")
+    : route;
+  const expectedEn = route.startsWith("/en/") ? route : route === "/" ? "/en/" : `/en${route}`;
   const faAlternate = html.match(/<link[^>]+hreflang=["']fa["'][^>]+href=["']([^"']+)["'][^>]*>/i)?.[1];
   const enAlternate = html.match(/<link[^>]+hreflang=["']en["'][^>]+href=["']([^"']+)["'][^>]*>/i)?.[1];
   const defaultAlternate = html.match(/<link[^>]+hreflang=["']x-default["'][^>]+href=["']([^"']+)["'][^>]*>/i)?.[1];
-  const jsonLdBlocks = [...html.matchAll(/<script[^>]+type=["']application\\/ld\\+json["'][^>]*>([\\s\\S]*?)<\\/script>/gi)].map((match) => match[1]);
+  const jsonLdBlocks = [...html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)].map((match) => match[1]);
   const robots = html.match(/<meta[^>]+name=["']robots["'][^>]+content=["']([^"']+)["'][^>]*>/i)?.[1];
   const ogImage = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["'][^>]*>/i)?.[1];
 
