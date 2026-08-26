@@ -48,6 +48,9 @@ function htmlFor(route) {
 }
 
 function hrefForRel(html, rel) {
+  // Use a RegExp constructor here because the HTML attribute pattern is
+  // dynamic. The previous implementation over-escaped the backslashes,
+  // causing valid canonical links to be invisible to the smoke test.
   const tag = new RegExp(`<link\\b[^>]*\\brel=["']${rel}["'][^>]*>`, "i").exec(html)?.[0];
   return tag?.match(/\\bhref=["']([^"']+)["']/i)?.[1];
 }
