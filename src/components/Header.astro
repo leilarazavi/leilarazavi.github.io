@@ -40,7 +40,7 @@ const isActive = (href: string) => currentPath === href || (href !== (isFa ? "/"
         {navItems.map((item) => <a class:list={{ active: isActive(item.href) }} href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>{item.label}</a>)}
       </div>
       <div class="header-utility">
-        <a class="utility-link" href={isFa ? "/cv/" : "/en/cv/"}>{isFa ? "CV" : "CV"}</a>
+        <a class="utility-link" href={isFa ? "/cv/" : "/en/cv/"}>CV</a>
         <LanguageSwitcher lang={lang} href={languageHref} />
       </div>
     </nav>
@@ -80,11 +80,12 @@ const isActive = (href: string) => currentPath === href || (href !== (isFa ? "/"
     z-index: 50;
     border-bottom: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
     background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+    box-shadow: var(--shadow-header);
     backdrop-filter: blur(18px);
   }
 
   .header-inner {
-    min-height: 88px;
+    min-height: var(--header-height);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -161,7 +162,6 @@ const isActive = (href: string) => currentPath === href || (href !== (isFa ? "/"
   }
 
   @media (max-width: 640px) {
-    .header-inner { min-height: 76px; }
     .brand-mark { width: 36px; height: 36px; flex-basis: 36px; }
     .brand-description { font-size: 0.62rem; }
   }
