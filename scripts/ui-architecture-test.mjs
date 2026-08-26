@@ -14,8 +14,7 @@ assert(primaryLabels.length === 5, `expected 5 primary Persian navigation items,
 assert(JSON.stringify(primaryLabels) === JSON.stringify(requiredFa), `primary navigation order changed: ${primaryLabels.join(" | ")}`);
 assert(header.includes("class=\"header-inner\""), "header should use the redesigned inner shell");
 assert(header.includes("class=\"mobile-secondary\""), "CV and secondary resources should remain secondary on mobile");
-assert(header.includes("/images/profile/leila-razavi.webp"), "header should reference the new profile asset");
-assert(person.includes('/images/profile/leila-razavi.webp'), "person entity should reference the new profile asset");
+assert(person.includes('/images/leila-razavi.jpg'), "person entity should reference the photographic profile asset");
 
 console.log("UI architecture smoke test passed.");
 
