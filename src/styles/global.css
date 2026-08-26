@@ -1,14 +1,6 @@
-/*
- * GLOBAL UI FOUNDATION — Personal Authority v1
- *
- * This layer intentionally contains only site-wide rules. Page-specific
- * composition belongs to components/pages. Keeping the boundary explicit
- * prevents the current inline CSS approach from becoming harder to maintain.
- */
-
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 100px;
+  scroll-padding-top: 96px;
 }
 
 body {
@@ -19,51 +11,33 @@ body {
   font-family: var(--font-sans);
   line-height: var(--leading-normal);
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-img,
-picture,
-svg,
-video {
-  display: block;
-  max-width: 100%;
-}
-
-button,
-input,
-textarea,
-select {
-  font: inherit;
-}
-
-a {
-  color: inherit;
-}
-
-::selection {
-  background: var(--color-accent-soft);
-  color: var(--color-ink);
-}
+*, *::before, *::after { box-sizing: border-box; }
+img, picture, svg, video { display: block; max-width: 100%; }
+button, input, textarea, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+a { color: inherit; }
+::selection { background: var(--color-accent-soft); color: var(--color-ink); }
 
 .container {
   width: min(calc(100% - (var(--gutter) * 2)), var(--container));
   margin-inline: auto;
 }
 
-.reading-width {
-  max-width: var(--reading-width);
+.reading-width { width: min(100%, var(--reading-width)); }
+
+.site-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  gap: var(--space-6);
 }
 
 .skip-link {
   position: fixed;
   top: 12px;
-  left: 12px;
+  inset-inline-start: 12px;
   z-index: 9999;
   padding: 8px 14px;
   border: 1px solid var(--color-border-strong);
@@ -74,33 +48,23 @@ a {
   transition: transform var(--transition-fast);
 }
 
-.skip-link:focus {
-  transform: translateY(0);
-}
-
-:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 3px;
-}
+.skip-link:focus { transform: translateY(0); }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
 }
 
+@media (max-width: 900px) {
+  .site-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}
+
 @media (max-width: 640px) {
-  :root {
-    --gutter: 16px;
-    --space-9: 4.5rem;
-    --space-10: 6rem;
-  }
+  html { scroll-padding-top: 80px; }
+  .site-grid { grid-template-columns: 1fr; }
 }
