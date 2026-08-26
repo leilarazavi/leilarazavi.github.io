@@ -2,9 +2,7 @@
 import Seo from "../components/Seo.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-
 import { site } from "../lib/site";
-
 import "../styles/variables.css";
 import "../styles/typography.css";
 import "../styles/global.css";
@@ -39,7 +37,12 @@ const dir = lang === "fa" ? "rtl" : "ltr";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#faf9f7" />
+    <meta name="theme-color" content="#167c72" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa+Ink&family=Noto+Nastaliq+Urdu:wght@400;500&family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
     <Seo
       title={title}
       description={description}
@@ -56,25 +59,10 @@ const dir = lang === "fa" ? "rtl" : "ltr";
     <a class="skip-link" href="#main-content">
       {lang === "fa" ? "رفتن به محتوای اصلی" : "Skip to main content"}
     </a>
-
     <Header lang={lang} />
-
     <main id="main-content">
       <slot />
     </main>
-
     <Footer lang={lang} />
   </body>
 </html>
-
-<style>
-  /*
-   * Layout owns document-level structure; the shared CSS files own the visual
-   * system. This removes duplicate global rules from the layout and gives the
-   * upcoming component refactor one source of truth for spacing, typography,
-   * accessibility and responsive behavior.
-   *
-   * SEO note: no metadata, schema, canonical, language or route behavior was
-   * changed in this refactor. This commit is intentionally visual-only.
-   */
-</style>
