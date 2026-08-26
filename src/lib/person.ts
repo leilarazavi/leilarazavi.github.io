@@ -41,6 +41,6 @@ export const person = {
     pendarInstagram: "https://www.instagram.com/pendarqom/",
     podcast: "https://open.spotify.com/show/033SHyU9h8ewYbibDIUBfL",
   },
-  image: { src: "/images/leila-razavi.jpg", altFa: "دکتر لیلا رضوی در محیط حرفه‌ای", altEn: "Dr. Leila Razavi in a professional setting" },
+  image: { src: "/images/leila-razavi-profile.svg", altFa: "دکتر لیلا رضوی در محیط حرفه‌ای", altEn: "Dr. Leila Razavi in a professional setting" },
   contact: { pendarPhone: "09915291300", publicChannelsOnly: true },
 } as const;
