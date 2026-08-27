@@ -15,6 +15,14 @@ for (const file of htmlFiles) {
   const html = await readFile(file, "utf8");
   const relativePath = relative(DIST.pathname, file).replaceAll("\\", "/");
   const route = toRoute(relativePath);
+
+  // Static verification and error documents are not content routes. They must
+  // remain deployable, but should not be forced through page-level SEO rules.
+  const isTechnicalFile = route === "/404.html" || route === "/google37fab1e33d944d9f.html";
+  const isNotFound = route === "/404.html";
+  const isSearchVerification = route === "/google37fab1e33d944d9f.html";
+  const isLegacyResearch = route === "/research/" || route === "/en/research/";
+
   const title = firstMatch(html, /<title[^>]*>([\s\S]*?)<\/title>/i);
   const lang = firstMatch(html, /<html[^>]*\blang=["']([^"']+)["']/i);
   const canonical = firstMatch(html, /<link[^>]*rel=["']canonical["'][^>]*href=["']([^"']+)["']/i);
@@ -22,14 +30,15 @@ for (const file of htmlFiles) {
   const h1Count = (html.match(/<h1\b/gi) ?? []).length;
   const hreflangCount = (html.match(/rel=["']alternate["'][^>]*hreflang=/gi) ?? []).length;
 
-  pages.push({ route, title, canonical, lang, robots, h1Count });
+  pages.push({ route, title, canonical, lang, robots, h1Count, isTechnicalFile });
+
+  if (isTechnicalFile) continue;
 
   if (!title?.trim()) failures.push(`${route}: missing <title>`);
   if (!lang) failures.push(`${route}: missing html[lang]`);
   if (!canonical) failures.push(`${route}: missing canonical`);
   if (h1Count > 1) failures.push(`${route}: ${h1Count} H1 elements`);
 
-  const isLegacyResearch = route === "/research/" || route === "/en/research/";
   if (!isLegacyResearch && /noindex/i.test(robots ?? "")) {
     failures.push(`${route}: unexpected noindex`);
   }
@@ -41,10 +50,15 @@ for (const file of htmlFiles) {
   }
 }
 
-const duplicateTitles = duplicates(pages.map((page) => page.title?.trim()).filter(Boolean));
+const contentPages = pages.filter((page) => !page.isTechnicalFile);
+const indexablePages = contentPages.filter((page) => !/noindex/i.test(page.robots ?? ""));
+
+const duplicateTitles = duplicates(indexablePages.map((page) => page.title?.trim()).filter(Boolean));
 for (const title of duplicateTitles) failures.push(`duplicate title: ${title}`);
 
-const duplicateCanonicals = duplicates(pages.map((page) => page.canonical).filter(Boolean));
+// A noindex legacy route may intentionally canonicalize to its replacement.
+// Canonical uniqueness is therefore enforced only among indexable pages.
+const duplicateCanonicals = duplicates(indexablePages.map((page) => page.canonical).filter(Boolean));
 for (const canonical of duplicateCanonicals) failures.push(`duplicate canonical: ${canonical}`);
 
 const requiredRoutes = ["/", "/about/", "/experience/", "/cv/", "/publications/", "/media/", "/contact/", "/en/", "/en/about/", "/en/experience/", "/en/cv/", "/en/publications/", "/en/media/", "/en/contact/"];
@@ -54,6 +68,8 @@ for (const route of requiredRoutes) {
 }
 
 console.log(`Route quality audit: ${pages.length} generated HTML pages checked.`);
+console.log(`Content pages: ${contentPages.length}`);
+console.log(`Indexable content pages: ${indexablePages.length}`);
 console.log(`Required routes: ${requiredRoutes.length}`);
 
 if (failures.length) {
