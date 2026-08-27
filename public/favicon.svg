@@ -1,8 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
-  <title id="title">Leila Razavi</title>
-  <desc id="desc">LR monogram in teal</desc>
-  <rect width="64" height="64" rx="10" fill="#f6f4ed"/>
-  <path d="M18 14h9v28h19v8H18z" fill="#167c72"/>
-  <path d="M36 14h10c0 9-4 14-10 17v-8c2-1 3-3 3-9z" fill="#a17d62"/>
-  <path d="M43 31c4 0 7 2 7 6 0 7-6 11-15 13v-8c4-1 7-2 7-5 0-1-1-2-3-2z" fill="#0d5f58"/>
+  <title id="title">LR — Leila Razavi</title>
+  <desc id="desc">LR monogram for the official Leila Razavi website</desc>
+  <circle cx="32" cy="32" r="31" fill="#f6f4ed"/>
+  <circle cx="32" cy="32" r="30.5" fill="none" stroke="#167c72" stroke-width="1.5"/>
+  <text x="32" y="36" text-anchor="middle" dominant-baseline="middle" fill="#167c72" font-family="Georgia, 'Times New Roman', serif" font-size="21" font-weight="600" letter-spacing="1.5">LR</text>
 </svg>
