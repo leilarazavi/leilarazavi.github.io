@@ -13,4 +13,5 @@ export const authoredBookEntity = {
   ],
   url: 'https://leilarazavi.github.io/publications/',
   inLanguage: 'fa',
+  datePublished: '2019',
 } as const;
