@@ -137,8 +137,8 @@ export function getPodcastSeriesSchema({ name, description, url, spotifyUrl, ima
   });
 }
 
-export function getPodcastEpisodeSchema({ name, description, url, spotifyUrl, episodeNumber, seriesUrl, language = "fa-IR" }: { name: string; description: string; url: string; spotifyUrl: string; episodeNumber: number; seriesUrl: string; language?: string }) {
-  return {
+export function getPodcastEpisodeSchema({ name, description, url, spotifyUrl, episodeNumber, seriesUrl, image, language = "fa-IR" }: { name: string; description: string; url: string; spotifyUrl: string; episodeNumber: number; seriesUrl: string; image?: string; language?: string }) {
+  return removeEmpty({
     "@context": "https://schema.org",
     "@type": "PodcastEpisode",
     "@id": `${url}#episode`,
@@ -151,7 +151,8 @@ export function getPodcastEpisodeSchema({ name, description, url, spotifyUrl, ep
     author: { "@id": personId },
     creator: { "@id": personId },
     inLanguage: language,
-  };
+    image,
+  });
 }
 
 function getAuthorSchemas(authors: string[]) {
