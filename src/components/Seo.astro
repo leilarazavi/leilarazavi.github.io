@@ -15,7 +15,7 @@ interface Props {
 
 const { title = site.title.fa, description = site.description.fa, canonical = site.url, lang = "fa", image, noindex = false, type = "website", schemas = [] } = Astro.props;
 const locale = lang === "fa" ? "fa_IR" : "en_US";
-const defaultImage = new URL(image ?? "/images/leila-razavi.jpg", site.url).href;
+const defaultImage = new URL(image ?? "/images/profile/leila-razavi.webp", site.url).href;
 const personSchema = getPersonSchema();
 const websiteSchema = getWebsiteSchema();
 const allSchemas = [personSchema, websiteSchema, ...schemas];
@@ -44,7 +44,7 @@ const enPath = isEnglishPath ? canonicalPath : (canonicalPath === "/" ? "/en/" :
 <meta property="og:locale" content={locale} />
 <meta property="og:locale:alternate" content={lang === "fa" ? "en_US" : "fa_IR"} />
 <meta property="og:image" content={defaultImage} />
-<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:type" content="image/webp" />
 <meta property="og:image:alt" content={`${title} — ${site.name}`} />
 
 <meta name="twitter:card" content="summary_large_image" />
