@@ -76,7 +76,7 @@ Manually test keyboard navigation, focus visibility, mobile navigation, heading 
 
 Automated checks can block regressions in generated HTML. Production-only checks should be recorded as observations with date and URL rather than converted into unverified claims in repository documentation.
 
-## 9. 2026-08-27 Release QA Evidence
+## 9. 2026-08-28 Release QA Evidence
 
 ### Phase 1 — source/build gate
 
@@ -92,8 +92,8 @@ Automated checks can block regressions in generated HTML. Production-only checks
 - PASS: global `:focus-visible`, skip link, reduced-motion handling, responsive image sizing, and `min-width: 320px` safeguards are present.
 - PASS: primary navigation exposes accessible labels and `aria-current` for the active page.
 - PASS: language switcher exposes `lang` and `hreflang` attributes.
-- PASS: default social preview changed from SVG to the existing JPEG profile asset; metadata now declares `image/jpeg`.
-- PASS: Apple touch icon changed from SVG to the existing JPEG profile asset.
+- PASS: current `Seo.astro` uses the WebP profile asset for the default social preview and declares `image/webp`.
+- PASS: favicon declarations are present in `Seo.astro`.
 
 ### Production-only gates still open
 
