@@ -16,6 +16,7 @@ const schemas = [
     spotifyUrl: episode.spotifyUrl,
     episodeNumber: episode.number,
     seriesUrl,
+    image: new URL(episode.image, site.url).toString(),
   }),
   getBreadcrumbSchema([
     { name: "خانه", url: `${site.url}/` },
@@ -36,16 +37,21 @@ const schemas = [
 >
   <article class="page">
     <div class="container">
-      <p class="eyebrow">پادکست صحبت جان · قسمت {episode.number}</p>
-      <h1>{episode.titleFa}</h1>
+      <div class="episode-hero">
+        <div>
+          <p class="eyebrow">پادکست صحبت جان · قسمت {episode.number}</p>
+          <h1>{episode.titleFa}</h1>
 
-      <p class="lead">
-        رنج، تجربه‌ای مشترک میان همه‌ی انسان‌هاست؛ اما آنچه کیفیت زندگی ما را تغییر می‌دهد، فقط اتفاقاتی نیست که برایمان رخ می‌دهد، بلکه نحوه‌ی مواجهه‌ی ما با آن‌هاست.
-      </p>
+          <p class="lead">
+            رنج، تجربه‌ای مشترک میان همه‌ی انسان‌هاست؛ اما آنچه کیفیت زندگی ما را تغییر می‌دهد، فقط اتفاقاتی نیست که برایمان رخ می‌دهد، بلکه نحوه‌ی مواجهه‌ی ما با آن‌هاست.
+          </p>
 
-      <div class="actions">
-        <a href={episode.spotifyUrl} target="_blank" rel="noopener noreferrer">شنیدن در Spotify ↗</a>
-        <a href={seriesUrl}>مشاهده پادکست صحبت جان</a>
+          <div class="actions">
+            <a href={episode.spotifyUrl} target="_blank" rel="noopener noreferrer">شنیدن در Spotify ↗</a>
+            <a href={seriesUrl}>مشاهده پادکست صحبت جان</a>
+          </div>
+        </div>
+        <img class="episode-art" src={episode.image} alt="کاور اپیزود اول پادکست صحبت جان" width="1200" height="1200" loading="eager" decoding="async" />
       </div>
 
       <section>
@@ -72,5 +78,5 @@ const schemas = [
 </BaseLayout>
 
 <style>
-.page{padding-block:90px}.container{max-width:900px}.eyebrow{color:#806f61;font-weight:600}.lead{font-size:1.25rem;line-height:2;color:#555}h1{font-size:clamp(2.5rem,7vw,5rem);line-height:1.3;font-weight:500}.actions{display:flex;gap:14px;flex-wrap:wrap;margin:40px 0}.actions a{border:1px solid #806f61;padding:12px 18px;color:#806f61;text-decoration:none}section{padding:45px 0;border-top:1px solid #ddd7d0}h2{font-weight:500}p{line-height:2.1;color:#555}.note{background:#f3f0ec;padding-inline:24px}a{color:#806f61}
+.page{padding-block:90px}.container{max-width:900px}.episode-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(250px,.48fr);gap:clamp(35px,7vw,80px);align-items:center;padding-bottom:55px;border-bottom:1px solid #ddd7d0}.episode-art{width:100%;aspect-ratio:1;object-fit:cover;border:1px solid #ddd7d0;background:#f3f0ec}.eyebrow{color:#806f61;font-weight:600}.lead{font-size:1.25rem;line-height:2;color:#555}h1{font-size:clamp(2.5rem,7vw,5rem);line-height:1.3;font-weight:500}.actions{display:flex;gap:14px;flex-wrap:wrap;margin:40px 0}.actions a{border:1px solid #806f61;padding:12px 18px;color:#806f61;text-decoration:none}section{padding:45px 0;border-top:1px solid #ddd7d0}h2{font-weight:500}p{line-height:2.1;color:#555}.note{background:#f3f0ec;padding-inline:24px}a{color:#806f61}@media(max-width:700px){.episode-hero{grid-template-columns:1fr}.episode-art{max-width:420px;justify-self:center}}
 </style>
