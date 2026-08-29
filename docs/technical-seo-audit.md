@@ -1,64 +1,72 @@
-# Technical SEO Audit — Personal Brand v1
+# Technical SEO Audit — Current Baseline
 
-## Current baseline
+## Scope
 
-- Astro is configured with the production `site` URL, and `@astrojs/sitemap` is enabled.
-- `robots.txt` allows crawling and references the generated sitemap index.
-- The shared SEO component emits canonical, robots, Open Graph, Twitter Card and JSON-LD metadata.
-- Persian and English routes are intentionally kept as separate localized URL spaces (`/` and `/en/`).
+This document records source-level technical SEO decisions for the current Astro site. It is not a substitute for production crawler or Search Console evidence.
 
-## Hardening applied
+## Current architecture
 
-### 1. Reciprocal hreflang generation
+- Astro static build with `site: https://leilarazavi.github.io`.
+- `@astrojs/sitemap` generates the XML sitemap at build time.
+- `Seo.astro` owns canonical, robots, Open Graph, Twitter metadata and shared JSON-LD identity nodes.
+- Persian and English use separate localized route spaces under `/` and `/en/`.
+- Legacy `/research/` and `/en/research/` remain compatibility routes with noindex behavior and are excluded from the sitemap.
 
-`Seo.astro` emits one `fa`, one `en`, and one `x-default` alternate URL derived from the canonical path.
+## Required invariants
 
-**Why:** locale mapping belongs to one shared layer. This reduces the chance of individual pages drifting into incorrect language pairs.
+### Canonical
 
-### 2. Canonical remains authoritative
+Every indexable page has exactly one canonical URL representing its own localized route.
 
-No indexed URL was changed merely for visual or navigation reasons.
+### Hreflang
 
-**Why:** navigation simplicity and search architecture are separate concerns.
+Localized pairs expose:
 
-### 3. Noindex compatibility routes use `noindex, follow`
+- `fa` → Persian equivalent;
+- `en` → English equivalent;
+- `x-default` → Persian primary representation.
 
-Legacy research routes remain compatibility endpoints, but they no longer request `nofollow`.
+Pairs must be reciprocal.
 
-**Why:** the route should stay out of search while still allowing crawlers to follow useful links to the canonical destination.
+### Robots / sitemap
 
-### 4. Sitemap excludes consolidated research routes
+Noindex compatibility routes must not be included in the XML sitemap. The sitemap should represent canonical indexable URLs only.
 
-The Astro sitemap integration filters `/research/` and `/en/research/` out of the generated sitemap.
+### Entity graph
 
-**Why:** XML sitemaps should represent the canonical indexable URL set, not transitional/noindex endpoints.
+The site uses one stable first-party Person ID:
 
-### 5. Entity graph remains centralized
+`https://leilarazavi.github.io/#person`
 
-Person, WebSite, organization, publication and podcast schemas are generated from shared data/functions rather than hand-written independently on every page.
+Page-specific entities should reference that node when the visible content supports the relationship.
 
-## Source-level QA status
+### Structured data
 
-The repository now documents and implements the following controls:
+Use route-appropriate Schema.org types rather than adding generic schemas everywhere. Current model includes Person, WebSite, ProfilePage, ScholarlyArticle, Book, PodcastSeries and PodcastEpisode as applicable.
 
-- canonical URL preservation;
-- locale pairing;
-- sitemap quality;
-- explicit noindex behavior;
-- structured-data generation;
-- centralized identity data;
-- accessibility foundations;
-- shared UI tokens and components.
+### Social metadata
 
-## Deployment-only validation still required
+OG/Twitter images must represent the page being shared. A page-specific image should override the global profile image. The declared MIME type must match the actual asset.
 
-The following require a browser/deployment/Search Console environment and are intentionally not claimed as complete from source inspection alone:
+## Source-level findings carried into implementation
 
-- HTTP 200 checks for all canonical/hreflang targets;
-- generated sitemap contents;
-- rendered structured-data validation;
-- title/description uniqueness across the final rendered route set;
-- Open Graph image availability;
-- Lighthouse and Core Web Vitals;
-- Search Console indexing and canonical-selection reports;
-- real-world mobile/keyboard interaction testing.
+- Do not create nested `<main>` landmarks.
+- Do not render data fields that are absent from the source model.
+- Keep `sameAs` for external identity profiles rather than duplicating the site's own URL.
+- Keep favicon and Apple touch icon assets explicit and standard.
+- Preserve public URLs unless independent evidence supports a redirect/consolidation decision.
+
+## Production validation still required
+
+The following cannot be claimed from source inspection alone:
+
+- HTTP 200 for every canonical/hreflang target;
+- final deployed sitemap contents;
+- rendered JSON-LD validation by a crawler/browser;
+- title/description uniqueness across every rendered route;
+- OG image fetchability by major crawlers;
+- Lighthouse/Core Web Vitals;
+- Search Console indexing and Google-selected canonical reports;
+- real browser/mobile accessibility behavior.
+
+Record those results in `docs/production-seo-qa.md` and `docs/final-qa.md` rather than replacing this source-level document with unverified production claims.
