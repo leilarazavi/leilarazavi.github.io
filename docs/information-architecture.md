@@ -1,14 +1,14 @@
-# Information Architecture Decision — Personal Brand v1
+# Information Architecture Decision — Current
 
-> هدف این سند: ثبت تصمیم‌های معماری اطلاعات قبل از بازطراحی UI تا تغییرات بصری باعث آسیب به SEO، URLها یا ساختار Entity نشوند.
+> این سند منبع تصمیم برای معماری اطلاعات سایت است. Navigation UX، SEO architecture و URL preservation عمداً از هم جدا نگه داشته می‌شوند.
 
-## Positioning
+## Product model
 
-سایت به‌عنوان یک **Personal Brand دوگانه** تعریف می‌شود:
+سایت یک **Personal Brand + Academic Profile + Editorial Media** است و باید هم‌زمان سه کار را انجام دهد:
 
-1. برای مخاطب عمومی، ساده و قابل‌فهم باشد.
-2. برای دانشگاهیان، پژوهشگران و همکاران حرفه‌ای، مرجع معتبر اطلاعات علمی و حرفه‌ای باشد.
-3. برای موتورهای جست‌وجو، یک Entity Hub منسجم برای «دکتر لیلا رضوی» ایجاد کند.
+1. هویت حرفه‌ای را برای مخاطب عمومی سریع و روشن کند.
+2. برای دانشگاهیان، پژوهشگران و همکاران حرفه‌ای، منبعی معتبر از سوابق و آثار مستند باشد.
+3. برای موتورهای جست‌وجو، یک Entity Hub منسجم برای «دکتر لیلا رضوی» بسازد.
 
 ## Primary navigation
 
@@ -19,30 +19,54 @@
 - **ارتباط** → `/contact/`
 - زبان → نسخه انگلیسی متناظر
 
-## Why CV is removed from primary navigation
+`/cv/` و `/organizations/` عمداً از navigation اصلی خارج هستند، اما حذف نشده‌اند و باید از مسیرهای contextual در دسترس باشند.
 
-`/cv/` حذف نمی‌شود؛ فقط از منوی اصلی خارج می‌شود. «رزومه» و «سوابق» از نظر ذهنی برای کاربر هم‌پوشانی زیادی دارند و قرار دادن هر دو در Header باعث افزایش بار شناختی می‌شود. CV در مرحله بعد به‌عنوان CTA یا زیرمسیر بخش «فعالیت حرفه‌ای» در دسترس خواهد بود.
+## Route policy
 
-## Why Research is grouped with Publications
+| Route | Decision | Purpose |
+|---|---|---|
+| `/` | KEEP | Primary brand entry point. Identity, expertise, evidence and next actions. |
+| `/about/` | KEEP | Identity, positioning, expertise and research context. Not a second CV. |
+| `/experience/` | KEEP | Professional trajectory, roles and affiliations. |
+| `/cv/` | KEEP / SECONDARY | Compact résumé-style reference for users who explicitly need it. |
+| `/publications/` | KEEP / PRIORITY | Authoritative scholarly hub and verified publication index. |
+| `/publications/[id]/` | KEEP | Individual scholarly evidence pages. |
+| `/research/` | LEGACY / NOINDEX | Consolidated compatibility route; do not restore as an independent indexable hub. |
+| `/organizations/` | KEEP / SECONDARY | Entity and affiliation context. |
+| `/media/` | KEEP | Public-facing media hub. |
+| `/media/sohbat-jan/` | KEEP | Podcast series entity/landing page. |
+| `/contact/` | KEEP | Official profiles and organizational contact routes. |
+| `/en/*` | KEEP | Parallel English route space with reciprocal localization. |
 
-صفحه `/research/` برای SEO و ساختار Entity ارزشمند است و حذف نخواهد شد. با این حال، در Navigation اصلی، «پژوهش» و «آثار علمی» دو مقصد جدا برای کاربر عمومی محسوب نمی‌شوند. بنابراین `/publications/` به‌عنوان نقطه ورود «پژوهش و آثار» استفاده می‌شود و صفحات research به‌صورت داخلی و SEO-friendly قابل دسترسی باقی می‌مانند.
+## Research policy
 
-## Why Organizations is not a primary navigation item
+`/research/` and `/en/research/` are compatibility routes, not competing content hubs. Research context belongs inside About and the authoritative content belongs in Publications. These legacy routes remain outside the sitemap and use intentional noindex behavior.
 
-`/organizations/` برای Entity SEO و توضیح affiliationها مهم است، اما برای اکثر کاربران مقصد اصلی نیست. این بخش باید از مسیر «فعالیت حرفه‌ای» و لینک‌های داخلی قابل دسترسی باشد، بدون اینکه Header را شلوغ کند.
+## English parity
 
-## URL / SEO preservation rule
+Persian and English pages must represent the same entity and equivalent page intent. They do not need identical copy or identical visual density, but they must not diverge in information architecture or omit important primary destinations without a deliberate reason.
 
-در این مرحله هیچ URL ارزشمند حذف یا تغییر مسیر داده نمی‌شود. هرگونه merge یا redirect فقط بعد از audit کامل routeها، بررسی sitemap و تعیین canonical انجام خواهد شد.
+## URL preservation
 
-## English architecture
+No valuable public URL should be deleted merely to simplify navigation. Redirect or consolidation decisions must consider:
 
-نسخه انگلیسی باید فقط زمانی در hreflang و Navigation به‌عنوان معادل واقعی معرفی شود که محتوای معادل آن صفحه واقعاً وجود داشته باشد. Placeholderها نباید به‌عنوان نسخه کامل یک صفحه فارسی تلقی شوند.
+- sitemap output;
+- canonical URLs;
+- internal links;
+- external backlinks;
+- Search Console indexing and click data.
 
-## Next implementation stages
+## UX hierarchy
 
-1. Complete route-by-route audit.
-2. Map every current route to: Keep / Merge / Hidden from nav / Redirect later / Placeholder.
-3. Validate internal linking and canonical strategy.
-4. Then redesign visual system and homepage UX.
-5. Then refactor CSS/components around the approved IA.
+The homepage should have one dominant next action and a small number of secondary actions. Inner pages should use contextual links rather than forcing CV, Organizations or Research into primary navigation.
+
+## Current implementation gaps to resolve
+
+The following are implementation issues, not IA decisions:
+
+- nested `<main>` elements exist because BaseLayout owns `<main>` while several pages create another `<main>`;
+- About renders `position.start/end` even though the current `person.positions` data model does not define those fields;
+- UI architecture and design-system tests are not both enforced by CI;
+- production browser/Lighthouse/Search Console verification is still separate from source-level QA.
+
+These must be resolved before the project is described as fully release-hardened.
