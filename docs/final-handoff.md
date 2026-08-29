@@ -1,6 +1,6 @@
 # Final Handoff — Leila Razavi Website
 
-Date: 2026-08-27
+Date: 2026-08-28
 
 ## Release objective
 
@@ -34,13 +34,12 @@ This repository is the production source for the official bilingual personal-bra
 - Responsive overflow safeguards: PASS.
 - Navigation accessibility labels / active-page state: PASS.
 - Language switcher language/hreflang attributes: PASS.
-- Raster social preview and Apple touch icon: PASS.
+- Social preview uses the current WebP profile asset and declares `image/webp`.
+- Favicon declarations are present in `Seo.astro`.
 
 ## External identity / authority checks
 
 The live site is indexed and discoverable for branded queries. Public sources independently corroborate the professional/research identity and multiple publications. The English name has a known collision risk with unrelated researchers/professionals, so disambiguation should continue through the existing Person entity, psychology-specific descriptors, Qom affiliation, publications and first-party profile links.
-
-Examples of corroborated research records include the 2021 International Clinical Neuroscience Journal paper listing Leila Razavi with Islamic Azad University of Qom affiliation and the 2019 migraine/MBSR-ACT paper with the same identity signal.
 
 ## Open production-only checks
 
