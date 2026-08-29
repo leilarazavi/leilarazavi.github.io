@@ -14,16 +14,8 @@ const schemas = [
     { name: "صحبت جان", url },
   ]),
 ];
-
-/*
- * MEDIA ENTITY DECISION
- *
- * The podcast has enough identity to deserve a dedicated series landing page.
- * It therefore stays separate from the general Media hub. The page acts as
- * the canonical series entity; individual episodes remain child URLs.
- */
 ---
-<BaseLayout title={`پادکست صحبت جان | ${site.nameFa}`} description="پادکست صحبت جان با ارتباط مستقیم به دکتر لیلا رضوی؛ گفت‌وگوهایی درباره روان، رابطه و تجربه انسانی." canonical={url} lang="fa" schemas={schemas}>
+<BaseLayout title={`پادکست صحبت جان | ${site.nameFa}`} description="پادکست صحبت جان با ارتباط مستقیم به دکتر لیلا رضوی؛ گفت‌وگوهایی درباره روان، رابطه و تجربه انسانی." canonical={url} lang="fa" image={podcast.image} schemas={schemas}>
   <section class="podcast-page">
     <div class="container">
       <header class="podcast-header">
