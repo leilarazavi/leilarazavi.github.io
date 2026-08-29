@@ -9,7 +9,12 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test:design": "node scripts/design-system-test.mjs",
+    "test:ui": "node scripts/ui-architecture-test.mjs",
+    "test:seo": "node scripts/seo-smoke-test.mjs",
+    "test:routes": "node scripts/route-quality-audit.mjs",
+    "test": "npm run test:design && npm run test:ui && npm run test:seo && npm run test:routes"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
