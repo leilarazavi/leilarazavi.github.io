@@ -28,8 +28,14 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Design system test
+        run: npm run test:design
+
+      - name: UI architecture test
+        run: npm run test:ui
+
       - name: SEO smoke test
-        run: node scripts/seo-smoke-test.mjs
+        run: npm run test:seo
 
       - name: Route quality audit
-        run: node scripts/route-quality-audit.mjs
+        run: npm run test:routes
