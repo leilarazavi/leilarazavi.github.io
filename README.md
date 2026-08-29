@@ -7,7 +7,7 @@ Official bilingual personal-brand website for Dr. Leila Razavi, built with Astro
 This project is designed as a **Personal Brand + Academic Profile + Editorial Media** site. The primary goals are:
 
 - make the person's professional identity immediately clear;
-- present research and verified publications as the main authority layer;
+- present research and verified publications as a main authority layer;
 - keep professional activity, CV, organizations and media distinct;
 - strengthen the relationship between the person entity and official profiles;
 - provide a clean, accessible and maintainable UI without sacrificing SEO architecture.
@@ -19,8 +19,8 @@ Home
 ├── About
 ├── Professional Activity
 │   ├── Experience
-│   ├── CV
-│   └── Organizations (supporting / SEO)
+│   ├── CV (secondary)
+│   └── Organizations (secondary / entity context)
 ├── Research & Publications
 │   ├── Publications
 │   ├── Publication detail pages
@@ -31,7 +31,7 @@ Home
 └── Contact / Official Profiles
 ```
 
-The primary navigation is intentionally smaller than the full URL graph. CV and Organizations remain available because they serve specific professional/SEO needs, but they are not top-level navigation items.
+The primary navigation is intentionally smaller than the full URL graph. CV and Organizations remain available because they serve specific professional/entity needs, but they are not top-level navigation items.
 
 ## Technical stack
 
@@ -77,38 +77,17 @@ The XML sitemap is generated at build time. Legacy `/research/` routes remain co
 See:
 
 - `docs/information-architecture.md`
-- `docs/route-audit.md`
 - `docs/technical-seo-audit.md`
 - `docs/english-parity-audit.md`
 - `docs/production-seo-qa.md`
+- `docs/final-qa.md`
+
+## QA status
+
+Source/build verification exists, but production hardening is not complete until browser, deployment and Search Console checks are performed. In particular, do not infer Lighthouse/Core Web Vitals, production HTTP behavior, Google-selected canonicals or real-device accessibility behavior from source code alone.
+
+The current implementation backlog also includes known source-level issues: nested `<main>` elements, a mismatch between About's timeline rendering and the current position data model, incomplete CI enforcement for all QA scripts, and asset/metadata cleanup.
 
 ## Important implementation rule
 
 Do not change or delete an indexed URL merely to make the navigation cleaner. Treat **Navigation UX**, **SEO architecture**, and **URL preservation** as separate decisions. Any future redirect should be backed by an audit of internal links, sitemap, external references and Search Console data.
-
-## Release / QA status — 2026-08-27
-
-### Verified
-
-- GitHub Actions build and quality gate are green.
-- SEO smoke test covers 16 primary routes.
-- Route-quality audit covers 35 generated HTML pages / 31 indexable pages.
-- CI dependency installation reports 0 vulnerabilities.
-- Bilingual canonical/hreflang checks pass at source/build level.
-- Person + WebSite structured-data checks pass at source/build level.
-- Responsive navigation, focus-visible states, skip link, reduced-motion handling and responsive overflow safeguards are present.
-- Open Graph/Twitter previews use the raster profile image with `image/jpeg` metadata.
-- Apple touch icon uses the raster profile image.
-
-### Production-only verification still required
-
-The following are intentionally **not** claimed as PASS without browser/account evidence:
-
-- complete real-device visual QA;
-- Lighthouse/Core Web Vitals;
-- production HTTP verification for every canonical URL;
-- rendered structured-data inspection in a browser/crawler;
-- Search Console indexing/canonical/sitemap reports;
-- manual Chrome/Firefox accessibility verification.
-
-See `docs/production-seo-qa.md` for the exact protocol and evidence.
