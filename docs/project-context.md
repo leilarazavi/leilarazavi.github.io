@@ -2,6 +2,21 @@
 
 This is the living decision log for the website redesign, engineering, UX, content, SEO, and personal-branding work. Update it whenever a new requirement, discovery, decision, or constraint is established.
 
+## Mandatory memory rule
+
+**Every new requirement, user correction, important discovery, bug, CI failure, design observation, content standard, technical constraint, or decision that can affect future work MUST be added to this document in the same working wave. Do not leave important project knowledge only in chat.**
+
+When a new issue appears, record:
+
+- what was discovered;
+- why it matters;
+- the decision/fix;
+- whether it is verified;
+- which wave/PR it belongs to;
+- any follow-up work still required.
+
+Before starting a later wave, review this document so prior decisions and unresolved issues are not forgotten.
+
 ## Product goal
 
 Build the official Leila Razavi website as a credible professional identity and evidence portfolio, not a simple CV. The site should communicate professional identity, academic/research activity, public education/media presence, credentials, and trustworthy external references.
@@ -87,11 +102,12 @@ Do not infer undocumented credentials or claims from certificate artwork.
 - The branch was synchronized with current `main` through an explicit merge commit after GitHub reported divergence and a conflict in `src/pages/index.astro`.
 - The homepage resolution intentionally preserves the Wave 2 branch's stronger explanatory copy and restrained typography rather than reverting to the oversized `main` variant.
 - `src/components/Seo.astro`, the Persian podcast landing page, and the Persian podcast episode page were confirmed identical between current `main` and the Wave 2 branch before synchronization.
-- The earlier UI-test failure `header should use the redesigned inner shell` must be re-run on the new head; do not assume it is fixed until CI confirms it.
+- CI has reported the failure `header should use the redesigned inner shell` on an earlier/current PR run. The assertion currently exists in `scripts/ui-architecture-test.mjs` and checks for `class="header-inner"`; `src/components/Header.astro` currently contains that exact class. This means the failure must be verified against the exact commit/run rather than “fixed” by weakening the assertion.
+- **New rule from the latest review:** whenever a CI error or any other new project issue is reported by the user, record it here immediately, diagnose it against the current repository state, and keep the unresolved item visible until a current verification run passes.
 
 ## Next planned work
 
-1. Verify current CI/build state after branch synchronization.
+1. Verify current CI/build state after branch synchronization, including the header architecture test.
 2. Implement certificates/evidence content model and the supplied certificates.
 3. Apply the content-presentation standard consistently across all evidence sections.
 4. Finish Persian/English visual parity and normalize oversized headings/spacing.
@@ -99,4 +115,4 @@ Do not infer undocumented credentials or claims from certificate artwork.
 
 ## Working rule
 
-Whenever a new user requirement, important discovery, design rule, content rule, or technical constraint appears, update this document in the same working wave so future sessions can recover the project's reasoning without relying on chat history.
+This document is the project's persistent working memory. **Every new user requirement, correction, important discovery, design rule, content rule, bug, CI failure, decision, or technical constraint must be added here in the same working wave.** Future work must consult and update this log rather than relying on chat history alone.
