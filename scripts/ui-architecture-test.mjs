@@ -17,7 +17,7 @@ const requiredFa = ["درباره من", "فعالیت حرفه‌ای", "پژو
 
 assert(primaryLabels.length === 5, `expected 5 primary Persian navigation items, got ${primaryLabels.length}`);
 assert(JSON.stringify(primaryLabels) === JSON.stringify(requiredFa), `primary navigation order changed: ${primaryLabels.join(" | ")}`);
-assert(header.includes('class="header-inner"'), "header should use the redesigned inner shell");
+assert(/class="[^"]*\bheader-inner\b[^"]*"/.test(header), "header should use the redesigned inner shell");
 assert(header.includes('class="mobile-secondary"'), "CV and secondary resources should remain secondary on mobile");
 assert(person.includes('/images/leila-razavi-profile.svg'), "person entity should reference the current canonical profile asset");
 assert(homepage.includes('class="hero"'), "homepage should keep the personal-brand hero");
