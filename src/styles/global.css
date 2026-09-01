@@ -22,14 +22,15 @@ button, a { -webkit-tap-highlight-color: transparent; }
 a { color: inherit; }
 ::selection { background: var(--color-accent-soft); color: var(--color-ink); }
 
+/* Shared hero heading: intentionally wins over Astro's page-scoped h1 rules. */
 body h1.hero-title {
-  max-width: 700px;
-  margin: 0;
-  font-family: var(--font-heading);
-  font-size: var(--text-display);
-  font-weight: 500;
-  line-height: 1.05;
-  letter-spacing: -.045em;
+  max-width: 700px !important;
+  margin: 0 !important;
+  font-family: var(--font-heading) !important;
+  font-size: var(--text-display) !important;
+  font-weight: 500 !important;
+  line-height: 1.05 !important;
+  letter-spacing: -.045em !important;
 }
 
 .container {
